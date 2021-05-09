@@ -22,13 +22,12 @@ namespace RAP.Database
         static ERDAdapter()
         {
             string connectionString =
-                String.Format("Data Source={0}; Database={1}" +
-                " User Id={2}; Password={3}",
+                String.Format("Data Source={0}; Database={1}; " +
+                "User Id={2}; Password={3}",
                 server, db, user, pass);
 
             conn = new MySqlConnection(connectionString);
             conn.Open();
-            Console.WriteLine("connected");
         }
 
         // Fetch all of researcher's publications from database.
@@ -163,32 +162,21 @@ namespace RAP.Database
         public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT email FROM researcher" +
-                "WHERE id IN (@ids)", conn);
+                new MySqlCommand("SELECT emails FROM researcher " +
+                "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
 
-            /*
             var filter = from r in researchers
                          select r.Id;
             List<int> researcherIds = new List<int>(filter);
-            */
-            //List<MySqlParameter> parameters = new List<MySqlParameter>();
-            List<int> researcherIds = new List<int> { 
-                123460, 123461, 123462, 123463
-            };
 
-            foreach (int i in researcherIds)
-                cmd.Parameters.Add(new MySqlParameter { Value=i });
+            cmd.Parameters.AddWithValue("ids", String.Join(",", researcherIds));
 
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             List<string> emails = new List<string>();
 
             while (rdr.Read())
-            { 
                 emails.Add(rdr.GetString(rdr.GetOrdinal("email")));
-            }
-            foreach (string email in emails)
-                Console.WriteLine(email);
 
             return emails;
         }
