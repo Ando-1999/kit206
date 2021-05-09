@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace RAP.Model
 {
-    class Student
+    class Student : Researcher
     {
-        public string degree;
-        public Staff supervisor;    // primary supervisor
+        private string degree;
+        public string Degree
+        {
+            get { return degree; }
+            set { degree = value; }
+        }
+
+        public int supervisorId;    // primary supervisor
+        public int SupervisorId
+        {
+            get { return supervisorId; }
+            set { supervisorId = value; }
+        }
 
         public Student()
         {
@@ -18,7 +29,9 @@ namespace RAP.Model
         // Name of primary supervisor.
         public string getSupervisorName()
         {
-            return null;
+            Researcher supervisor = Database.ERDAdapter.fetchResearcher(SupervisorId);
+            return String.Format("{1} {2}",
+                supervisor.FirstName, supervisor.LastName);
         }
     }
 }

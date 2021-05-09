@@ -8,6 +8,7 @@ namespace RAP.Model
 {
     class Staff : Researcher 
     {
+        public EmploymentLevel Level;
         public Staff()
         { 
         }
@@ -30,12 +31,13 @@ namespace RAP.Model
 
             // Expected number of publications for each employment level.
             Dictionary<EmploymentLevel, double> expectedPublicationsByLevel = 
-                new Dictionary<EmploymentLevel, double>();
-            expectedPublicationsByLevel.Add(EmploymentLevel.A, 0.5);
-            expectedPublicationsByLevel.Add(EmploymentLevel.B, 1);
-            expectedPublicationsByLevel.Add(EmploymentLevel.C, 2);
-            expectedPublicationsByLevel.Add(EmploymentLevel.D, 3.2);
-            expectedPublicationsByLevel.Add(EmploymentLevel.E, 4);
+                new Dictionary<EmploymentLevel, double>() {
+                    { EmploymentLevel.A, 0.5},
+                    { EmploymentLevel.B, 1},
+                    { EmploymentLevel.C, 2},
+                    { EmploymentLevel.D, 3.2},
+                    { EmploymentLevel.E, 4},
+                };
 
             double expectedPublications = expectedPublicationsByLevel[level];
 

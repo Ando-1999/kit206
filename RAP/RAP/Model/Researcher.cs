@@ -9,11 +9,14 @@ namespace RAP.Model
 
     class Researcher
     {
-        public string firstName;
-        public string lastName;
-        public string title;
-        public string email;
-        public Uri photo;
+        public int Id;
+        public string FirstName;
+        public string LastName;
+        public string Title;
+        public string Email;
+        public Uri Photo;
+        public DateTime StartInstitution;
+        public DateTime StartCurrentJob;
 
         public Researcher()
         {

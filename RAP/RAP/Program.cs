@@ -34,6 +34,7 @@ namespace RAP
     {
         static void Main(string[] args)
         {
+            Database.ERDAdapter.fetchResearcherEmails(new List<Model.Researcher>());
         }
     }
 }
