@@ -10,6 +10,12 @@ namespace week10
     class Boss
     {
         private List<Employee> staff;
+        public List<Employee> Staff
+        {
+            get { return staff; }
+            set { staff = value; }
+        }
+
         private ObservableCollection<Employee> viewableStaff;
         public ObservableCollection<Employee> ViewableStaff
         {
@@ -21,8 +27,26 @@ namespace week10
         {
             staff = Agency.LoadAll();
             LoadStaffTrainingSessions();
-            var filter = from s in staff select s;
-            ViewableStaff = new ObservableCollection<Employee>(filter);
+            LoadStaff();
+        }
+
+        public void LoadStaff()
+        {
+            // Initialize ViewableStaff.
+            if (ViewableStaff == null)
+            {
+                ViewableStaff = new ObservableCollection<Employee>(
+                                    from s in staff select s
+                                );
+            }
+            // Reset ViewableStaff to contain the full staff list.
+            else
+            {
+                viewableStaff.Clear();
+
+                foreach (Employee s in staff)
+                    ViewableStaff.Add(s);
+            }
         }
 
         public void LoadStaffTrainingSessions()
@@ -31,18 +55,21 @@ namespace week10
                 s.Skills = Agency.LoadTrainingSessions(s.Id);
         }
 
-        // Manipulate list ObservableCollection with its own methods
+        // Manipulate ViewableStaff with its own methods.
+        // Works as expected.
         public void recentlyTrained_inPlace()
         {
             // Empty view list
             ViewableStaff.Clear();
 
-            // Add staff who have receieved training recently to the list
+            // Add staff to the list if they have receieved training recently
             foreach (Employee s in staff)
                 if (s.recentTraining() > 0)
                     ViewableStaff.Add(s);
         }
 
+        // Change ViewableStaff by assigning it a new object.
+        // Doesn't work, as expected.
         public void recentlyTrained_replace()
         {
             // Select staff who have receieved training recently
@@ -50,13 +77,10 @@ namespace week10
                          where s.recentTraining() > 0
                          select s;
 
-            ObservableCollection<Employee> upToDate =
-                new ObservableCollection<Employee>(filter);
-
-            ViewableStaff = upToDate;
+            ViewableStaff = new ObservableCollection<Employee>(filter);
             /*
             A generic list might be able to successfully use a similar idiom
-            without assigning ViewableStaff a new object:
+            without assigning ViewableStaff a new object, e.g.
 
                 List<Employee> ViewableStaff;
 
@@ -69,7 +93,7 @@ namespace week10
         }
 
 
-        // Data in ListBox bound to this method
+        // Data in ListBox bound to this method.
         public ObservableCollection<Employee> GetViewableList()
         {
             return ViewableStaff;

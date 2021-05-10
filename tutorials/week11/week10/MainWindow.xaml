@@ -14,6 +14,7 @@
         <Button x:Name="Replace" Content="Replace" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="150" Grid.Column="1" Height="40" Click="Replace_Click" FontSize="18"/>
         <ListBox x:Name="list" Margin="5,5,0,5" ItemsSource="{Binding Source={StaticResource StaffList}}"/>
         <Button x:Name="InPlace" Content="In Place" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,60" VerticalAlignment="Bottom" Width="150" RenderTransformOrigin="0.4,-2.85" Height="40" FontSize="18" Click="InPlace_Click"/>
+        <Button x:Name="Reload" Content="Reload" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,110" VerticalAlignment="Bottom" Width="150" RenderTransformOrigin="0.4,-2.85" Height="40" FontSize="18" Click="Reload_Click"/>
 
     </Grid>
 </Window>

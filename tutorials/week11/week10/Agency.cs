@@ -52,8 +52,7 @@ namespace week10
                 {
                     employeeList.Add(new Employee {
                         Id = (int)rdr["id"],
-                        Name = rdr["family_name"] + ", " +
-                            rdr["given_name"],
+                        Name = rdr["family_name"] + ", " + rdr["given_name"],
                     });
                 }
             }

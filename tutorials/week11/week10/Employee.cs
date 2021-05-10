@@ -40,14 +40,14 @@ namespace week10
         // Another comment
         public override string ToString()
         {
-            string to = name + " " + id + " " + gender + "\nSkills:\n";
-            if (skills != null)
-                foreach (TrainingSession skill in skills)
-                    to += skill.ToString() + "\n";
+            string to = name + " " + id;
 
-            return to + "\n";
+            return to;
         }
 
+        // Returns the number of skills an employee has been certified in
+        // within the last two years.  A return value of zero indicates
+        // the employee has received no training recently.
         public int recentTraining()
         {
             DateTime now = DateTime.Now;
@@ -56,6 +56,7 @@ namespace week10
             DateTime then = new DateTime(2016, now.Month, now.Day);
 
             // Select Employees with skills certified in the last 2 years
+            // (relative to 2016)
             DateTime recent = new DateTime(then.Year - 2, now.Month, now.Day);
             var filter = from s in skills
                          where s.Certified >= recent
