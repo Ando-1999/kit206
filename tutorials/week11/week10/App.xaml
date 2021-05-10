@@ -1,0 +1,13 @@
+﻿<Application x:Class="week10.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:week10"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <local:Boss x:Key="BossController"/>
+        <ObjectDataProvider x:Key="StaffList"
+                            ObjectInstance="{StaticResource BossController}"
+                            MethodName="GetViewableList">
+        </ObjectDataProvider>
+    </Application.Resources>
+</Application>
