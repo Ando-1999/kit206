@@ -1,4 +1,7 @@
 # Ignore everything that has been built
-
 **/bin
 **/obj
+
+# Ifnore user preferences
+.suo
+*.suo
