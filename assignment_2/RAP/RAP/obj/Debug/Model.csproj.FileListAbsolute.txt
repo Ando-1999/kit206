@@ -1,7 +1,0 @@
-E:\Git\repos\kit206\RAP\RAP\bin\Debug\RAP.exe.config
-E:\Git\repos\kit206\RAP\RAP\bin\Debug\RAP.exe
-E:\Git\repos\kit206\RAP\RAP\bin\Debug\RAP.pdb
-E:\Git\repos\kit206\RAP\RAP\obj\Debug\Model.csprojAssemblyReference.cache
-E:\Git\repos\kit206\RAP\RAP\obj\Debug\Model.csproj.CoreCompileInputs.cache
-E:\Git\repos\kit206\RAP\RAP\obj\Debug\RAP.exe
-E:\Git\repos\kit206\RAP\RAP\obj\Debug\RAP.pdb

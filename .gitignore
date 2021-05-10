@@ -1,6 +1,7 @@
 # Ignore everything that has been built
 **/bin
 **/obj
+**/Debug
 
 # Ifnore user preferences
 .suo
