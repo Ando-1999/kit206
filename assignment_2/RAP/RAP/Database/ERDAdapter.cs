@@ -64,7 +64,7 @@ namespace RAP.Database
                 });
             }
 
-        return publications;
+            return publications;
         }
 
         // Fetch list of researchers from database.
@@ -84,7 +84,8 @@ namespace RAP.Database
             {
                 Model.Staff staff;
                 Model.Student student;
-                Model.Researcher researcher = new Model.Researcher {
+                Model.Researcher researcher = new Model.Researcher
+                {
                     Id = rdr.GetInt32(rdr.GetOrdinal("id")),
                     FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
                     LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
@@ -133,7 +134,8 @@ namespace RAP.Database
                 new List<Model.Student>();
             while (rdr.Read())
             {
-                supervisions.Add(new Model.Student {
+                supervisions.Add(new Model.Student
+                {
                     Id = rdr.GetInt32(rdr.GetOrdinal("id")),
                     FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
                     LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
@@ -209,7 +211,8 @@ namespace RAP.Database
 
             while (rdr.Read())
             {
-                staff.Add( new Model.Staff {
+                staff.Add(new Model.Staff
+                {
                     Id = rdr.GetInt32(rdr.GetOrdinal("id")),
                     FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
                     LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
