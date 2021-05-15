@@ -10,9 +10,9 @@ namespace RAP
 
     enum PublicationType
     { 
-        CONFERENCE,
-        JOURNAL,
-        OTHER
+        Conference,
+        Journal,
+        Other
     }
 
     enum Campus
@@ -30,11 +30,38 @@ namespace RAP
         STAR_PERFORMANCE
     }
 
+    enum ResearcherType
+    { 
+        Researcher,
+        Staff,
+        Student
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Database.ERDAdapter.fetchResearcherEmails(new List<Model.Researcher>());
+            List<Model.Researcher> rs =
+                Database.ERDAdapter.fetchResearcherList();
+
+            Model.Researcher r =
+                Database.ERDAdapter.fetchResearcherDetails(rs[0]);
+
+            List<Model.Publication> ps =
+                Database.ERDAdapter.fetchPublicationsList(r);
+
+            Model.Publication p =
+                Database.ERDAdapter.fetchPublicationDetails(ps[0]);
+
+            List<string> emails = Database.ERDAdapter.fetchResearcherEmails(rs);
+
+            List<Model.Student> supervisions =
+                Database.ERDAdapter.fetchSupervisions((Model.Staff)rs[1]);
+
+            List<Model.Staff> staff =
+                Database.ERDAdapter.fetchStaffList();
+            foreach (Model.Staff s in staff)
+                Console.WriteLine(s);
         }
     }
 }

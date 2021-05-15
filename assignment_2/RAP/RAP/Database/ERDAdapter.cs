@@ -19,6 +19,13 @@ namespace RAP.Database
         // MySQL connection object
         private static MySqlConnection conn;
 
+        private static readonly Dictionary<Type, ResearcherType> type =
+        new Dictionary<Type, ResearcherType> {
+            { typeof(Model.Researcher), ResearcherType.Researcher },
+            { typeof(Model.Staff), ResearcherType.Staff },
+            { typeof(Model.Student), ResearcherType.Student }
+        };
+
         static ERDAdapter()
         {
             string connectionString =
@@ -30,49 +37,47 @@ namespace RAP.Database
             conn.Open();
         }
 
-        // Fetch all of researcher's publications from database.
-        public static List<Model.Publication> fetchPublications(Model.Researcher r)
+        // Fetch all of a researcher's publications from database.
+        // DONE
+        public static List<Model.Publication> fetchPublicationsList(Model.Researcher r)
         {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM publication" +
-                "WHERE doi=" +
+            MySqlCommand cmd = new MySqlCommand(
+                "SELECT doi, title, year FROM publication " +
+                "WHERE doi IN" +
                 "(" +
-                    "SELECT doi FROM researcher_publication" +
-                    "WHERE id=?id" +
+                    "SELECT doi FROM researcher_publication " +
+                    "WHERE researcher_id=?id" +
                 ")", conn);
 
             cmd.Parameters.AddWithValue("id", r.Id);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            List<Model.Publication> publications = new List<Model.Publication>();
+            List<Model.Publication> publications =
+                new List<Model.Publication>();
 
             while (rdr.Read())
             {
                 // Add publication from database to list
                 publications.Add(new Model.Publication
                 {
-                    Doi = rdr.GetString(rdr.GetOrdinal("doi")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    //PublicationDate = rdr.GetDateTime(rdr.GetOrdinal("publication_date")),
-                    PublicationDate = new DateTime(rdr.GetInt32((rdr.GetOrdinal("year"))), 0, 0),
-                    Type = (PublicationType)Enum.Parse(
-                        typeof(PublicationType), rdr.GetString(rdr.GetOrdinal("type"))),
-                    CiteAs = rdr.GetString(rdr.GetOrdinal("cite_as")),
-                    AvailabilityDate = rdr.GetDateTime(rdr.GetOrdinal("available"))
+                    Doi = (string)rdr["doi"],
+                    Title = (string)rdr["title"],
+                    PublicationYear = new DateTime((Int16)rdr["year"], 1, 1)
                 });
             }
 
-        return publications;
+            rdr.Close();
+            return publications;
         }
 
         // Fetch list of researchers from database.
-        //TODO:
+        // DONE
         public static List<Model.Researcher> fetchResearcherList()
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher", conn);
+                new MySqlCommand("SELECT id, family_name, given_name," +
+                "title, type FROM researcher", conn);
 
             MySqlDataReader rdr = null;
             rdr = cmd.ExecuteReader();
@@ -82,87 +87,135 @@ namespace RAP.Database
 
             while (rdr.Read())
             {
-                Model.Staff staff;
-                Model.Student student;
-                Model.Researcher researcher = new Model.Researcher {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start"))
-                };
-                switch (rdr.GetString(rdr.GetOrdinal("type")))
+                Model.Researcher researcher = null;
+                switch (Enum.Parse(typeof(ResearcherType),
+                    (string)rdr["type"]))
                 {
-                    case "Staff":
-                        staff = (Model.Staff)researcher;
-                        staff.Level =
-                            (EmploymentLevel)Enum.Parse(
-                                typeof(EmploymentLevel),
-                                rdr.GetString(rdr.GetOrdinal("level")));
+                    case ResearcherType.Staff:
+                        researcher = new Model.Staff();
                         break;
-                    case "Student":
-                        student = (Model.Student)researcher;
-                        student.Degree = rdr.GetString(rdr.GetOrdinal("degree"));
-                        student.SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"));
+                    case ResearcherType.Student:
+                        researcher = new Model.Student();
                         break;
                     default:
                         break;
                 }
+                researcher.Id = (int)rdr["id"];
+                researcher.FirstName = (string)rdr["given_name"];
+                researcher.LastName = (string)rdr["family_name"];
+                researcher.Title = (string)rdr["title"];
+                researchers.Add(researcher);
             }
 
-            return null;
+            rdr.Close();
+            return researchers;
+        }
+        // Assumes Researcher object already contains Id, FirstName,
+        // LastName, and title
+        // DONE
+        public static Model.Researcher fetchResearcherDetails(Model.Researcher r)
+        {
+            MySqlCommand cmd =
+                new MySqlCommand("SELECT * FROM researcher WHERE id=?id", conn);
+
+            cmd.Parameters.AddWithValue("id", r.Id);
+
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                switch ((string)rdr["type"])
+                {
+                    case "Staff":
+                        ((Model.Staff)r).Level =
+                            (EmploymentLevel)Enum.Parse(
+                                typeof(EmploymentLevel),
+                                (string)rdr["level"]);
+                        break;
+                    case "Student":
+                        ((Model.Student)r).Degree =
+                            (string)rdr["degree"];
+                        ((Model.Student)r).SupervisorId =
+                            (int)rdr["supervisor_id"];
+                        break;
+                    default:
+                        break;
+                }
+
+                r.Email = (string)rdr["email"];
+                r.Photo = new Uri((string)rdr["photo"]);
+                r.StartInstitution = (DateTime)rdr["utas_start"];
+                r.StartCurrentJob = (DateTime)rdr["current_start"];
+            }
+
+            rdr.Close();
+            return r;
         }
 
         // Fetch list of students staff member is or has ever supervised
         // from database.
+        // DONE
         public static List<Model.Student> fetchSupervisions(Model.Staff s)
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher" +
+                new MySqlCommand("SELECT * FROM researcher " +
                 "WHERE supervisor_id=?id", conn);
 
             cmd.Parameters.AddWithValue("id", s.Id);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
             List<Model.Student> supervisions =
                 new List<Model.Student>();
+
             while (rdr.Read())
             {
                 supervisions.Add(new Model.Student {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
-                    Degree = rdr.GetString(rdr.GetOrdinal("degree")),
-                    SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"))
+                    Id = (int)rdr["id"],
+                    FirstName = (string)rdr["given_name"],
+                    LastName = (string)rdr["family_name"],
+                    Title = (string)rdr["title"],
+                    Degree = (string)rdr["degree"]
                 });
             }
 
+            rdr.Close();
             return supervisions;
         }
 
 
         // Fetch publication from database.
-        public static Model.Publication fetchPublicationDetails()
+        // DONE
+        public static Model.Publication fetchPublicationDetails(Model.Publication publication)
         {
-            return null;
+            MySqlCommand cmd = new MySqlCommand(
+                "SELECT authors, type, cite_as, available " +
+                "FROM publication WHERE doi=?doi", conn);
+
+            cmd.Parameters.AddWithValue("doi", publication.Doi);
+
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                publication.Authors = (string)rdr["authors"];
+                publication.Type = (PublicationType)Enum.Parse(
+                    typeof(PublicationType), (string)rdr["type"]);
+                publication.CiteAs = (string)rdr["cite_as"];
+                publication.AvailabilityDate =
+                    (DateTime)rdr["available"];
+            }
+
+            rdr.Close();
+            return publication;
         }
 
-
         // Fetch list of researcher emails from database.
+        // DONE
         public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT emails FROM researcher " +
+                new MySqlCommand("SELECT email FROM researcher " +
                 "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
 
             var filter = from r in researchers
@@ -176,60 +229,42 @@ namespace RAP.Database
             List<string> emails = new List<string>();
 
             while (rdr.Read())
-                emails.Add(rdr.GetString(rdr.GetOrdinal("email")));
+                emails.Add((string)rdr["email"]);
 
+            rdr.Close();
             return emails;
         }
 
-        // Fetch list of researcher's publications from database.
-        public static List<string> fetchPublicationList(Model.Researcher r)
-        {
-
-            return null;
-        }
-
-        // Fetch researcher from database.
-        public static Model.Researcher fetchResearcher(int id)
-        {
-            return null;
-        }
-
         // Fetch list of staff from database.
+        // TODO: Unimportant?
+        // DONE
         public static List<Model.Staff> fetchStaffList()
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher" +
-                "WHERE type=staff", conn);
+                new MySqlCommand("SELECT * FROM researcher " +
+                "WHERE type='Staff'", conn);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            List<Model.Staff> staff =
-                new List<Model.Staff>();
+            List<Model.Staff> staff = new List<Model.Staff>();
 
             while (rdr.Read())
             {
                 staff.Add( new Model.Staff {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
+                    Id = (int)rdr["id"],
+                    FirstName = (string)rdr["given_name"],
+                    LastName = (string)rdr["family_name"],
+                    Title = (string)rdr["title"],
+                    Email = (string)rdr["title"],
+                    Photo = new Uri((string)rdr["photo"]),
+                    StartInstitution = (DateTime)rdr["utas_start"],
+                    StartCurrentJob = (DateTime)rdr["current_start"],
                     Level = (EmploymentLevel)Enum.Parse(
-                        typeof(EmploymentLevel),
-                        rdr.GetString(rdr.GetOrdinal("level")))
+                        typeof(EmploymentLevel), (string)rdr["level"])
                 });
             }
+            rdr.Close();
             return staff;
-        }
-
-        //???
-        public static string fetchResearcherName()
-        {
-            return null;
         }
     }
 }

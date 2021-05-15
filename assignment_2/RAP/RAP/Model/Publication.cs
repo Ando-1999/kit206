@@ -24,11 +24,18 @@ namespace RAP.Model
             set { title = value; }
         }
 
-        private DateTime publicationDate;
-        public DateTime PublicationDate
+        private string authors;
+        public string Authors
         {
-            get { return publicationDate; }
-            set { publicationDate = value; }
+            get { return authors; }
+            set { authors = value; }
+        }
+
+        private DateTime publicationYear;
+        public DateTime PublicationYear
+        {
+            get { return publicationYear; }
+            set { publicationYear = value; }
         }
 
         private PublicationType type;
@@ -61,6 +68,11 @@ namespace RAP.Model
         public int age()
         {
             return (DateTime.Now - AvailabilityDate).Days;
+        }
+
+        public override string ToString()
+        {
+            return $"{PublicationYear.Year} {Title}";
         }
     }
 }

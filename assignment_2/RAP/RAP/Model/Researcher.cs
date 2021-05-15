@@ -60,5 +60,10 @@ namespace RAP.Model
         {
             return null;
         }
+
+        public override string ToString()
+        {
+            return $"{LastName}, {FirstName} ({Title})";
+        }
     }
 }
