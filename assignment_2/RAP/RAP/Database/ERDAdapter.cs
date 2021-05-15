@@ -31,208 +31,208 @@ namespace RAP.Database
         }
 
         // Fetch all of researcher's publications from database.
-        public static List<Model.Publication> fetchPublications(Model.Researcher r)
-        {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM publication" +
-                "WHERE doi=" +
-                "(" +
-                    "SELECT doi FROM researcher_publication" +
-                    "WHERE id=?id" +
-                ")", conn);
+        //public static List<Model.Publication> fetchPublications(Model.Researcher r)
+        //{
+        //    MySqlCommand cmd =
+        //        new MySqlCommand("SELECT * FROM publication" +
+        //        "WHERE doi=" +
+        //        "(" +
+        //            "SELECT doi FROM researcher_publication" +
+        //            "WHERE id=?id" +
+        //        ")", conn);
 
-            cmd.Parameters.AddWithValue("id", r.Id);
+        //    cmd.Parameters.AddWithValue("id", r.Id);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+        //    MySqlDataReader rdr = null;
+        //    rdr = cmd.ExecuteReader();
 
-            List<Model.Publication> publications = new List<Model.Publication>();
+        //    List<Model.Publication> publications = new List<Model.Publication>();
 
-            while (rdr.Read())
-            {
-                // Add publication from database to list
-                publications.Add(new Model.Publication
-                {
-                    Doi = rdr.GetString(rdr.GetOrdinal("doi")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    //PublicationDate = rdr.GetDateTime(rdr.GetOrdinal("publication_date")),
-                    PublicationDate = new DateTime(rdr.GetInt32((rdr.GetOrdinal("year"))), 0, 0),
-                    Type = (PublicationType)Enum.Parse(
-                        typeof(PublicationType), rdr.GetString(rdr.GetOrdinal("type"))),
-                    CiteAs = rdr.GetString(rdr.GetOrdinal("cite_as")),
-                    AvailabilityDate = rdr.GetDateTime(rdr.GetOrdinal("available"))
-                });
-            }
+        //    while (rdr.Read())
+        //    {
+        //        // Add publication from database to list
+        //        publications.Add(new Model.Publication
+        //        {
+        //            Doi = rdr.GetString(rdr.GetOrdinal("doi")),
+        //            Title = rdr.GetString(rdr.GetOrdinal("title")),
+        //            //PublicationDate = rdr.GetDateTime(rdr.GetOrdinal("publication_date")),
+        //            PublicationDate = new DateTime(rdr.GetInt32((rdr.GetOrdinal("year"))), 0, 0),
+        //            Type = (PublicationType)Enum.Parse(
+        //                typeof(PublicationType), rdr.GetString(rdr.GetOrdinal("type"))),
+        //            CiteAs = rdr.GetString(rdr.GetOrdinal("cite_as")),
+        //            AvailabilityDate = rdr.GetDateTime(rdr.GetOrdinal("available"))
+        //        });
+        //    }
 
-            return publications;
-        }
+        //    return publications;
+        //}
 
-        // Fetch list of researchers from database.
-        //TODO:
-        public static List<Model.Researcher> fetchResearcherList()
-        {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher", conn);
+        //// Fetch list of researchers from database.
+        ////TODO:
+        //public static List<Model.Researcher> fetchResearcherList()
+        //{
+        //    MySqlCommand cmd =
+        //        new MySqlCommand("SELECT * FROM researcher", conn);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+        //    MySqlDataReader rdr = null;
+        //    rdr = cmd.ExecuteReader();
 
-            List<Model.Researcher> researchers =
-                new List<Model.Researcher>();
+        //    List<Model.Researcher> researchers =
+        //        new List<Model.Researcher>();
 
-            while (rdr.Read())
-            {
-                Model.Staff staff;
-                Model.Student student;
-                Model.Researcher researcher = new Model.Researcher
-                {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start"))
-                };
-                switch (rdr.GetString(rdr.GetOrdinal("type")))
-                {
-                    case "Staff":
-                        staff = (Model.Staff)researcher;
-                        staff.Level =
-                            (EmploymentLevel)Enum.Parse(
-                                typeof(EmploymentLevel),
-                                rdr.GetString(rdr.GetOrdinal("level")));
-                        break;
-                    case "Student":
-                        student = (Model.Student)researcher;
-                        student.Degree = rdr.GetString(rdr.GetOrdinal("degree"));
-                        student.SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"));
-                        break;
-                    default:
-                        break;
-                }
-            }
+        //    while (rdr.Read())
+        //    {
+        //        Model.Staff staff;
+        //        Model.Student student;
+        //        Model.Researcher researcher = new Model.Researcher
+        //        {
+        //            Id = rdr.GetInt32(rdr.GetOrdinal("id")),
+        //            FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
+        //            LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
+        //            Title = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Email = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
+        //            StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
+        //            StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start"))
+        //        };
+        //        switch (rdr.GetString(rdr.GetOrdinal("type")))
+        //        {
+        //            case "Staff":
+        //                staff = (Model.Staff)researcher;
+        //                //staff.Level =
+        //                //    (EmploymentLevel)Enum.Parse(
+        //                //        typeof(EmploymentLevel),
+        //                //        rdr.GetString(rdr.GetOrdinal("level")));
+        //                break;
+        //            case "Student":
+        //                student = (Model.Student)researcher;
+        //                student.Degree = rdr.GetString(rdr.GetOrdinal("degree"));
+        //                student.SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"));
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        // Fetch list of students staff member is or has ever supervised
-        // from database.
-        public static List<Model.Student> fetchSupervisions(Model.Staff s)
-        {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher" +
-                "WHERE supervisor_id=?id", conn);
+        //// Fetch list of students staff member is or has ever supervised
+        //// from database.
+        //public static List<Model.Student> fetchSupervisions(Model.Staff s)
+        //{
+        //    MySqlCommand cmd =
+        //        new MySqlCommand("SELECT * FROM researcher" +
+        //        "WHERE supervisor_id=?id", conn);
 
-            cmd.Parameters.AddWithValue("id", s.Id);
+        //    cmd.Parameters.AddWithValue("id", s.Id);
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+        //    MySqlDataReader rdr = null;
+        //    rdr = cmd.ExecuteReader();
 
-            List<Model.Student> supervisions =
-                new List<Model.Student>();
-            while (rdr.Read())
-            {
-                supervisions.Add(new Model.Student
-                {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
-                    Degree = rdr.GetString(rdr.GetOrdinal("degree")),
-                    SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"))
-                });
-            }
+        //    List<Model.Student> supervisions =
+        //        new List<Model.Student>();
+        //    while (rdr.Read())
+        //    {
+        //        supervisions.Add(new Model.Student
+        //        {
+        //            Id = rdr.GetInt32(rdr.GetOrdinal("id")),
+        //            FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
+        //            LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
+        //            Title = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Email = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
+        //            StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
+        //            StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
+        //            Degree = rdr.GetString(rdr.GetOrdinal("degree")),
+        //            SupervisorId = rdr.GetInt32(rdr.GetOrdinal("supervisor_id"))
+        //        });
+        //    }
 
-            return supervisions;
-        }
-
-
-        // Fetch publication from database.
-        public static Model.Publication fetchPublicationDetails()
-        {
-            return null;
-        }
+        //    return supervisions;
+        //}
 
 
-        // Fetch list of researcher emails from database.
-        public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
-        {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT email FROM researcher " +
-                "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
+        //// Fetch publication from database.
+        //public static Model.Publication fetchPublicationDetails()
+        //{
+        //    return null;
+        //}
 
-            var filter = from r in researchers
-                         select r.Id;
-            List<int> researcherIds = new List<int>(filter);
 
-            cmd.Parameters.AddWithValue("ids", String.Join(",", researcherIds));
+        //// Fetch list of researcher emails from database.
+        //public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
+        //{
+        //    MySqlCommand cmd =
+        //        new MySqlCommand("SELECT email FROM researcher " +
+        //        "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
 
-            MySqlDataReader rdr = cmd.ExecuteReader();
+        //    var filter = from r in researchers
+        //                 select r.Id;
+        //    List<int> researcherIds = new List<int>(filter);
 
-            List<string> emails = new List<string>();
+        //    cmd.Parameters.AddWithValue("ids", String.Join(",", researcherIds));
 
-            while (rdr.Read())
-                emails.Add(rdr.GetString(rdr.GetOrdinal("email")));
+        //    MySqlDataReader rdr = cmd.ExecuteReader();
 
-            return emails;
-        }
+        //    List<string> emails = new List<string>();
 
-        // Fetch list of researcher's publications from database.
-        public static List<string> fetchPublicationList(Model.Researcher r)
-        {
+        //    while (rdr.Read())
+        //        emails.Add(rdr.GetString(rdr.GetOrdinal("email")));
 
-            return null;
-        }
+        //    return emails;
+        //}
 
-        // Fetch researcher from database.
-        public static Model.Researcher fetchResearcher(int id)
-        {
-            return null;
-        }
+        //// Fetch list of researcher's publications from database.
+        //public static List<string> fetchPublicationList(Model.Researcher r)
+        //{
 
-        // Fetch list of staff from database.
-        public static List<Model.Staff> fetchStaffList()
-        {
-            MySqlCommand cmd =
-                new MySqlCommand("SELECT * FROM researcher" +
-                "WHERE type=staff", conn);
+        //    return null;
+        //}
 
-            MySqlDataReader rdr = null;
-            rdr = cmd.ExecuteReader();
+        //// Fetch researcher from database.
+        //public static Model.Researcher fetchResearcher(int id)
+        //{
+        //    return null;
+        //}
 
-            List<Model.Staff> staff =
-                new List<Model.Staff>();
+        //// Fetch list of staff from database.
+        //public static List<Model.Staff> fetchStaffList()
+        //{
+        //    MySqlCommand cmd =
+        //        new MySqlCommand("SELECT * FROM researcher" +
+        //        "WHERE type=staff", conn);
 
-            while (rdr.Read())
-            {
-                staff.Add(new Model.Staff
-                {
-                    Id = rdr.GetInt32(rdr.GetOrdinal("id")),
-                    FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
-                    LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
-                    Title = rdr.GetString(rdr.GetOrdinal("title")),
-                    Email = rdr.GetString(rdr.GetOrdinal("title")),
-                    Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
-                    StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
-                    StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
-                    Level = (EmploymentLevel)Enum.Parse(
-                        typeof(EmploymentLevel),
-                        rdr.GetString(rdr.GetOrdinal("level")))
-                });
-            }
-            return staff;
-        }
+        //    MySqlDataReader rdr = null;
+        //    rdr = cmd.ExecuteReader();
 
-        //???
-        public static string fetchResearcherName()
-        {
-            return null;
-        }
+        //    List<Model.Staff> staff =
+        //        new List<Model.Staff>();
+
+        //    while (rdr.Read())
+        //    {
+        //        staff.Add(new Model.Staff
+        //        {
+        //            Id = rdr.GetInt32(rdr.GetOrdinal("id")),
+        //            FirstName = rdr.GetString(rdr.GetOrdinal("given_name")),
+        //            LastName = rdr.GetString(rdr.GetOrdinal("family_name")),
+        //            Title = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Email = rdr.GetString(rdr.GetOrdinal("title")),
+        //            Photo = new Uri(rdr.GetString(rdr.GetOrdinal("photo"))),
+        //            StartInstitution = rdr.GetDateTime(rdr.GetOrdinal("utas_start")),
+        //            StartCurrentJob = rdr.GetDateTime(rdr.GetOrdinal("current_start")),
+        //            //Level = (EmploymentLevel)Enum.Parse(
+        //            //    typeof(EmploymentLevel),
+        //            //    rdr.GetString(rdr.GetOrdinal("level")))
+        //        });
+        //    }
+        //    return staff;
+        //}
+
+        ////???
+        //public static string fetchResearcherName()
+        //{
+        //    return null;
+        //}
     }
 }

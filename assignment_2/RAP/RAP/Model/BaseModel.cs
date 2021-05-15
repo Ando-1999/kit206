@@ -3,62 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using RAP.Database;
 
 namespace RAP.Model
 {
 
-    class Researcher
+    class BaseModel
     {
-        public int Id;
-        public string FirstName;
-        public string LastName;
-        public string Title;
-        public string Email;
-        public Uri Photo;
-        public DateTime StartInstitution;
-        public DateTime StartCurrentJob;
+        // MySQL connection details
+        private const string server = "alacritas.cis.utas.edu.au";
+        private const string db = "kit206";
+        private const string user = "kit206";
+        private const string pass = "kit206";
 
-        public Researcher()
+        protected static MySqlConnection connection = null;
+
+        private static MySqlConnection GetConnection()
         {
+            if (connection == null)
+            {
+                string connectionString =
+                String.Format("Database={0};Data Source={1};User Id={2}; Password={3}", db, server, user, pass);
+                connection = new MySqlConnection(connectionString);
+            }
+            return connection;
         }
 
-        // Title of currently held position.
-        // Deduced from employment level/student status.
-        public string currentJobTitle()
+        public static MySqlDataReader DataReaderAll(string TableName)
         {
-            return null;
+            if (TableName == null)
+            {
+                return null;
+            }
+            string sql = $"SELECT * FROM {TableName}";
+            GetConnection().Open();
+            MySqlCommand command = new MySqlCommand(sql, connection);
+            //command.Parameters.AddWithValue("table", TableName);
+            MySqlDataReader dataReader = null;
+            dataReader = command.ExecuteReader();
+            return dataReader;
         }
 
-        // Starting date of earliest position.
-        public DateTime commencedWithInstitution()
+
+        protected static string GetString(MySqlDataReader dr, string columnName)
         {
-            DateTime ret = new DateTime();
-            return ret;
+            return dr.IsDBNull(dr.GetOrdinal(columnName)) ? null : dr.GetString(dr.GetOrdinal(columnName));
         }
 
-        // Starting date of currently held position.
-        public DateTime commencedCurrentPosition()
+        protected static int GetInt32(MySqlDataReader dr, string columnName)
         {
-            DateTime ret = new DateTime();
-            return ret;
-        }
-
-        // Total time with institution in fractional years.
-        public double tenure()
-        {
-            return 0;
-        }
-
-        // Total number of publications authored.
-        public int numberOfPublications()
-        {
-            return 0;
-        }
-
-        // Get all of researcher's publications.
-        public List<Publication> getPublications()
-        {
-            return null;
+            return dr.IsDBNull(dr.GetOrdinal(columnName)) ? -1 : dr.GetInt32(dr.GetOrdinal(columnName));
         }
     }
 }

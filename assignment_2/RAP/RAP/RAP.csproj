@@ -66,6 +66,9 @@
     <Compile Include="View\ResearcherDetailsView.cs" />
     <Compile Include="View\ResearcherListView.cs" />
     <Compile Include="View\SupervisionsList.cs" />
+    <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="Model\ResearcherPublication.cs" />
+    <Compile Include="Controller\ResearcherController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

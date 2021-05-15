@@ -8,7 +8,7 @@ namespace RAP.Model
 {
     class Staff : Researcher 
     {
-        public EmploymentLevel Level;
+        //public EmploymentLevel Level;
         public Staff()
         { 
         }
