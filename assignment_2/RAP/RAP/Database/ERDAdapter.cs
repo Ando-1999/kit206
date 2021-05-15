@@ -162,7 +162,7 @@ namespace RAP.Database
         public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
         {
             MySqlCommand cmd =
-                new MySqlCommand("SELECT emails FROM researcher " +
+                new MySqlCommand("SELECT email FROM researcher " +
                 "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
 
             var filter = from r in researchers
