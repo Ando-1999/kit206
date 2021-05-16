@@ -8,12 +8,16 @@ namespace RAP.Model
 {
     class Staff : Researcher 
     {
+        // TODO: Is this necessary?
+        // I can write it out by using Positions[0].Level
+        // Will there ever be a time when that's unavailable?
         private EmploymentLevel level;
         public EmploymentLevel Level
         {
             get { return level; }
             set { level = value; }
         }
+
         public Staff()
         { 
         }
@@ -24,7 +28,8 @@ namespace RAP.Model
          */
         public double threeYearAverage()
         {
-            return 0;
+            return Database.ReportAdapter.
+                fetchNumRecentPublications(this)/3.0;
         }
 
         /* Three-year average divided by the expected number of publications
@@ -42,7 +47,8 @@ namespace RAP.Model
                     { EmploymentLevel.E, 4},
                 };
 
-            double expectedPublications = expectedPublicationsByLevel[Level];
+            double expectedPublications =
+                expectedPublicationsByLevel[Positions[0].Level];
 
             return  threeYearAverage()/expectedPublications;
         }
@@ -50,13 +56,13 @@ namespace RAP.Model
         // Number of students currently or previously supervised.
         public int supervisions()
         {
-            return 0;
+            return Database.ResearcherAdapter.fetchNumSupervisions(this);
         }
 
         public override string ToFullString()
         {
             return $"{Title} {FirstName} {LastName}\n" +
-                $"{Level}\n";
+                $"{Positions[0].jobTitle()}\n";
         }
     }
 }

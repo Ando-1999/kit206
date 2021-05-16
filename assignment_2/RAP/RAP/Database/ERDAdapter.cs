@@ -26,7 +26,7 @@ namespace RAP.Database
             get { return conn; }
         }
 
-        private static readonly Dictionary<Type, ResearcherType> type =
+        public static readonly Dictionary<Type, ResearcherType> type =
         new Dictionary<Type, ResearcherType> {
             { typeof(Model.Staff), ResearcherType.Staff },
             { typeof(Model.Student), ResearcherType.Student }

@@ -27,15 +27,14 @@ namespace RAP.Model
         }
 
         // Name of primary supervisor.
-        // TODO: move to a controller
+        // TODO: move to a controller?
         public string getSupervisorName()
         {
             Researcher supervisor =
-                Database.ResearcherAdapter.fetchResearcherDetails(
+                Database.ResearcherAdapter.fetchSupervisor(
                 new Staff { Id = SupervisorId });
 
-            return String.Format("{1} {2}",
-                supervisor.FirstName, supervisor.LastName);
+            return $"{supervisor.FirstName} {supervisor.LastName}";
         }
 
         public override string ToFullString()

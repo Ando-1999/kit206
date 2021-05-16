@@ -41,6 +41,76 @@ namespace RAP
         static void Main(string[] args)
         {
             //testdb();
+            //testResearcher();
+            //testStaff();
+            //testStudent();
+            //testPublication();
+        }
+
+        static void testPublication()
+        { 
+            List<Model.Researcher> rs =
+                Database.ResearcherAdapter.fetchResearcherList();
+            Model.Researcher r = Database
+                .ResearcherAdapter
+                .fetchResearcherDetails(rs[1]);
+
+            List<Model.Publication> ps = Database
+                .PublicationAdapter
+                .fetchPublicationsList(r);
+            Model.Publication p = Database
+                .PublicationAdapter
+                .fetchPublicationDetails(ps[0]);
+
+            Console.WriteLine(p.age());
+
+        }
+        static void testStudent()
+        { 
+            List<Model.Researcher> rs =
+                Database.ResearcherAdapter.fetchResearcherList();
+
+            Model.Student s =
+                (Model.Student)Database
+                    .ResearcherAdapter
+                    .fetchResearcherDetails(rs[6]);
+
+            Console.WriteLine(s.getSupervisorName());
+        }
+        static void testStaff()
+        { 
+            List<Model.Researcher> rs =
+                Database.ResearcherAdapter.fetchResearcherList();
+
+            Model.Staff s =
+                (Model.Staff)Database
+                .ResearcherAdapter
+                .fetchResearcherDetails(rs[1]);
+
+            Console.WriteLine(s.threeYearAverage());
+            Console.WriteLine(s.performance());
+            Console.WriteLine(s.supervisions());
+        }
+
+        static void testResearcher()
+        {
+            List<Model.Researcher> rs =
+                Database.ResearcherAdapter.fetchResearcherList();
+
+            Model.Researcher r = rs[0];
+            Database.ResearcherAdapter.fetchResearcherDetails(r);
+
+            // TODO: Requires researcher details
+            // Is that ok?  I think so.
+            Console.WriteLine(r.currentJobTitle());
+            Console.WriteLine(r.commencedCurrentPosition()
+                .ToShortDateString());
+            Console.WriteLine(r.tenure());
+            Console.WriteLine(r.numberOfPublications());
+            foreach (Model.Publication p in r.getPublications())
+                Console.WriteLine(p.ToString());
+            foreach (Model.Position p in r.getPositions())
+                Console.WriteLine(p.ToString());
         }
 
         static void testdb()
@@ -53,13 +123,13 @@ namespace RAP
             Console.WriteLine("");
 
             Model.Researcher r =
-                Database.ResearcherAdapter.fetchResearcherDetails(rs[0]);
+                Database.ResearcherAdapter.fetchResearcherDetails(rs[2]);
             Console.WriteLine("fetchResearcherDetails():");
             Console.WriteLine(r.ToFullString());
 
             List<Model.Publication> ps =
                 Database.PublicationAdapter.fetchPublicationsList(r);
-            Console.WriteLine("fetchPublicatoinsList():");
+            Console.WriteLine("fetchPublicationsList():");
             foreach (Model.Publication publication in ps)
                 Console.WriteLine(publication);
             Console.WriteLine("");
@@ -98,7 +168,29 @@ namespace RAP
             foreach (Model.Staff staff in staffList)
                 Console.WriteLine(staff);
             Console.WriteLine("");
-        }
 
+            Model.Researcher res =
+                Database.ResearcherAdapter.fetchResearcherDetails(rs[6]);
+            List<Model.Position> positions =
+                Database.ResearcherAdapter.fetchPositions(res);
+            Console.WriteLine("fetchPositions():");
+            foreach (Model.Position position in res.Positions)
+                Console.WriteLine(position);
+            Console.WriteLine("");
+
+
+            int numRecentPubs =
+                Database.ReportAdapter.fetchNumRecentPublications(res);
+            Console.WriteLine("fetchNumRecentPublications():");
+            Console.WriteLine(numRecentPubs );
+            Console.WriteLine("");
+
+            int numPubs =
+                Database.PublicationAdapter.totalPublications(res);
+            Console.WriteLine("totalPublications():");
+            Console.WriteLine(res.Id);
+            Console.WriteLine(numPubs );
+            Console.WriteLine("");
+        }
     }
 }

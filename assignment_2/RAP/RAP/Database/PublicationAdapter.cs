@@ -107,5 +107,39 @@ namespace RAP.Database
 
             return publication;
         }
+        // Total number of publications authored by researcher
+        public static int totalPublications(Model.Researcher r)
+        {
+            MySqlDataReader rdr = null;
+            int publications = 0;
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(
+                    $"SELECT COUNT(*) AS total FROM researcher_publication " +
+                    $"WHERE researcher_id=?id",
+                    conn);
+
+                cmd.Parameters.AddWithValue("id", r.Id);
+
+                rdr = cmd.ExecuteReader();
+
+                rdr.Read();
+
+                publications = (int)(Int64)rdr["total"];
+            }
+            catch (MySqlException e)
+            {
+                ERDAdapter.Error("loading emails", e);
+            }
+            finally
+            {
+                if (conn != null) conn.Close();
+                if (rdr != null) rdr.Close();
+            }
+
+            return publications;
+        }
     }
 }

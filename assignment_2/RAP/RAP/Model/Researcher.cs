@@ -51,12 +51,6 @@ namespace RAP.Model
             get { return startInstitution; }
             set { startInstitution = value; }
         }
-        private DateTime startCurrentJob;
-        public DateTime StartCurrentJob
-        {
-            get { return startCurrentJob; }
-            set { startCurrentJob = value; }
-        }
         private List<Model.Position> positions;
         public List<Model.Position> Positions
         {
@@ -71,48 +65,45 @@ namespace RAP.Model
         }
 
         // Title of currently held position.
-        // Deduced from employment level/student status.
         public string currentJobTitle()
         {
-            return null;
-        }
-
-        // Starting date of earliest position.
-        public DateTime commencedWithInstitution()
-        {
-            DateTime ret = new DateTime();
-            return ret;
+            return Positions[0].jobTitle();
         }
 
         // Starting date of currently held position.
         public DateTime commencedCurrentPosition()
         {
-            DateTime ret = new DateTime();
-            return ret;
+            return Positions[0].StartDate;
         }
 
         // Total time with institution in fractional years.
         public double tenure()
         {
-            return 0;
+            DateTime end = Positions[0].EndDate;
+            DateTime start = Positions[0].StartDate;
+            if (end < start)
+                end = DateTime.Now;
+            TimeSpan span = end - start;
+            double tenure = span.Days/365.0;
+            return tenure;
         }
 
         // Total number of publications authored.
         public int numberOfPublications()
         {
-            return 0;
+            return Database.PublicationAdapter.totalPublications(this);
         }
 
         // Get all of researcher's publications.
         public List<Publication> getPublications()
         {
-            return null;
+            return Database.PublicationAdapter.fetchPublicationsList(this);
         }
 
         // List of all positions ever occupied at institution.
         public List<Position> getPositions()
         {
-            return null;
+            return Database.ResearcherAdapter.fetchPositions(this);
         }
 
         public override string ToString()

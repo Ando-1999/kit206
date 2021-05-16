@@ -57,8 +57,52 @@ namespace RAP.Database
             return emails;
         }
 
+        public static int fetchNumRecentPublications(Model.Researcher r)
+        {
+            MySqlDataReader rdr = null;
+            int numPublications = 0;
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(
+                    $"SELECT COUNT(*) AS total FROM publication " +
+                    $"WHERE doi IN " +
+                    $"(" +
+                        $"SELECT doi FROM researcher_publication " +
+                        $"WHERE researcher_id=?id" +
+                    $")" +
+                    $"AND YEAR >= ?year",
+                    conn);
+
+                cmd.Parameters.AddWithValue("id", r.Id);
+                // IMPORTANT: Database seems to be from around 2016.
+                // This explicitly assumes that.
+                // For an up-to-date database, replace 2016 with
+                // DateTime.Now.Year
+                cmd.Parameters.AddWithValue("year", 2016 - 3);
+
+                rdr = cmd.ExecuteReader();
+                rdr.Read();
+
+                numPublications = (int)(Int64)rdr["total"];
+                //numPublications = rdr.GetInt32(rdr.GetOrdinal("total"));
+            }
+            catch (MySqlException e)
+            {
+                ERDAdapter.Error("loading emails", e);
+            }
+            finally
+            {
+                if (conn != null) conn.Close();
+                if (rdr != null) rdr.Close();
+            }
+
+            return numPublications;
+        }
+
+
         // Fetch list of staff from database.
-        // TODO: Unimportant?
+        // TODO: Why did I write this? What is it for?
         // DONE
         public static List<Model.Staff> fetchStaffList()
         {
@@ -86,11 +130,6 @@ namespace RAP.Database
                         LastName = (string)rdr["family_name"],
                         Title = (string)rdr["title"],
                         Email = (string)rdr["title"],
-                        Photo = new Uri((string)rdr["photo"]),
-                        StartInstitution = (DateTime)rdr["utas_start"],
-                        StartCurrentJob = (DateTime)rdr["current_start"],
-                        Level = (EmploymentLevel)Enum.Parse(
-                            typeof(EmploymentLevel), (string)rdr["level"])
                     });
                 }
             }

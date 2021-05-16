@@ -17,10 +17,11 @@ namespace RAP.Controller
 
         }
 
+        // Title of currently occupied position
         public string currentjobTitle(Model.Researcher r)
         {
             if (r.GetType() == typeof(Model.Student))
-                return "student";
+                return "Student";
             else
                 return r.Positions[0].jobTitle();
         }

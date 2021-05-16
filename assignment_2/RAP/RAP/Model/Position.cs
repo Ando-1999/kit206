@@ -9,12 +9,6 @@ namespace RAP.Model
 
     class Position
     {
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
         private EmploymentLevel level;
         public EmploymentLevel Level
         {
@@ -33,32 +27,21 @@ namespace RAP.Model
             get { return endDate; }
             set { endDate = value; }
         }
-
-        /*
-        // Alternative implementation
-        public static readonly Dictionary<EmploymentLevel, string> Title =
-                new Dictionary<EmploymentLevel, string>()
-                {
-                    { EmploymentLevel.A, "Postdoc"},
-                    { EmploymentLevel.B, "Lecturer"},
-                    { EmploymentLevel.C, "Senior Lecturer"},
-                    { EmploymentLevel.D, "Associate Professor"},
-                    { EmploymentLevel.E, "Professor"},
-                };
-        */
-
+        // TODO: could instantiate here and make const/readonly
         private static Dictionary<EmploymentLevel, string> title;
         public static Dictionary<EmploymentLevel, string> Title {
             get { return title; }
+            set { title = value; }
         }
         static Position()
-        { 
-            title = new Dictionary<EmploymentLevel, string>() {
+        {
+            Title = new Dictionary<EmploymentLevel, string>() {
                         { EmploymentLevel.A, "Postdoc"},
                         { EmploymentLevel.B, "Lecturer"},
                         { EmploymentLevel.C, "Senior Lecturer"},
                         { EmploymentLevel.D, "Associate Professor"},
                         { EmploymentLevel.E, "Professor"},
+                        { EmploymentLevel.Student, "Student"},
                     };
         }
 
@@ -70,6 +53,15 @@ namespace RAP.Model
         public string jobTitle()
         {
             return Title[Level];
+        }
+
+        public override string ToString()
+        {
+            string end = EndDate.ToShortDateString();
+
+            if (EndDate < StartDate) end = "present";
+
+            return $"{jobTitle()}: {StartDate.ToShortDateString()} - {end}";
         }
     }
 }
