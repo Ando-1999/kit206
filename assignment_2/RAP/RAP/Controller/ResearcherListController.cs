@@ -17,6 +17,15 @@ namespace RAP.Controller
 
         }
 
+        public string currentjobTitle(Model.Researcher r)
+        {
+            if (r.GetType() == typeof(Model.Student))
+                return "student";
+            else
+                return r.Positions[0].jobTitle();
+        }
+
+
         // Load cumulative publications for reasearcher.
         public List<Model.Publication> loadCumulativePublications()
         {
@@ -61,7 +70,7 @@ namespace RAP.Controller
             return null;
         }
 
-        // Load deatils of researcher.
+        // Load details of researcher.
         public Model.Researcher loadResearcher()
         {
             return null;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RAP
 {
-    enum EmploymentLevel { A, B, C, D, E, Student }
+    enum EmploymentLevel { A, B, C, D, E }
 
     enum PublicationType
     { 
@@ -40,7 +40,7 @@ namespace RAP
     {
         static void Main(string[] args)
         {
-            //testdb();
+            testdb();
         }
 
         static void testdb()

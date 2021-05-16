@@ -8,7 +8,12 @@ namespace RAP.Model
 {
     class Staff : Researcher 
     {
-        public EmploymentLevel Level;
+        private EmploymentLevel level;
+        public EmploymentLevel Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
         public Staff()
         { 
         }
@@ -27,8 +32,6 @@ namespace RAP.Model
          */
         public double performance()
         {
-            EmploymentLevel level = getEmploymentLevel();
-
             // Expected number of publications for each employment level.
             Dictionary<EmploymentLevel, double> expectedPublicationsByLevel = 
                 new Dictionary<EmploymentLevel, double>() {
@@ -39,7 +42,7 @@ namespace RAP.Model
                     { EmploymentLevel.E, 4},
                 };
 
-            double expectedPublications = expectedPublicationsByLevel[level];
+            double expectedPublications = expectedPublicationsByLevel[Level];
 
             return  threeYearAverage()/expectedPublications;
         }
@@ -50,16 +53,10 @@ namespace RAP.Model
             return 0;
         }
 
-        // Employment level for current position.
-        public EmploymentLevel getEmploymentLevel()
+        public override string ToFullString()
         {
-            return EmploymentLevel.A;
-        }
-
-        // List of all positions ever occupied at institution.
-        public List<Position> getPositions()
-        {
-            return null;
+            return $"{Title} {FirstName} {LastName}\n" +
+                $"{Level}\n";
         }
     }
 }

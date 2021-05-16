@@ -7,19 +7,67 @@ using System.Threading.Tasks;
 namespace RAP.Model
 {
 
-    class Researcher
+    abstract class Researcher
     {
-        public int Id;
-        public string FirstName;
-        public string LastName;
-        public string Title;
-        public string Email;
-        public Uri Photo;
-        public DateTime StartInstitution;
-        public DateTime StartCurrentJob;
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        private string firstName;
+        public string FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
+        private string lastName;
+        public string LastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+        private Uri photo;
+        public Uri Photo
+        {
+            get { return photo; }
+            set { photo = value; }
+        }
+        private DateTime startInstitution;
+        public DateTime StartInstitution
+        {
+            get { return startInstitution; }
+            set { startInstitution = value; }
+        }
+        private DateTime startCurrentJob;
+        public DateTime StartCurrentJob
+        {
+            get { return startCurrentJob; }
+            set { startCurrentJob = value; }
+        }
+        private List<Model.Position> positions;
+        public List<Model.Position> Positions
+        {
+            get { return positions; }
+            set { positions = value; }
+        }
+
 
         public Researcher()
         {
+            Positions = new List<Model.Position>();
         }
 
         // Title of currently held position.
@@ -61,9 +109,16 @@ namespace RAP.Model
             return null;
         }
 
+        // List of all positions ever occupied at institution.
+        public List<Position> getPositions()
+        {
+            return null;
+        }
+
         public override string ToString()
         {
             return $"{LastName}, {FirstName} ({Title})";
         }
+        public abstract string ToFullString();
     }
 }

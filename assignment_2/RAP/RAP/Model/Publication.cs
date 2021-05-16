@@ -65,6 +65,7 @@ namespace RAP.Model
 
         // Number of days since publication became available.
         // May be negative if publication is not yet available.
+        // TODO: move to controller
         public int age()
         {
             return (DateTime.Now - AvailabilityDate).Days;
@@ -73,6 +74,17 @@ namespace RAP.Model
         public override string ToString()
         {
             return $"{PublicationYear.Year} {Title}";
+        }
+        public string ToFullString()
+        {
+            return $"{Doi}\n" + 
+                $"{Title}\n" +
+                $"{Authors}\n" +
+                $"{PublicationYear.Year}\n" +
+                $"{Type}\n" +
+                $"{CiteAs}\n" +
+                $"{AvailabilityDate.ToShortDateString()}\n" +
+                $"{age()}";
         }
     }
 }

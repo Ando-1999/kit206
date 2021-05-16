@@ -48,6 +48,9 @@
     <Compile Include="Controller\ReportController.cs" />
     <Compile Include="Controller\ResearcherListController.cs" />
     <Compile Include="Database\ERDAdapter.cs" />
+    <Compile Include="Database\PublicationAdapter.cs" />
+    <Compile Include="Database\ReportAdapter.cs" />
+    <Compile Include="Database\ResearcherAdapter.cs" />
     <Compile Include="Model\Position.cs" />
     <Compile Include="Model\Publication.cs" />
     <Compile Include="Model\Researcher.cs" />
