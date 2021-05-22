@@ -19,6 +19,7 @@ namespace RAP.Controller
         }
 
         // Copy emails of all researchers in report to clipboard
+        // TODO: can't access clipboard as console application
         public void copyEmails(List<Model.Researcher> rs)
         {
             List<string> emailList = Database.ReportAdapter.fetchResearcherEmails(rs);
