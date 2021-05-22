@@ -88,7 +88,7 @@ namespace RAP
                 .fetchResearcherDetails(rs[1]);
 
             Console.WriteLine(s.threeYearAverage());
-            Console.WriteLine(s.performance());
+            Console.WriteLine(s.Performance);
             Console.WriteLine(s.supervisions());
         }
 

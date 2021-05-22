@@ -145,5 +145,54 @@ namespace RAP.Database
 
             return staff;
         }
+
+        // Return list of researchers by their performance level
+        // Can this be done without loading too much data into memory?
+        // i.e. with an SQL query?
+        // TODO
+        public static List<Model.Researcher>
+            fetchResearchersByPerformance(ReportType t)
+        {
+            Dictionary<EmploymentLevel, double> performance =
+                new Dictionary<EmploymentLevel, double>() {
+                    { EmploymentLevel.A, 0.5 * 3},
+                    { EmploymentLevel.B, 1 * 3},
+                    { EmploymentLevel.C, 2 * 3},
+                    { EmploymentLevel.D, 3.2 * 3},
+                    { EmploymentLevel.E, 4 * 3},
+                };
+
+            MySqlDataReader rdr = null;
+
+            try
+            {
+                conn.Open();
+
+                Dictionary<ReportType, double> lowerBound =
+                    new Dictionary<ReportType, double> {
+                        { ReportType.POOR, 0.0 },
+                        { ReportType.BELOW_EXPECTATIONS, 0.7 },
+                        { ReportType.MINIMUM_STANDARD, 1.1 },
+                        { ReportType.STAR_PERFORMANCE, 2.0 }
+                    };
+                //double perf = performance[t];
+
+
+                MySqlCommand cmd = new MySqlCommand(
+                    "SELECT title, given_name, family_name FROM researcher " +
+                    "WHERE ",
+                    conn);
+            }
+            catch (MySqlException e)
+            {
+                ERDAdapter.Error("loading report", e);
+            }
+            finally
+            {
+                if (conn != null) conn.Close();
+                if (rdr != null) rdr.Close();
+            }
+            return null;
+        }
     }
 }
