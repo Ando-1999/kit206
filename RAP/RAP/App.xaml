@@ -1,0 +1,14 @@
+﻿<Application x:Class="RAP.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RAP"
+             xmlns:database="clr-namespace:RAP.Database"
+             StartupUri="View/MainWindow.xaml">
+    <Application.Resources>
+        <database:ResearcherAdapter x:Key="researcher"/>
+        <ObjectDataProvider x:Key="researcherList"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="GetViewableList">
+        </ObjectDataProvider>
+    </Application.Resources>
+</Application>
