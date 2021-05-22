@@ -17,14 +17,28 @@ namespace RAP.Model
             get { return level; }
             set { level = value; }
         }
+        private double performance;
+        public double Performance {
+            get
+            {
+                // Performance not yet valid, so work it out
+                if (performance < 0)
+                    performance = getPerformance();
+
+                return performance;
+            }
+            set { performance = value; }
+        }
 
         public Staff()
-        { 
+        {
+            // Invalid value to show it doesn't have any meaning yet.
+            Performance = -1;
         }
 
         /*
-         * Total number of publications authored in the past 3 whole calendar
-         * years divided by 3.
+         * Average number of publications authored in the last three whole
+         * calendar years.
          */
         public double threeYearAverage()
         {
@@ -35,7 +49,7 @@ namespace RAP.Model
         /* Three-year average divided by the expected number of publications
          * for employment level.
          */
-        public double performance()
+        public double getPerformance()
         {
             // Expected number of publications for each employment level.
             Dictionary<EmploymentLevel, double> expectedPublicationsByLevel = 
