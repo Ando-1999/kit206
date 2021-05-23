@@ -23,8 +23,8 @@
         <Label x:Name="lblResearcherDetails" Content="Researcher Details" HorizontalAlignment="Left" Height="25" Margin="139.667,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="117" Grid.Column="1" FontWeight="Bold"/>
         <Label x:Name="lblControls" Content="Controls" HorizontalAlignment="Left" Height="25" Margin="57.667,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="64" Grid.Column="2" FontWeight="Bold"/>
         <!-- Researcher List: Self Explanitory (UC#no) -->
-        <!--ListBox x:Name="listResearcher" Margin="5,5.333,4.333,0.667" SelectionChanged="ListResearcher_SelectionChanged" 
-                 ItemsSource="{Binding Source={StaticResource researcherList}}" Grid.Row="2"/-->
+        <ListBox x:Name="listResearcher" Margin="5,5.333,4.333,0.667" SelectionChanged="ListResearcher_SelectionChanged" 
+                 ItemsSource="{Binding Source={StaticResource researcherList}}" Grid.Row="2"/>
         <TextBox x:Name="txtSearch" HorizontalAlignment="Left" Height="22" Margin="1.667,32.333,0,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Width="120" KeyUp="TxtSearch_KeyUp" Grid.Row="2" Grid.Column="2"/>
         <Button x:Name="btnSearch" Content="Button" HorizontalAlignment="Left" Margin="121.667,32.333,-0.333,0" VerticalAlignment="Top" Width="48" Click="BtnSearch_Click" Height="22" Grid.Row="2" Grid.Column="2"/>
         <!--local:LevelFilterUC HorizontalAlignment="Left" Margin="1.667,121.333,-0.333,0" VerticalAlignment="Top" Width="168" Height="50" Grid.Row="2" Grid.Column="2"/-->

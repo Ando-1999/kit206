@@ -20,9 +20,17 @@ namespace RAP
     /// </summary>
     public partial class MainWindow : Window
     {
+        // researcherList controller
+        Controller.ResearcherListController researcherController;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Object bound to reasearcher ListBox
+            researcherController =
+                (Controller.ResearcherListController)
+                Application.Current.FindResource("researcher");
         }
 
         private void ListResearcher_SelectionChanged(object sender, SelectionChangedEventArgs e)

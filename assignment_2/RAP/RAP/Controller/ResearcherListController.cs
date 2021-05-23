@@ -4,6 +4,7 @@ using System.Collections.ObjectModel; // Required for making the 'viewable' vari
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RAP.Controller
 {
@@ -13,20 +14,25 @@ namespace RAP.Controller
         /// ???
         public List<string> filters;
 
-        private List<Model.Researcher> researcher;
-        public List<Model.Researcher> Researchers { get { return researcher; } set { } } //Was Workers
+        // Constant researcher list
+        private List<Model.Researcher> researchers;
+        public List<Model.Researcher> Researchers { get; set; }
 
-        ///Essentially, this allows for manipulation of pulled data without actually modifying the DB
-        private ObservableCollection<Model.Researcher> viewableResearchers;
-        public ObservableCollection<Model.Researcher> VisibleResearchers { get { return viewableResearchers; } set { } }
+        // Observable researcher list
+        // Modify to filter list, etc.
+        private ObservableCollection<Model.Researcher> researcherList;
+        public ObservableCollection<Model.Researcher> ResearcherList { get; set; }
 
         public ResearcherListController()
         {
-            researcher = Database.ResearcherAdapter.fetchResearcherList();
-            viewableResearchers = new ObservableCollection<Model.Researcher>(researcher);
+            // Load all researchers from database when controller is created?
+            // Not sure if this is the best idea.
+            Researchers = Database.ResearcherAdapter.fetchResearcherList();
+            loadResearcherList();
 
             //How to handle the publications for a researcher?
         }
+
 
         /// <summary>
         /// GetViewableList
@@ -34,7 +40,7 @@ namespace RAP.Controller
         /// </summary>
         public ObservableCollection<Model.Researcher> GetViewableList()
         {
-            return VisibleResearchers;
+            return ResearcherList;
         }
 
         // Title of currently occupied position
@@ -56,9 +62,23 @@ namespace RAP.Controller
         /// Blake's Comment: Probably not necessary, as we use the adapter to fetch the research list
         /// Not removing for your opinion
         // Load basic details for all researchers.
-        public List<string> loadResearcherList()
+        public void loadResearcherList()
         {
-            return null;
+            // Instantiate ResearcherList
+            if (ResearcherList == null)
+            {
+                ResearcherList =
+                    new ObservableCollection<Model.Researcher>(Researchers);
+            }
+            // Reset ResearcherList to match Researcher
+            else
+            {
+                ResearcherList.Clear();
+                foreach (Model.Researcher r in Researchers)
+                {
+                    ResearcherList.Add(r);
+                }
+            }
         }
 
         /// Blake's Comment: You've done this in the Researcher model
