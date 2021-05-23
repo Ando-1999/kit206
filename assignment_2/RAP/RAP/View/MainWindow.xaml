@@ -1,17 +1,17 @@
-﻿<Window x:Class="RAP.MainWindow"
+﻿<Window x:Class="RAP_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RAP"
+        xmlns:local="clr-namespace:RAP_WPF"
         mc:Ignorable="d"
-        Title="Researcher Assessment Program" Height="492" Width="753"
+        Title="Researcher Assessment Program" Height="534" Width="983.4"
 >
     <Grid Margin="0,0,-0.333,1.667">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="159*"/>
-            <ColumnDefinition Width="402*"/>
-            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="229*"/>
+            <ColumnDefinition Width="420*"/>
+            <ColumnDefinition Width="328*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0*" />
@@ -20,42 +20,65 @@
             <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
         <Label x:Name="lblResearcherList" Content="Researcher List" HorizontalAlignment="Left" Height="25" Margin="27,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="97" FontWeight="Bold"/>
-        <Label x:Name="lblResearcherDetails" Content="Researcher Details" HorizontalAlignment="Left" Height="25" Margin="139.667,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="117" Grid.Column="1" FontWeight="Bold"/>
-        <Label x:Name="lblControls" Content="Controls" HorizontalAlignment="Left" Height="25" Margin="57.667,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="64" Grid.Column="2" FontWeight="Bold"/>
+        <Label x:Name="lblResearcherDetails" Content="Researcher Details" HorizontalAlignment="Left" Height="25" Margin="137.2,-4,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="117" Grid.Column="1" FontWeight="Bold"/>
+        <Label x:Name="lblControls" Content="Controls" HorizontalAlignment="Left" Height="25" Margin="44,217.2,0,0" VerticalAlignment="Top" Width="64" FontWeight="Bold" Grid.Row="2"/>
         <!-- Researcher List: Self Explanitory (UC#no) -->
-        <ListBox x:Name="listResearcher" Margin="5,5.333,4.333,0.667" SelectionChanged="ListResearcher_SelectionChanged" 
+        <ListBox x:Name="listResearcher" Margin="10,5.2,26.8,219.6" SelectionChanged="ListResearcher_SelectionChanged" 
                  ItemsSource="{Binding Source={StaticResource researcherList}}" Grid.Row="2"/>
-        <TextBox x:Name="txtSearch" HorizontalAlignment="Left" Height="22" Margin="1.667,32.333,0,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Width="120" KeyUp="TxtSearch_KeyUp" Grid.Row="2" Grid.Column="2"/>
-        <Button x:Name="btnSearch" Content="Button" HorizontalAlignment="Left" Margin="121.667,32.333,-0.333,0" VerticalAlignment="Top" Width="48" Click="BtnSearch_Click" Height="22" Grid.Row="2" Grid.Column="2"/>
-        <!--local:LevelFilterUC HorizontalAlignment="Left" Margin="1.667,121.333,-0.333,0" VerticalAlignment="Top" Width="168" Height="50" Grid.Row="2" Grid.Column="2"/-->
+        <TextBox x:Name="txtSearch" HorizontalAlignment="Left" Height="22" Margin="33,399.2,0,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Width="106" KeyUp="TxtSearch_KeyUp" Grid.Row="2"/>
+        <Button x:Name="btnSearch" Content="Button" HorizontalAlignment="Left" Margin="140,399.2,0,0" VerticalAlignment="Top" Width="42" Click="BtnSearch_Click" Height="22" Grid.Row="2"/>
         <!-- Researcher Details: Contains the Researcher Details (UC#no), and the Publications List (UC#no) -->
-        <StackPanel x:Name="ResearcherDetailsPanel" Orientation="Vertical" Grid.Column="1" Margin="0.667,5.333,1.333,0.667" Grid.Row="2">
+        <StackPanel x:Name="ResearcherDetailsPanel" Orientation="Vertical" Margin="1.2,5.2,4.8,0.6" Grid.Row="2" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Label Content="Name:"></Label>
-                <Label Content="{Binding Path=FullName}"></Label>
+                <Label Content="Family Name:" FontStyle="Italic"></Label>
+                <Label Content="{Binding Path=LastName}" Width="96"></Label>
+                <Label Content="Given Name:" FontStyle="Italic"></Label>
+                <Label Content="{Binding Path=FirstName}" Width="81"></Label>
+                <Label Content="Title:" FontStyle="Italic"></Label>
+                <Label Content="{Binding Path=Title}" Width="39"></Label>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Level:"></Label>
-                <Label Content="{Binding Path=Level}"></Label>
-            </StackPanel>
-            <Label Content="Publications:"/>
-            <ListBox Height="144" ItemsSource="{Binding Path=Publications}" Margin="0,0,-0.333,0"/>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Total Publications:"></Label>
-                <Label Content="{Binding Path=PublicationCount}"></Label>
+                <Label Content="E-Mail:" FontStyle="Italic"></Label>
+                <Label Content="~~" Width="131"></Label>
+                <Label Content="Level:" FontStyle="Italic"></Label>
+                <Label Content="{Binding Path=Level}" Width="117"></Label>
+                <Label Content="Type:" FontStyle="Italic"></Label>
+                <Label Content="~~" Width="86"></Label>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Effieciency Score:"></Label>
-                <Label Content="{Binding Path=PublicationPercent}" ContentStringFormat="{}{0:0.0}%"></Label>
+                <Label Content="Campus:" FontStyle="Italic"></Label>
+                <Label Content="~~" Width="122"></Label>
+                <Label Content="Unit:" FontStyle="Italic"></Label>
+                <Label Content="~~" Width="121"></Label>
+                <Label Content="Degree:" FontStyle="Italic"></Label>
+                <Label Content="~~"></Label>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding Path=MostRecentPublication}" ContentStringFormat="Most Recent: {0:dd/MM/yyyy}"></Label>
+            <Label Content="Publications:" FontStyle="Italic"/>
+            <ListBox Height="144" ItemsSource="{Binding GetPublications}" Margin="0,0,0.2,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0.2,0">
+                <Label Content="Total Publications:" FontStyle="Italic" Width="105"></Label>
+                <Label Content="{Binding Path=NumberOfPublications}" Width="46"></Label>
+                <Label Content="Effieciency Score:" FontStyle="Italic"></Label>
+                <Label Content="{Binding Path=PublicationPercent}" ContentStringFormat="{}{0:0.0}%" Width="63"></Label>
+                <Label Content="02/12/1999" ContentStringFormat="Most Recent: {0:dd/MM/yyyy}" FontStyle="Italic"></Label>
             </StackPanel>
-            <TextBlock TextWrapping="Wrap">
-                <TextBlock.Text>Here is some long text. Note how it wraps. Here is some long text. Note how it wraps.</TextBlock.Text>
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0.2,0">
+                <Label Content="Supervisor:" FontStyle="Italic" Width="103"></Label>
+                <Label Content="N/A" Width="46"></Label>
+                <Label Content="Supervisions:" FontStyle="Italic" Width="95"></Label>
+                <Label Content="N/A" Width="46"></Label>
+            </StackPanel>
+            <!-- Seperator Panel -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0.3,0" Height="5"></StackPanel>
+            <!-- Seperator Panel -->
+            <Label Content="Positions:" FontStyle="Italic"/>
+            <ListBox Height="144" ItemsSource="{Binding GetPositions}" Margin="0,0,0.2,0"/>
         </StackPanel>
-        <Button x:Name="btnTestWindow" Content="Test: New Window" HorizontalAlignment="Left" Margin="25.667,230.333,0,0" VerticalAlignment="Top" Width="116" Click="BtnSearch_Click" Height="28" Grid.Row="2" Grid.Column="2"/>
+        <StackPanel x:Name="PublicationsAndPositionsPanel" Orientation="Vertical" Margin="1.2,5.4,4.8,1.2" Grid.Row="3" Grid.Column="1">
+        </StackPanel>
+        <Button x:Name="btnTestWindow" Content="Test: New Window" HorizontalAlignment="Left" Margin="44,439.2,0,0" VerticalAlignment="Top" Width="121" Click="BtnSearch_Click" Height="28" Grid.Row="2"/>
+        <local:LevelFilterUC HorizontalAlignment="Left" Height="54" Margin="0,262.2,0,0" Grid.Row="2" VerticalAlignment="Top" Width="99"/>
+        <local:TypeFilterUC HorizontalAlignment="Left" Height="100" Margin="102,262.2,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
         <!--ComboBox x:Name="combTest" Grid.Column="2" HorizontalAlignment="Left" Margin="21.667,302.333,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120"/-->
     </Grid>
 </Window>

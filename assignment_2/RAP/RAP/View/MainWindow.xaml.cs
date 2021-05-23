@@ -13,34 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RAP
+namespace RAP_WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        // researcherList controller
-        Controller.ResearcherListController researcherController;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            // Object bound to reasearcher ListBox
-            researcherController =
-                (Controller.ResearcherListController)
-                Application.Current.FindResource("researcher");
         }
 
         private void ListResearcher_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
             {
-                //After Task 4 done, this is not really needed
-                MessageBox.Show("The selected item is: " + e.AddedItems[0]);
-                //Part of task 4
                 ResearcherDetailsPanel.DataContext = e.AddedItems[0];
+
             }
         }
 
@@ -55,6 +45,11 @@ namespace RAP
             {
                 BtnSearch_Click(sender, e);
             }
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
         /*
