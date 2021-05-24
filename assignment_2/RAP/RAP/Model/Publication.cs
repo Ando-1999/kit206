@@ -32,14 +32,25 @@ namespace RAP.Model
 
         //public DateTime PublicationDate { get; set; }
         //public PublicationType Type { get; set; }
-        //public DateTime AvailabilityDate { get; set; }
+        public DateTime AvailabilityDate { get; set; }
 
-        public Publication()
+        // private string authors;
+        // public string Authors
+        // {
+        //     get { return authors; }
+        //     set { authors = value; }
+        // }
+
+        private DateTime publicationYear;
+        public DateTime PublicationYear
         {
+            get { return publicationYear; }
+            set { publicationYear = value; }
         }
 
         // Number of days since publication became available.
         // May be negative if publication is not yet available.
+        // TODO: move to controller
         public int age()
         {
             return (DateTime.Now - Available).Days;
@@ -80,10 +91,25 @@ namespace RAP.Model
             return researchers;
         }
 
+        // public override string ToString()
+        // {
+        //     return $"Doi={Doi}, Title={Title}, Authors={Authors}, Year={Year}, Type={Type}, CiteAs={CiteAs}, Available={Available}";
+        // }
 
         public override string ToString()
         {
-            return $"Doi={Doi}, Title={Title}, Authors={Authors}, Year={Year}, Type={Type}, CiteAs={CiteAs}, Available={Available}";
+            return $"{PublicationYear.Year} {Title}";
+        }
+        public string ToFullString()
+        {
+            return $"{Doi}\n" + 
+                $"{Title}\n" +
+                $"{Authors}\n" +
+                $"{PublicationYear.Year}\n" +
+                $"{Type}\n" +
+                $"{CiteAs}\n" +
+                $"{AvailabilityDate.ToShortDateString()}\n" +
+                $"{age()}";
         }
     }
 }

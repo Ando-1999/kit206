@@ -1,0 +1,15 @@
+﻿<Application x:Class="RAP.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RAP"
+             xmlns:controller="clr-namespace:RAP.Controller"
+             StartupUri="View/MainView.xaml"
+             >
+    <Application.Resources>
+        <!--<controller:ResearcherListController x:Key="researcher"/>
+        <ObjectDataProvider x:Key="researcherList"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="GetViewableList">
+        </ObjectDataProvider>-->
+    </Application.Resources>
+</Application>

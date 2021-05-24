@@ -9,26 +9,49 @@ namespace RAP.Model
     class Staff : Researcher 
     {
         //public EmploymentLevel Level;
+        // TODO: Is this necessary?
+        // I can write it out by using Positions[0].Level
+        // Will there ever be a time when that's unavailable?
+        private EmploymentLevel level;
+        public EmploymentLevel Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+        private double performance;
+        public double Performance {
+            get
+            {
+                // Performance not yet valid, so work it out
+                if (performance < 0)
+                    performance = getPerformance();
+
+                return performance;
+            }
+            set { performance = value; }
+        }
+
         public Staff()
-        { 
+        {
+            // Invalid value to show it doesn't have any meaning yet.
+            Performance = -1;
         }
 
         /*
-         * Total number of publications authored in the past 3 whole calendar
-         * years divided by 3.
+         * Average number of publications authored in the last three whole
+         * calendar years.
          */
         public double threeYearAverage()
         {
-            return 0;
+            return Database.ReportAdapter.
+                fetchNumRecentPublications(this)/3.0;
         }
 
         /* Three-year average divided by the expected number of publications
          * for employment level.
          */
-        public double performance()
+        public double getPerformance()
         {
-            EmploymentLevel level = getEmploymentLevel();
-
             // Expected number of publications for each employment level.
             Dictionary<EmploymentLevel, double> expectedPublicationsByLevel = 
                 new Dictionary<EmploymentLevel, double>() {
@@ -39,7 +62,8 @@ namespace RAP.Model
                     { EmploymentLevel.E, 4},
                 };
 
-            double expectedPublications = expectedPublicationsByLevel[level];
+            double expectedPublications =
+                expectedPublicationsByLevel[Positions[0].Level];
 
             return  threeYearAverage()/expectedPublications;
         }
@@ -47,19 +71,13 @@ namespace RAP.Model
         // Number of students currently or previously supervised.
         public int supervisions()
         {
-            return 0;
+            return Database.ResearcherAdapter.fetchNumSupervisions(this);
         }
 
-        // Employment level for current position.
-        public EmploymentLevel getEmploymentLevel()
+        public string ToFullString()
         {
-            return EmploymentLevel.A;
-        }
-
-        // List of all positions ever occupied at institution.
-        public List<Position> getPositions()
-        {
-            return null;
+            return $"{Title} {FirstName} {LastName}\n" +
+                $"{Positions[0].jobTitle()}\n";
         }
     }
 }

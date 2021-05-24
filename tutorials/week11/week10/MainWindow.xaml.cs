@@ -21,12 +21,13 @@ namespace week10
     /// </summary>
     public partial class MainWindow : Window
     {
-        Boss controller;
+        test.Boss controller;
         public MainWindow()
         {
             InitializeComponent();
 
-            controller = (Boss)Application.Current.FindResource("BossController");
+            MessageBox.Show(Application.Current.FindResource("BossController").GetType().ToString());
+            controller = (test.Boss)Application.Current.FindResource("BossController");
         }
 
         // Badly behaved handler.  Doesn't cause the GUI to update 
