@@ -88,8 +88,8 @@ namespace RAP.Database
                 while (rdr.Read())
                 {
                     publication.Authors = (string)rdr["authors"];
-                    publication.Type = (PublicationType)Enum.Parse(
-                        typeof(PublicationType), (string)rdr["type"]);
+                    publication.Type = (Model.PublicationType)Enum.Parse(
+                        typeof(Model.PublicationType), (string)rdr["type"]);
                     publication.CiteAs = (string)rdr["cite_as"];
                     publication.AvailabilityDate =
                         (DateTime)rdr["available"];

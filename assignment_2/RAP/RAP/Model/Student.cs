@@ -8,19 +8,19 @@ namespace RAP.Model
 {
     class Student : Researcher
     {
-        private string degree;
-        public string Degree
-        {
-            get { return degree; }
-            set { degree = value; }
-        }
+        //private string degree;
+        //public string Degree
+        //{
+        //    get { return degree; }
+        //    set { degree = value; }
+        //}
 
-        public int supervisorId;    // primary supervisor
-        public int SupervisorId
-        {
-            get { return supervisorId; }
-            set { supervisorId = value; }
-        }
+        //public int supervisorId;    // primary supervisor
+        //public int SupervisorId
+        //{
+        //    get { return supervisorId; }
+        //    set { supervisorId = value; }
+        //}
 
         public Student()
         {
@@ -30,6 +30,10 @@ namespace RAP.Model
         // TODO: move to a controller?
         public string getSupervisorName()
         {
+            return null;
+            //Researcher supervisor = Database.ERDAdapter.fetchResearcher(SupervisorId);
+            //return String.Format("{1} {2}",
+            //    supervisor.FirstName, supervisor.LastName);
             Researcher supervisor =
                 Database.ResearcherAdapter.fetchSupervisor(
                 new Staff { Id = SupervisorId });
@@ -37,7 +41,7 @@ namespace RAP.Model
             return $"{supervisor.FirstName} {supervisor.LastName}";
         }
 
-        public override string ToFullString()
+        public string ToFullString()
         {
             return $"{Title} {FirstName} {LastName}\n" +
                 $"{Degree}\n";

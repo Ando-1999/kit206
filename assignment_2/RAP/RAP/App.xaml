@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RAP"
              xmlns:controller="clr-namespace:RAP.Controller"
-             StartupUri="View/MainWindow.xaml">
+             StartupUri="View/MainView.xaml"
+             >
     <Application.Resources>
-        <controller:ResearcherListController x:Key="researcher"/>
+        <!--<controller:ResearcherListController x:Key="researcher"/>
         <ObjectDataProvider x:Key="researcherList"
                             ObjectInstance="{StaticResource researcher}"
                             MethodName="GetViewableList">
-        </ObjectDataProvider>
+        </ObjectDataProvider>-->
     </Application.Resources>
 </Application>

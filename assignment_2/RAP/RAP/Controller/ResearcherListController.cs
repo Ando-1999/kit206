@@ -62,7 +62,7 @@ namespace RAP.Controller
         /// Blake's Comment: Probably not necessary, as we use the adapter to fetch the research list
         /// Not removing for your opinion
         // Load basic details for all researchers.
-        public void loadResearcherList()
+        public ObservableCollection<Model.Researcher> loadResearcherList()
         {
             // Instantiate ResearcherList
             if (ResearcherList == null)
@@ -79,6 +79,8 @@ namespace RAP.Controller
                     ResearcherList.Add(r);
                 }
             }
+
+            return ResearcherList;
         }
 
         /// Blake's Comment: You've done this in the Researcher model
@@ -121,9 +123,10 @@ namespace RAP.Controller
 
         /// Blake's Comment: Same as loadResearcher
         // Load details of researcher.
-        public Model.Researcher loadResearcher()
+        public Model.Researcher loadResearcher(string id)
         {
-            return null;
+            Model.Researcher researcher = Database.ResearcherAdapter.fetchResearcherDetails(id);
+            return researcher;
         }
 
         /// Blake's Comment: Same as loadResearcher

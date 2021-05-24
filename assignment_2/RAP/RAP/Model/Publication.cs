@@ -1,35 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace RAP.Model
 {
+    public enum PublicationType { 
+        NULL,
+        [Description("Conference")]
+        CONFERENCE,
+        [Description("Journal")]
+        JOURNAL,
+        [Description("Other")]
+        OTHER,
+        };
 
-    class Publication
+    class Publication: BaseModel
     {
+        public static string TableName = "publication";
 
-        private string doi;
-        public string Doi
-        {
-            get { return doi; }
-            set { doi = value; }
-        }
+        public string Doi { get; set; }
+        public string Title { get; set; }
+        public string Authors { get; set; }
+        public int Year { get; set; }
+        public PublicationType Type { get; set; }
+        public string CiteAs { get; set; }
+        public DateTime Available { get; set; }
 
-        private string title;
-        public string Title
-        {
-            get { return title; }
-            set { title = value; }
-        }
+        //public DateTime PublicationDate { get; set; }
+        //public PublicationType Type { get; set; }
+        public DateTime AvailabilityDate { get; set; }
 
-        private string authors;
-        public string Authors
-        {
-            get { return authors; }
-            set { authors = value; }
-        }
+        // private string authors;
+        // public string Authors
+        // {
+        //     get { return authors; }
+        //     set { authors = value; }
+        // }
 
         private DateTime publicationYear;
         public DateTime PublicationYear
@@ -38,38 +48,53 @@ namespace RAP.Model
             set { publicationYear = value; }
         }
 
-        private PublicationType type;
-        public PublicationType Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
-        private string citeAs;
-        public string CiteAs
-        {
-            get { return citeAs; }
-            set { citeAs = value; }
-        }
-
-        private DateTime availabilityDate;
-        public DateTime AvailabilityDate
-        {
-            get { return availabilityDate; }
-            set { availabilityDate = value; }
-        }
-
-        public Publication()
-        {
-        }
-
         // Number of days since publication became available.
         // May be negative if publication is not yet available.
         // TODO: move to controller
         public int age()
         {
-            return (DateTime.Now - AvailabilityDate).Days;
+            return (DateTime.Now - Available).Days;
         }
+
+        public static PublicationType ParsePublicationType(string v)
+        {
+            if (v == null) return PublicationType.NULL;
+
+            if (v.Equals("Conference")) return PublicationType.CONFERENCE;
+            if (v.Equals("Journal")) return PublicationType.JOURNAL;
+            if (v.Equals("Other")) return PublicationType.OTHER;
+
+            return PublicationType.NULL;
+        }
+
+        public static List<Publication> All()
+        {
+            List<Publication> researchers = new List<Publication>();
+            MySqlDataReader dr = DataReaderAll(TableName);
+            if (dr != null)
+            {
+                while (dr.Read())
+                {
+                    researchers.Add(new Publication
+                    {
+                        Doi = GetString(dr, "doi"),
+                        Title = GetString(dr, "title"),
+                        Authors = GetString(dr, "authors"),
+                        Year = GetInt32(dr, "year"),
+                        Type = ParsePublicationType(GetString(dr, "type")),
+                        CiteAs = GetString(dr, "cite_as"),
+                        Available = DateTime.Parse(GetString(dr, "available")),
+                    });
+                }
+                connection.Close();
+            }
+            return researchers;
+        }
+
+        // public override string ToString()
+        // {
+        //     return $"Doi={Doi}, Title={Title}, Authors={Authors}, Year={Year}, Type={Type}, CiteAs={CiteAs}, Available={Available}";
+        // }
 
         public override string ToString()
         {

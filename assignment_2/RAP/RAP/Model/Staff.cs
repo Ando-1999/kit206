@@ -8,6 +8,7 @@ namespace RAP.Model
 {
     class Staff : Researcher 
     {
+        //public EmploymentLevel Level;
         // TODO: Is this necessary?
         // I can write it out by using Positions[0].Level
         // Will there ever be a time when that's unavailable?
@@ -73,7 +74,7 @@ namespace RAP.Model
             return Database.ResearcherAdapter.fetchNumSupervisions(this);
         }
 
-        public override string ToFullString()
+        public string ToFullString()
         {
             return $"{Title} {FirstName} {LastName}\n" +
                 $"{Positions[0].jobTitle()}\n";

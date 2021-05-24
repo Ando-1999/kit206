@@ -40,6 +40,7 @@ namespace RAP.Database
                 server, db, user, pass);
 
             conn = new MySqlConnection(connectionString);
+            // conn.Open();
         }
 
         /*

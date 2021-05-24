@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace RAP.Database
 {
@@ -73,12 +74,13 @@ namespace RAP.Database
         // Assumes Researcher object already contains Id, FirstName,
         // LastName, and title
         // DONE
-        public static Model.Researcher fetchResearcherDetails(Model.Researcher r)
+        public static Model.Researcher fetchResearcherDetails(string id)
         {
 
             MySqlCommand cmd = null;
             MySqlDataReader rdr = null;
 
+            Model.Researcher r = new Model.Researcher();
             try
             {
                 conn.Open();
@@ -86,11 +88,12 @@ namespace RAP.Database
                 cmd = new MySqlCommand(
                     "SELECT * FROM researcher WHERE id=?id", conn);
 
-                cmd.Parameters.AddWithValue("id", r.Id);
+                cmd.Parameters.AddWithValue("id", id);
 
                 rdr = cmd.ExecuteReader();
 
                 rdr.Read();
+
 
                 switch ((string)rdr["type"])
                 {
