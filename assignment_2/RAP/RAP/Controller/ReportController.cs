@@ -15,11 +15,19 @@ namespace RAP.Controller
         // Request report for given performance level
         public void requestReport(ReportType type)
         { 
+
         }
 
         // Copy emails of all researchers in report to clipboard
-        public void copyEmails()
+        // TODO: can't access clipboard as console application
+        public void copyEmails(List<Model.Researcher> rs)
         {
+            List<string> emailList = Database.ReportAdapter.fetchResearcherEmails(rs);
+
+            string emails = string.Join(" ", emailList);
+
+            //Paste emails to clipboard
+            //Clipboard.SetText(emails);
         }
 
         // ???

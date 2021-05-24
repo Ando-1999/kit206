@@ -1,0 +1,118 @@
+﻿<Window x:Class="RAP.ResearcherDetailsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RAP"
+        mc:Ignorable="d"
+        Title="Researcher Assessment Program" Height="500" Width="800"
+>
+    <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="475*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="520*"/>
+                <ColumnDefinition Width="280*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2">
+                <Label Content="Researcher Details" Grid.Row="0" Grid.ColumnSpan="2"></Label>
+            </Border>
+
+            <WrapPanel Margin="10"  VerticalAlignment="Top" Grid.Row="1">
+                <Image Height="110" Width="120"></Image>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Family Name" ></Label>
+                    <Label Name="label_familyName"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Given Name" ></Label>
+                    <Label Name="label_givenName"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Title" ></Label>
+                    <Label Name="label_title"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="E-mail" ></Label>
+                    <Label Name="label_email"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Current Job Title" ></Label>
+                    <Label Name="label_currentJobTitle"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Campus" ></Label>
+                    <Label Name="label_campus"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="School/Unit" ></Label>
+                    <Label Name="label_schoolOrUnit"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Tenure" ></Label>
+                    <Label Name="label_tenure"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Commenced with Institution" ></Label>
+                    <Label Name="label_commencedInstitution"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Commenced Current Position" ></Label>
+                    <Label Name="label_commencedCurrentPosition"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="3-Year Average" ></Label>
+                    <Label Name="label_threeYearAverage"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Degree" ></Label>
+                    <Label Name="label_degree"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Performance" ></Label>
+                    <Label Name="label_performance"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Supervisor" ></Label>
+                    <Label Name="label_supervisor"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Supervisons" ></Label>
+                    <Label Name="label_supervisons"></Label>
+                    <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" ></Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" MinWidth="120">
+                    <Label Content="Publications" ></Label>
+                    <Label Name="label_publications"></Label>
+                    <Button x:Name="button_viewPublications" Content="Culmative Count" FontSize="10" MaxWidth="90" HorizontalAlignment="Left"></Button>
+                </StackPanel>
+
+            </WrapPanel>
+
+            <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1">
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" Content="John Does's Previous Positions"></Label>
+                <DataGrid Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Publication Year"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Publication Title"></DataGridTextColumn>
+                        <DataGridTextColumn></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" Content="John Does's Previous Positions"></Label>
+                <DataGrid BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,10" FontSize="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Pervious Position" Width="110"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Start Date" Width="70"></DataGridTextColumn>
+                        <DataGridTextColumn Header="End Date" Width="70"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

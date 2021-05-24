@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,11 @@ namespace RAP.Controller
     {
         public ResearcherController()
         { 
+        }
+
+        public ObservableCollection<Entity.Researcher> getResearchers()
+        {
+            return null;
         }
 
         // Request report for given performance level

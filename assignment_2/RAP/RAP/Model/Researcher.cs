@@ -24,7 +24,6 @@ namespace RAP.Model
     class Researcher : BaseModel
     {
         private static string TableName = "researcher";
-
         public int Id { get; set; }
         public ResearcherType Type { get; set; }
         public string FirstName { get; set; }
@@ -44,6 +43,57 @@ namespace RAP.Model
 
         public DateTime StartInstitution;
         public DateTime StartCurrentJob;
+        // abstract class Researcher
+        // {
+        // private int id;
+        // public int Id
+        // {
+        //     get { return id; }
+        //     set { id = value; }
+        // }
+        // private string firstName;
+        // public string FirstName
+        // {
+        //     get { return firstName; }
+        //     set { firstName = value; }
+        // }
+        // private string lastName;
+        // public string LastName
+        // {
+        //     get { return lastName; }
+        //     set { lastName = value; }
+        // }
+        // private string title;
+        // public string Title
+        // {
+        //     get { return title; }
+        //     set { title = value; }
+        // }
+        // private string email;
+        // public string Email
+        // {
+        //     get { return email; }
+        //     set { email = value; }
+        // }
+        // private Uri photo;
+        // public Uri Photo
+        // {
+        //     get { return photo; }
+        //     set { photo = value; }
+        // }
+        // private DateTime startInstitution;
+        // public DateTime StartInstitution
+        // {
+        //     get { return startInstitution; }
+        //     set { startInstitution = value; }
+        // }
+        private List<Model.Position> positions;
+        public List<Model.Position> Positions
+        {
+            get { return positions; }
+            set { positions = value; }
+        }
+
 
         public static ResearcherType ParseResearcherType(string v)
         {
@@ -79,45 +129,57 @@ namespace RAP.Model
 
         public Researcher()
         {
+            Positions = new List<Model.Position>();
         }
 
         // Title of currently held position.
-        // Deduced from employment level/student status.
         public string currentJobTitle()
         {
-            return null;
-        }
-
-        // Starting date of earliest position.
-        public DateTime commencedWithInstitution()
-        {
-            DateTime ret = new DateTime();
-            return ret;
+            if (Positions.Count == 0) return "N/A";
+            return Positions[0].jobTitle();
         }
 
         // Starting date of currently held position.
         public DateTime commencedCurrentPosition()
         {
-            DateTime ret = new DateTime();
-            return ret;
+            if (Positions.Count == 0) return new DateTime(0);
+            return Positions[0].StartDate;
         }
 
         // Total time with institution in fractional years.
         public double tenure()
         {
-            return 0;
+            if (Positions.Count == 0) return 0;
+            DateTime end = Positions[0].EndDate;
+            DateTime start = Positions[0].StartDate;
+            if (end < start)
+                end = DateTime.Now;
+            TimeSpan span = end - start;
+            double tenure = span.Days/365.0;
+            return tenure;
         }
 
         // Total number of publications authored.
         public int numberOfPublications()
         {
-            return 0;
+            return Database.PublicationAdapter.totalPublications(this);
         }
 
         // Get all of researcher's publications.
         public List<Publication> getPublications()
         {
-            return null;
+            return Database.PublicationAdapter.fetchPublicationsList(this);
+        }
+
+        // List of all positions ever occupied at institution.
+        public List<Position> getPositions()
+        {
+            return Database.ResearcherAdapter.fetchPositions(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{LastName}, {FirstName} ({Title})";
         }
 
         public static List<Researcher> All()
@@ -163,9 +225,10 @@ namespace RAP.Model
         }
 
 
-        public override string ToString()
-        {
-            return $"{Type}: {Degree} {FirstName} {LastName}, {Unit}, {Campus}";
-        }
+        //public override string ToString()
+        //{
+        //    return $"{Type}: {Degree} {FirstName} {LastName}, {Unit}, {Campus}";
+        //}
+        //public abstract string ToFullString();
     }
 }
