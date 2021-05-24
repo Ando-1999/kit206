@@ -1,13 +1,13 @@
-<Window x:Class="RAP.View.MainWindow"
+﻿<Window x:Class="RAP.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RAP"
         xmlns:view="clr-namespace:RAP.View"
-        xmlns:local="clr-namespace:RAP_WPF"
         mc:Ignorable="d"
         Title="Researcher Assessment Program" Height="534" Width="983.4"
-/>
+>
     <Grid Margin="0,0,-0.333,1.667">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="229*"/>
