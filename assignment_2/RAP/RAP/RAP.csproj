@@ -105,6 +105,9 @@
     <Compile Include="View\TestingWindow.xaml.cs">
       <DependentUpon>TestingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TypeFilterUC.xaml.cs">
+      <DependentUpon>TypeFilterUC.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\LevelFilterUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,6 +134,10 @@
     <Page Include="View\TestingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TypeFilterUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
