@@ -84,7 +84,7 @@ namespace RAP
         private void Filter(object sender, RoutedEventArgs e)
         {
             var query = from r in researchers
-                        where r.FirstName.Contains(tb_Search.Text) or r.LastName.Contains(tb_Search.Text)
+                        where (r.FirstName.Contains(tb_Search.Text) || r.LastName.Contains(tb_Search.Text))
                         select r;
             dg_Researchers.ItemsSource = query.ToList();
         }
