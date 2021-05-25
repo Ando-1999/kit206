@@ -58,6 +58,9 @@ namespace RAP.Model
             set { positions = value; }
         }
 
+        private Campus campus;
+        public Campus Campus { get; set; }
+
 
         public Researcher()
         {

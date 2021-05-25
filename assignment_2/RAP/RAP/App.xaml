@@ -4,12 +4,16 @@
              xmlns:sys ="clr-namespace:System;assembly=mscorlib" 
              xmlns:local="clr-namespace:RAP"
              xmlns:controller="clr-namespace:RAP.Controller"
-             StartupUri="View/MainWindow.xaml">
+             StartupUri="View/MainView.xaml">
     <Application.Resources>
-        <controller:ResearcherListController x:Key="researcher"/>
+        <controller:ResearcherController x:Key="researcher"/>
         <ObjectDataProvider x:Key="researcherList"
-                            ObjectInstance="{StaticResource researcher}"
-                            MethodName="GetViewableList">
+                            ObjectInstance="{StaticResource researcherList}"
+                            MethodName="GetResearcherList">
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="researcherDetails"
+                            ObjectInstance="{StaticResource researcherDetails}"
+                            MethodName="GetResearcherDetails">
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="levelVals"
                             ObjectType="{x:Type sys:Enum}"

@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace RAP.Controller
 {
-    class ResearcherListController
+    class ResearcherController
     {
 
         /// ???
@@ -20,27 +20,51 @@ namespace RAP.Controller
 
         // Observable researcher list
         // Modify to filter list, etc.
-        private ObservableCollection<Model.Researcher> researcherList;
-        public ObservableCollection<Model.Researcher> ResearcherList { get; set; }
+        private ObservableCollection<Model.Researcher>
+            researcherList;
+        public ObservableCollection<Model.Researcher>
+            ResearcherList { get; set; }
 
-        public ResearcherListController()
+        private Model.Researcher researcherDetails;
+        public Model.Researcher ResearcherDetails { get; set; }
+
+        private Model.Staff staffDetails;
+        public Model.Staff StaffDetails { get; set; }
+
+        private Model.Student studentDetails;
+        public Model.Student StudentDetails { get; set; }
+
+        public ResearcherController()
         {
             // Load all researchers from database when controller is created?
             // Not sure if this is the best idea.
             Researchers = Database.ResearcherAdapter.fetchResearcherList();
             loadResearcherList();
 
+            // No details initially loaded
+            // TODO: Not sure of the best way to handle this, since
+            // Researcher is abstract and static resources are bound
+            // to an object, rather than a reference
+            ResearcherDetails = null;
+            StaffDetails = new Model.Staff();
+            StudentDetails = new Model.Student();
+
             //How to handle the publications for a researcher?
         }
 
 
         /// <summary>
-        /// GetViewableList
+        /// GetResearcherList
         /// Returns the list of researchers for display
         /// </summary>
-        public ObservableCollection<Model.Researcher> GetViewableList()
+        public ObservableCollection<Model.Researcher> GetResearcherList()
         {
             return ResearcherList;
+        }
+
+        public Model.Researcher GetResearcherDetails()
+        {
+            return ResearcherDetails;
         }
 
         // Title of currently occupied position

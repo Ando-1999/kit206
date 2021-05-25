@@ -99,22 +99,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\LevelFilterUC.xaml.cs">
-      <DependentUpon>LevelFilterUC.xaml</DependentUpon>
+    <Compile Include="View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestingWindow.xaml.cs">
-      <DependentUpon>TestingWindow.xaml</DependentUpon>
+    <Compile Include="View\ResearcherDetailsView.xaml.cs">
+      <DependentUpon>ResearcherDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TypeFilterUC.xaml.cs">
-      <DependentUpon>TypeFilterUC.xaml</DependentUpon>
-    </Compile>
-    <Page Include="View\LevelFilterUC.xaml">
+    <Page Include="View\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -122,22 +115,14 @@
     </Compile>
     <Compile Include="Controller\PublicationsListController.cs" />
     <Compile Include="Controller\ReportController.cs" />
-    <Compile Include="Controller\ResearcherListController.cs" />
+    <Compile Include="Controller\ResearcherController.cs" />
     <Compile Include="Database\ERDAdapter.cs" />
     <Compile Include="Database\PublicationAdapter.cs" />
     <Compile Include="Database\ReportAdapter.cs" />
     <Compile Include="Database\ResearcherAdapter.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="View\TestingWindow.xaml">
+    <Page Include="View\ResearcherDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TypeFilterUC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
