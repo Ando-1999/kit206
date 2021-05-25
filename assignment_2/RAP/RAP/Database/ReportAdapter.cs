@@ -7,63 +7,67 @@ using MySql.Data.MySqlClient;
 
 namespace RAP.Database
 {
-    class ReportAdapter
+    abstract class ReportAdapter : ERDAdapter
     {
-        private static MySqlConnection conn;
+
         static ReportAdapter()
         {
-            conn = ERDAdapter.Conn;
         }
 
         // Fetch list of researcher emails from database.
-        // DONE
         public static List<string> fetchResearcherEmails(List<Model.Researcher> researchers)
         {
             MySqlCommand cmd;
-            MySqlDataReader rdr = null;
+            
             List<string> emails = null;
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 cmd = new MySqlCommand(
                     "SELECT email FROM researcher " +
-                    "WHERE FIND_IN_SET(id, ?ids) != 0", conn);
+                    "WHERE FIND_IN_SET(id, ?ids) != 0", Conn);
 
                 var filter = from r in researchers
                              select r.Id;
+                List<int?> researcherIds = new List<int?>(filter);
 
-                List<int> researcherIds = new List<int>(filter);
+                cmd.Parameters.AddWithValue("ids",
+                    String.Join(",", researcherIds));
 
-                cmd.Parameters.AddWithValue("ids", String.Join(",", researcherIds));
-
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
                 emails = new List<string>();
 
-                while (rdr.Read())
-                    emails.Add((string)rdr["email"]);
+                while (Rdr.Read())
+                    emails.Add(GetString("email"));
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading emails", e);
+                Error("loading emails", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return emails;
         }
 
-        public static int fetchNumRecentPublications(Model.Researcher r)
+        // Fetch number of publications for reasearcher in last three
+        // calendar years.
+        // IMPORTANT: assumes a current date of 2016 to conform with database
+        public static int? fetchNumRecentPublications(Model.Researcher r)
         {
-            MySqlDataReader rdr = null;
-            int numPublications = 0;
+            int? numPublications = null;
             try
             {
-                conn.Open();
+                Conn.Open();
                 MySqlCommand cmd = new MySqlCommand(
                     $"SELECT COUNT(*) AS total FROM publication " +
                     $"WHERE doi IN " +
@@ -72,7 +76,7 @@ namespace RAP.Database
                         $"WHERE researcher_id=?id" +
                     $")" +
                     $"AND YEAR >= ?year",
-                    conn);
+                    Conn);
 
                 cmd.Parameters.AddWithValue("id", r.Id);
                 // IMPORTANT: Database seems to be from around 2016.
@@ -81,20 +85,23 @@ namespace RAP.Database
                 // DateTime.Now.Year
                 cmd.Parameters.AddWithValue("year", 2016 - 3);
 
-                rdr = cmd.ExecuteReader();
-                rdr.Read();
+                Rdr = cmd.ExecuteReader();
+                Rdr.Read();
 
-                numPublications = (int)(Int64)rdr["total"];
-                //numPublications = rdr.GetInt32(rdr.GetOrdinal("total"));
+                numPublications = GetInt64("total");
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading emails", e);
+                Error("loading emails", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return numPublications;
@@ -103,44 +110,45 @@ namespace RAP.Database
 
         // Fetch list of staff from database.
         // TODO: Why did I write this? What is it for?
-        // DONE
         public static List<Model.Staff> fetchStaffList()
         {
-            MySqlCommand cmd;
-            MySqlDataReader rdr = null;
             List<Model.Staff> staff = null;
             try
             {
-                conn.Open();
+                Conn.Open();
 
-                cmd = new MySqlCommand(
+                MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM researcher " +
-                    "WHERE type='Staff'", conn);
+                    "WHERE type='Staff'", Conn);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
                 staff = new List<Model.Staff>();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
                     staff.Add(new Model.Staff
                     {
-                        Id = (int)rdr["id"],
-                        FirstName = (string)rdr["given_name"],
-                        LastName = (string)rdr["family_name"],
-                        Title = (string)rdr["title"],
-                        Email = (string)rdr["title"],
+                        Id = GetInt("id"),
+                        FirstName = GetString("given_name"),
+                        LastName = GetString("family_name"),
+                        Title = GetString("title"),
+                        Email = GetString("email")
                     });
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading staff list", e);
+                Error("loading staff list", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return staff;
@@ -162,11 +170,11 @@ namespace RAP.Database
                     { EmploymentLevel.E, 4 * 3},
                 };
 
-            MySqlDataReader rdr = null;
+
 
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 Dictionary<ReportType, double> lowerBound =
                     new Dictionary<ReportType, double> {
@@ -181,16 +189,20 @@ namespace RAP.Database
                 MySqlCommand cmd = new MySqlCommand(
                     "SELECT title, given_name, family_name FROM researcher " +
                     "WHERE ",
-                    conn);
+                    Conn);
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading report", e);
+                Error("loading report", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
             return null;
         }

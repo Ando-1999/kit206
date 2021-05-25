@@ -16,16 +16,30 @@ namespace RAP.Model
             set { level = value; }
         }
         private DateTime startDate;
-        public DateTime StartDate
+        public DateTime? StartDate
         {
             get { return startDate; }
-            set { startDate = value; }
+            set
+            {
+                if (value != null)
+                    startDate = (DateTime)value;
+            }
         }
         private DateTime endDate;
-        public DateTime EndDate
+        public DateTime? EndDate
         {
-            get { return endDate; }
-            set { endDate = value; }
+            get
+            {
+                if (EndDate.HasValue)
+                    return endDate;
+                else
+                    return null;
+            }
+            set
+            {
+                if (value != null)
+                    endDate = (DateTime)value;
+            }
         }
         // TODO: could instantiate here and make const/readonly
         private static Dictionary<EmploymentLevel, string> title;
@@ -57,11 +71,19 @@ namespace RAP.Model
 
         public override string ToString()
         {
-            string end = EndDate.ToShortDateString();
+            string start;
+            string end;
+            if (StartDate.HasValue)
+                start = StartDate.Value.ToShortDateString();
+            else
+                start = "present";
 
-            if (EndDate < StartDate) end = "present";
+            if (EndDate.HasValue)
+                end = endDate.ToShortDateString();
+            else
+                end = "N/A";
 
-            return $"{jobTitle()}: {StartDate.ToShortDateString()} - {end}";
+            return $"{jobTitle()}: {start} - {end}";
         }
     }
 }

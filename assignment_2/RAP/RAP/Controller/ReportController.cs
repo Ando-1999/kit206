@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RAP.Controller
 {
@@ -27,7 +28,7 @@ namespace RAP.Controller
             string emails = string.Join(" ", emailList);
 
             //Paste emails to clipboard
-            //Clipboard.SetText(emails);
+            Clipboard.SetText(emails);
         }
 
         // ???

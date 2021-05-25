@@ -32,10 +32,19 @@ namespace RAP.Model
         }
 
         private DateTime publicationYear;
-        public DateTime PublicationYear
+        public DateTime? PublicationYear
         {
-            get { return publicationYear; }
-            set { publicationYear = value; }
+            get {
+                if (PublicationYear.HasValue)
+                    return publicationYear;
+                else
+                    return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                    publicationYear = value.Value;
+            }
         }
 
         private PublicationType type;
@@ -52,12 +61,8 @@ namespace RAP.Model
             set { citeAs = value; }
         }
 
-        private DateTime availabilityDate;
-        public DateTime AvailabilityDate
-        {
-            get { return availabilityDate; }
-            set { availabilityDate = value; }
-        }
+        private DateTime? availabilityDate;
+        public DateTime? AvailabilityDate { get; set; }
 
         public Publication()
         {
@@ -68,22 +73,22 @@ namespace RAP.Model
         // TODO: move to controller
         public int age()
         {
-            return (DateTime.Now - AvailabilityDate).Days;
+            return (DateTime.Now - AvailabilityDate).Value.Days;
         }
 
         public override string ToString()
         {
-            return $"{PublicationYear.Year} {Title}";
+            return $"{PublicationYear.Value.Year} {Title}";
         }
         public string ToFullString()
         {
             return $"{Doi}\n" + 
                 $"{Title}\n" +
                 $"{Authors}\n" +
-                $"{PublicationYear.Year}\n" +
+                $"{PublicationYear.Value.Year}\n" +
                 $"{Type}\n" +
                 $"{CiteAs}\n" +
-                $"{AvailabilityDate.ToShortDateString()}\n" +
+                $"{AvailabilityDate.Value.ToShortDateString()}\n" +
                 $"{age()}";
         }
     }

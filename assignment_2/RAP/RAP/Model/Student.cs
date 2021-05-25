@@ -16,10 +16,17 @@ namespace RAP.Model
         }
 
         public int supervisorId;    // primary supervisor
-        public int SupervisorId
+        public int? SupervisorId
         {
-            get { return supervisorId; }
-            set { supervisorId = value; }
+            get { 
+                return SupervisorId.HasValue
+                    ? (int?)supervisorId
+                    : null;
+            }
+            set {
+                if (value != null)
+                    supervisorId = (int)value;
+            }
         }
 
         public Student()

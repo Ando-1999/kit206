@@ -9,8 +9,8 @@ namespace RAP.Model
 
     abstract class Researcher
     {
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get { return id; }
             set { id = value; }
@@ -45,8 +45,8 @@ namespace RAP.Model
             get { return photo; }
             set { photo = value; }
         }
-        private DateTime startInstitution;
-        public DateTime StartInstitution
+        private DateTime? startInstitution;
+        public DateTime? StartInstitution
         {
             get { return startInstitution; }
             set { startInstitution = value; }
@@ -73,14 +73,14 @@ namespace RAP.Model
         // Starting date of currently held position.
         public DateTime commencedCurrentPosition()
         {
-            return Positions[0].StartDate;
+            return (DateTime)Positions[0].StartDate;
         }
 
         // Total time with institution in fractional years.
         public double tenure()
         {
-            DateTime end = Positions[0].EndDate;
-            DateTime start = Positions[0].StartDate;
+            DateTime end = (DateTime)Positions[0].EndDate;
+            DateTime start = (DateTime)Positions[0].StartDate;
             if (end < start)
                 end = DateTime.Now;
             TimeSpan span = end - start;
@@ -89,7 +89,7 @@ namespace RAP.Model
         }
 
         // Total number of publications authored.
-        public int numberOfPublications()
+        public int? numberOfPublications()
         {
             return Database.PublicationAdapter.totalPublications(this);
         }

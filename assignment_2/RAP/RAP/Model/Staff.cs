@@ -18,16 +18,21 @@ namespace RAP.Model
             set { level = value; }
         }
         private double performance;
-        public double Performance {
+        public double? Performance {
             get
             {
                 // Performance not yet valid, so work it out
+                // Could maybe use Performance.HasValue now
                 if (performance < 0)
-                    performance = getPerformance();
+                    performance = getPerformance().Value;
 
                 return performance;
             }
-            set { performance = value; }
+            set
+            {
+                if (Performance.HasValue)
+                    performance = value.Value;
+            }
         }
 
         public Staff()
@@ -40,16 +45,16 @@ namespace RAP.Model
          * Average number of publications authored in the last three whole
          * calendar years.
          */
-        public double threeYearAverage()
+        public double? threeYearAverage()
         {
             return Database.ReportAdapter.
-                fetchNumRecentPublications(this)/3.0;
+                fetchNumRecentPublications(this)/(double?)3.0;
         }
 
         /* Three-year average divided by the expected number of publications
          * for employment level.
          */
-        public double getPerformance()
+        public double? getPerformance()
         {
             // Expected number of publications for each employment level.
             Dictionary<EmploymentLevel, double> expectedPublicationsByLevel = 
@@ -64,11 +69,11 @@ namespace RAP.Model
             double expectedPublications =
                 expectedPublicationsByLevel[Positions[0].Level];
 
-            return  threeYearAverage()/expectedPublications;
+            return  (double?)threeYearAverage()/expectedPublications;
         }
 
         // Number of students currently or previously supervised.
-        public int supervisions()
+        public int? supervisions()
         {
             return Database.ResearcherAdapter.fetchNumSupervisions(this);
         }

@@ -7,39 +7,34 @@ using MySql.Data.MySqlClient;
 
 namespace RAP.Database
 {
-    class ResearcherAdapter
+    abstract class ResearcherAdapter : ERDAdapter
     {
-        private static MySqlConnection conn;
 
         static ResearcherAdapter()
         {
-            conn = ERDAdapter.Conn;
         }
 
-        // Fetch list of researchers from database.
-        // DONE
+        // Fetch basic details of researchers from database.
         public static List<Model.Researcher> fetchResearcherList()
         {
-            MySqlCommand cmd = null;
-            MySqlDataReader rdr = null;
             List<Model.Researcher> researchers = null;
+
             try
             {
-                conn.Open();
+                Conn.Open();
 
-                cmd = new MySqlCommand(
+                MySqlCommand cmd = new MySqlCommand(
                     "SELECT id, family_name, given_name, title, type " +
-                    "FROM researcher", conn);
+                    "FROM researcher", Conn);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
                 researchers = new List<Model.Researcher>();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
                     Model.Researcher researcher = null;
-                    switch (Enum.Parse(typeof(ResearcherType),
-                        (string)rdr["type"]))
+                    switch (GetEnum<ResearcherType>("type"))
                     {
                         case ResearcherType.Staff:
                             researcher = new Model.Staff();
@@ -50,21 +45,25 @@ namespace RAP.Database
                         default:
                             break;
                     }
-                    researcher.Id = (int)rdr["id"];
-                    researcher.FirstName = (string)rdr["given_name"];
-                    researcher.LastName = (string)rdr["family_name"];
-                    researcher.Title = (string)rdr["title"];
+                    researcher.Id = GetInt("id");
+                    researcher.FirstName = GetString("given_name");
+                    researcher.LastName = GetString("family_name");
+                    researcher.Title = GetString("title");
                     researchers.Add(researcher);
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading researchers", e);
+                Error("loading researchers", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return researchers;
@@ -72,70 +71,65 @@ namespace RAP.Database
 
         // Assumes Researcher object already contains Id, FirstName,
         // LastName, and title
-        // DONE
         public static Model.Researcher fetchResearcherDetails(Model.Researcher r)
         {
-
-            MySqlCommand cmd = null;
-            MySqlDataReader rdr = null;
-
             try
             {
-                conn.Open();
+                Conn.Open();
 
-                cmd = new MySqlCommand(
-                    "SELECT * FROM researcher WHERE id=?id", conn);
+                MySqlCommand cmd = new MySqlCommand(
+                    "SELECT * FROM researcher WHERE id=?id", Conn);
 
                 cmd.Parameters.AddWithValue("id", r.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
-                rdr.Read();
+                Rdr.Read();
 
-                switch ((string)rdr["type"])
+                switch (GetEnum<ResearcherType>("type"))
                 {
-                    case "Staff":
+                    case ResearcherType.Staff:
                         r.Positions.Add(new Model.Position {
 
-                            Level = (EmploymentLevel)Enum.Parse(
-                                typeof(EmploymentLevel),
-                                (string)rdr["level"]),
+                            Level = GetEnum<EmploymentLevel>("level"),
 
-                            StartDate = (DateTime)rdr["current_start"],
-
+                            StartDate = GetDateTime("current_start")
                         }) ;
                         break;
-                    case "Student":
+                    case ResearcherType.Student:
                         r.Positions.Add(new Model.Position { 
 
                             Level = EmploymentLevel.Student,
 
-                            StartDate = (DateTime)rdr["current_start"],
+                            StartDate = GetDateTime("current_start")
                         });
 
-                        ((Model.Student)r).Degree =
-                            (string)rdr["degree"];
+                        ((Model.Student)r).Degree = GetString("degree");
 
                         ((Model.Student)r).SupervisorId =
-                            (int)rdr["supervisor_id"];
+                            GetInt("supervisor_id");
                         break;
                     default:
                         break;
                 }
 
-                r.Email = (string)rdr["email"];
-                r.Photo = new Uri((string)rdr["photo"]);
-                r.StartInstitution = (DateTime)rdr["utas_start"];
+                r.Email = GetString("email");
+                r.Photo = GetUri("photo");
+                r.StartInstitution = GetDateTime("utas_start");
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading details for " +
+                Error("loading details for " +
                     $"{r.Title} {r.FirstName} {r.LastName}", e);
             }
             finally 
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return r;
@@ -144,50 +138,48 @@ namespace RAP.Database
         // Fetch student's supervisor
         // Assumes Staff object already contains Id
         // TODO: Only fetch basic details?
-        // DONE
         public static Model.Staff fetchSupervisor(Model.Staff s)
         {
-            MySqlDataReader rdr = null;
-
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(
-                    "SELECT * FROM researcher WHERE id=?id", conn);
+                    "SELECT * FROM researcher WHERE id=?id", Conn);
 
                 cmd.Parameters.AddWithValue("id", s.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
-                rdr.Read();
+                Rdr.Read();
 
-                s.FirstName = (string)rdr["given_name"];
-                s.LastName = (string)rdr["family_name"];
-                s.Title = (string)rdr["title"];
+                s.FirstName = GetString("given_name");
+                s.LastName = GetString("family_name");
+                s.Title = GetString("title");
                 s.Positions.Add(new Model.Position
                 {
+                    Level = GetEnum<EmploymentLevel>("level"),
 
-                    Level = (EmploymentLevel)Enum.Parse(
-                        typeof(EmploymentLevel),
-                        (string)rdr["level"]),
-
-                    StartDate = (DateTime)rdr["current_start"],
+                    StartDate = GetDateTime("current_start"),
                 });
 
-                s.Email = (string)rdr["email"];
-                s.Photo = new Uri((string)rdr["photo"]);
-                s.StartInstitution = (DateTime)rdr["utas_start"];
+                s.Email = GetString("email");
+                s.Photo = GetUri("photo");
+                s.StartInstitution = GetDateTime("utas_start");
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading details for " +
+                Error("loading details for " +
                     $"{s.Title} {s.FirstName} {s.LastName}", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return s;
@@ -195,47 +187,49 @@ namespace RAP.Database
 
         // Fetch list of students staff member is or has ever supervised
         // from database.
-        // DONE
         public static List<Model.Student> fetchSupervisions(Model.Staff s)
         {
-            MySqlCommand cmd;
-            MySqlDataReader rdr = null;
             List<Model.Student> supervisions = null;
+
             try
             {
-                conn.Open();
+                Conn.Open();
 
-                cmd = new MySqlCommand(
+                MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM researcher " +
-                    "WHERE supervisor_id=?id", conn);
+                    "WHERE supervisor_id=?id", Conn);
 
                 cmd.Parameters.AddWithValue("id", s.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
                 supervisions = new List<Model.Student>();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
                     supervisions.Add(new Model.Student
                     {
-                        Id = (int)rdr["id"],
-                        FirstName = (string)rdr["given_name"],
-                        LastName = (string)rdr["family_name"],
-                        Title = (string)rdr["title"],
-                        Degree = (string)rdr["degree"]
+                        Id = GetInt("id"),
+                        FirstName = GetString("given_name"),
+                        LastName = GetString("family_name"),
+                        Title = GetString("title"),
+                        Degree = GetString("degree"),
                     });
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading supervisions for " +
+                Error("loading supervisions for " +
                     $"{s.Title} {s.FirstName} {s.LastName}", e); 
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return supervisions;
@@ -243,36 +237,38 @@ namespace RAP.Database
 
         // Fetch list of students staff member is or has ever supervised
         // from database.
-        // DONE
-        public static int fetchNumSupervisions(Model.Staff s)
+        public static int? fetchNumSupervisions(Model.Staff s)
         {
-            MySqlDataReader rdr = null;
-            int numSupervisions = 0;
+            
+            int? numSupervisions = 0;
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(
                     "SELECT COUNT(*) AS supervisions FROM researcher " +
-                    "WHERE supervisor_id=?id", conn);
+                    "WHERE supervisor_id=?id", Conn);
 
                 cmd.Parameters.AddWithValue("id", s.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
-                rdr.Read();
-                numSupervisions = (int)(Int64)rdr["supervisions"];
-
+                Rdr.Read();
+                numSupervisions = GetInt64("supervisions");
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading supervisions for " +
+                Error("loading supervisions for " +
                     $"{s.Title} {s.FirstName} {s.LastName}", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return numSupervisions;
@@ -281,25 +277,23 @@ namespace RAP.Database
         // from database.
         public static List<Model.Position> fetchPositions(Model.Researcher r)
         {
-            MySqlDataReader rdr = null;
-
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM position " +
                     "WHERE id=?id " +
-                    "ORDER BY start DESC", conn);
+                    "ORDER BY start DESC", Conn);
 
                 cmd.Parameters.AddWithValue("id", r.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
                 // Skip current position, as that was created when the
                 // researcher's details were loaded
-                rdr.Read();
+                Rdr.Read();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
                     /*
                     // I don't believe students can appear in this table,
@@ -316,27 +310,29 @@ namespace RAP.Database
                     */
 
                     r.Positions.Add(new Model.Position {
-                        Level = (EmploymentLevel)Enum.Parse(
-                            typeof(EmploymentLevel),
-                            (string)rdr["level"]),
+                        Level = GetEnum<EmploymentLevel>("level"),
 
-                        StartDate = (DateTime)rdr["start"],
+                        StartDate = GetDateTime("start"),
 
                         // Since current position is skipped, NULL is not
                         // a possible return type
-                        EndDate = (DateTime)rdr["end"],
+                        EndDate = GetDateTime("end"),
                     });
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading past positions for " +
+                Error("loading past positions for " +
                     $"{r.Title} {r.FirstName} {r.LastName}", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                { 
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return r.Positions;

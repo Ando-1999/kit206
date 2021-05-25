@@ -7,61 +7,58 @@ using MySql.Data.MySqlClient;
 
 namespace RAP.Database
 {
-    static class PublicationAdapter
+    abstract class PublicationAdapter : ERDAdapter
     {
-        private static MySqlConnection conn;
 
         static PublicationAdapter()
         {
-            conn = ERDAdapter.Conn;
         }
 
         // Fetch all of a researcher's publications from database.
-        // DONE
         public static List<Model.Publication> fetchPublicationsList(Model.Researcher r)
         {
-
-            MySqlCommand cmd = null;
-            MySqlDataReader rdr = null;
             List<Model.Publication> publications = null;
 
             try
             {
-                conn = ERDAdapter.Conn;
-                conn.Open();
-                cmd = new MySqlCommand(
+                Conn.Open();
+                MySqlCommand cmd = new MySqlCommand(
                     "SELECT doi, title, year FROM publication " +
                     "WHERE doi IN" +
                     "(" +
                         "SELECT doi FROM researcher_publication " +
                         "WHERE researcher_id=?id" +
-                    ")", conn);
+                    ")", Conn);
 
                 cmd.Parameters.AddWithValue("id", r.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
                 publications = new List<Model.Publication>();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
                     // Add publication from database to list
                     publications.Add(new Model.Publication
                     {
-                        Doi = (string)rdr["doi"],
-                        Title = (string)rdr["title"],
-                        PublicationYear = new DateTime((Int16)rdr["year"], 1, 1)
+                        Doi = GetString("doi"),
+                        Title = GetString("title"),
+                        PublicationYear = GetYear("year")
                     });
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading publications", e);
+                Error("loading publications", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return publications;
@@ -71,72 +68,75 @@ namespace RAP.Database
         // DONE
         public static Model.Publication fetchPublicationDetails(Model.Publication publication)
         {
-            MySqlCommand cmd;
-            MySqlDataReader rdr = null;
             try
             {
-                conn.Open();
+                Conn.Open();
 
-                cmd = new MySqlCommand(
+                MySqlCommand cmd = new MySqlCommand(
                     "SELECT authors, type, cite_as, available " +
-                    "FROM publication WHERE doi=?doi", conn);
+                    "FROM publication WHERE doi=?doi", Conn);
 
                 cmd.Parameters.AddWithValue("doi", publication.Doi);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
-                while (rdr.Read())
+                while (Rdr.Read())
                 {
-                    publication.Authors = (string)rdr["authors"];
-                    publication.Type = (PublicationType)Enum.Parse(
-                        typeof(PublicationType), (string)rdr["type"]);
-                    publication.CiteAs = (string)rdr["cite_as"];
-                    publication.AvailabilityDate =
-                        (DateTime)rdr["available"];
+                    publication.Authors = GetString("authors");
+                    publication.Type = GetEnum<PublicationType>("type");
+                    publication.CiteAs = GetString("cite_as");
+                    publication.AvailabilityDate = GetDateTime("available");
                 }
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error($"loading details for {publication.Doi}", e);
+                Error($"loading details for {publication.Doi}", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return publication;
         }
         // Total number of publications authored by researcher
-        public static int totalPublications(Model.Researcher r)
+        public static int? totalPublications(Model.Researcher r)
         {
-            MySqlDataReader rdr = null;
-            int publications = 0;
+            int? publications = null;
             try
             {
-                conn.Open();
+                Conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(
                     $"SELECT COUNT(*) AS total FROM researcher_publication " +
                     $"WHERE researcher_id=?id",
-                    conn);
+                    Conn);
 
                 cmd.Parameters.AddWithValue("id", r.Id);
 
-                rdr = cmd.ExecuteReader();
+                Rdr = cmd.ExecuteReader();
 
-                rdr.Read();
+                Rdr.Read();
 
-                publications = (int)(Int64)rdr["total"];
+                publications = GetInt64("total");
             }
             catch (MySqlException e)
             {
-                ERDAdapter.Error("loading emails", e);
+                Error("loading emails", e);
             }
             finally
             {
-                if (conn != null) conn.Close();
-                if (rdr != null) rdr.Close();
+                if (Conn != null) Conn.Close();
+                if (Rdr != null)
+                {
+                    Rdr.Close();
+                    Rdr = null;
+                }
             }
 
             return publications;
