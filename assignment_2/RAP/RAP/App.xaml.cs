@@ -8,32 +8,35 @@ using System.Windows;
 
 namespace RAP
 {
-    enum EmploymentLevel { A, B, C, D, E, Student }
+    public enum EmploymentLevel { NULL, A, B, C, D, E, Student }
 
-    enum PublicationType
+    public enum PublicationType
     {
+        NULL,
         Conference,
         Journal,
         Other
     }
 
-    enum Campus
+    public enum Campus
     {
+        NULL,
         HOBART,
         LAUNCESTON,
         CRADLE_COAST
-
     }
-    enum ReportType
+    public enum ReportType
     {
+        NULL,
         POOR,
         BELOW_EXPECTATIONS,
         MINIMUM_STANDARD,
         STAR_PERFORMANCE
     }
 
-    enum ResearcherType
+    public enum ResearcherType
     {
+        NULL,
         Staff,
         Student
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RAP.Model
 {
-    class Student : Researcher
+    public class Student : Researcher
     {
         private string degree;
         public string Degree
@@ -15,34 +15,13 @@ namespace RAP.Model
             set { degree = value; }
         }
 
-        public int supervisorId;    // primary supervisor
-        public int? SupervisorId
-        {
-            get { 
-                return SupervisorId.HasValue
-                    ? (int?)supervisorId
-                    : null;
-            }
-            set {
-                if (value != null)
-                    supervisorId = (int)value;
-            }
-        }
+        public int? supervisorId;    // primary supervisor
+        public int? SupervisorId { get; set; }
 
         public Student()
         {
         }
 
-        // Name of primary supervisor.
-        // TODO: move to a controller?
-        public string getSupervisorName()
-        {
-            Researcher supervisor =
-                Database.ResearcherAdapter.fetchSupervisor(
-                new Staff { Id = SupervisorId });
-
-            return $"{supervisor.FirstName} {supervisor.LastName}";
-        }
 
         public override string ToFullString()
         {

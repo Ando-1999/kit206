@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP"
+        xmlns:controller="clr-namespace:RAP.Controller"
         mc:Ignorable="d"
         Title="Researcher Assessment Program" Height="492" Width="800"
 >
@@ -14,20 +15,22 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400*"/>
-                <ColumnDefinition Width="140*"/>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="268*"/>
+                <ColumnDefinition Width="114*"/>
+                <ColumnDefinition Width="133*"/>
+                <ColumnDefinition Width="105*"/>
+                <ColumnDefinition Width="105*"/>
+                <ColumnDefinition Width="67*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Researcher List" Grid.Row="0" Grid.Column="0"></Label>
-            <ComboBox Name="cb_GenerateReport" Text="Generate Report..." Grid.Row="0" Grid.Column="1" IsEditable="True" IsReadOnly="True" Margin="5" />
-            <ComboBox Name="cb_FilterByLevel" Text="Filter By Level..." Grid.Row="0" Grid.Column="2" IsEditable="True" IsReadOnly="True" Margin="5" />
-            <TextBox Name="tb_Search" Text="Search..."  Grid.Row="0" Grid.Column="3" Margin="5" />
-            <Button Name="btn_Filter" Content="Filter" Grid.Row="0" Grid.Column="4" Margin="5" Click="Filter" />
+            <Label Content="Researcher List" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+            <ComboBox Name="cb_GenerateReport" Text="Generate Report..." Grid.Row="0" Grid.Column="2" IsEditable="True" IsReadOnly="True" Margin="5" />
+            <ComboBox Name="cb_FilterByLevel" Text="Filter By Level..." Grid.Row="0" Grid.Column="3" IsEditable="True" IsReadOnly="True" Margin="5" />
+            <TextBox Name="tb_Search" Text="Search..."  Grid.Row="0" Grid.Column="4" Margin="5" />
+            <Button Name="btn_Filter" Content="Filter" Grid.Row="0" Grid.Column="5" Margin="5" Click="Filter" />
 
         </Grid>
+        <!--
         <DataGrid x:Name="dg_Researchers" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Family" Width="70*" Binding="{Binding FirstName}"></DataGridTextColumn>
@@ -41,9 +44,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-
-
         </DataGrid>
+        -->
+        <ListBox x:Name="researcherListBox" ItemsSource="{Binding Source={StaticResource researcherList}}" SelectionChanged="viewResearcherDetails" Grid.Row="1"/>
 
     </Grid>
 </Window>

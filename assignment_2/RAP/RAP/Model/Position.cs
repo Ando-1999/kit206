@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RAP.Model
 {
 
-    class Position
+    public class Position
     {
         private EmploymentLevel level;
         public EmploymentLevel Level
@@ -25,22 +25,8 @@ namespace RAP.Model
                     startDate = (DateTime)value;
             }
         }
-        private DateTime endDate;
-        public DateTime? EndDate
-        {
-            get
-            {
-                if (EndDate.HasValue)
-                    return endDate;
-                else
-                    return null;
-            }
-            set
-            {
-                if (value != null)
-                    endDate = (DateTime)value;
-            }
-        }
+        private DateTime? endDate;
+        public DateTime? EndDate { get; set; }
         // TODO: could instantiate here and make const/readonly
         private static Dictionary<EmploymentLevel, string> title;
         public static Dictionary<EmploymentLevel, string> Title {
@@ -79,7 +65,7 @@ namespace RAP.Model
                 start = "present";
 
             if (EndDate.HasValue)
-                end = endDate.ToShortDateString();
+                end = EndDate.Value.ToShortDateString();
             else
                 end = "N/A";
 

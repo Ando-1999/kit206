@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace RAP.Controller
 {
-    class ResearcherController
+    public class ResearcherController
     {
 
         /// ???
@@ -34,9 +34,26 @@ namespace RAP.Controller
         private Model.Student studentDetails;
         public Model.Student StudentDetails { get; set; }
 
+        /*
+        private double? tenure;
+        public double? Tenure
+        {
+            get
+            {
+                MessageBox.Show("tenure");
+                tenure = getTenure();
+                return tenure;
+            }
+
+            set
+            {
+                tenure = value;
+            }
+        }
+        */
         public ResearcherController()
         {
-            // Load all researchers from database when controller is created?
+            // Load all researchers from database when controller is created.
             // Not sure if this is the best idea.
             Researchers = Database.ResearcherAdapter.fetchResearcherList();
             loadResearcherList();
@@ -46,8 +63,6 @@ namespace RAP.Controller
             // Researcher is abstract and static resources are bound
             // to an object, rather than a reference
             ResearcherDetails = null;
-            StaffDetails = new Model.Staff();
-            StudentDetails = new Model.Student();
 
             //How to handle the publications for a researcher?
         }
@@ -62,19 +77,29 @@ namespace RAP.Controller
             return ResearcherList;
         }
 
-        public Model.Researcher GetResearcherDetails()
+        public Model.Researcher GetResearcherDetails(Model.Researcher researcher)
         {
-            return ResearcherDetails;
+            return ResearcherDetails = Database.ResearcherAdapter.
+                fetchResearcherDetails(researcher);
         }
 
         // Title of currently occupied position
-        public string currentjobTitle(Model.Researcher r)
+        public string currentJobTitle()
+        {
+            if (ResearcherDetails.GetType() == typeof(Model.Student))
+                return "Student";
+            else
+                return ResearcherDetails.Positions[0].jobTitle();
+        }
+        /*
+        public string currentJobTitle(Model.Researcher r)
         {
             if (r.GetType() == typeof(Model.Student))
                 return "Student";
             else
                 return r.Positions[0].jobTitle();
         }
+        */
 
 
         // Load cumulative publications for reasearcher.
@@ -156,5 +181,108 @@ namespace RAP.Controller
         {
             return null;
         }
+
+        // Total time with institution in fractional years.
+        // TODO: remove
+        public double getTenure()
+        {
+            DateTime start = (DateTime)ResearcherDetails.Positions[0].StartDate;
+            DateTime end = DateTime.Now;
+            if (ResearcherDetails.Positions[0].EndDate.HasValue)
+                end = (DateTime)ResearcherDetails.Positions[0].EndDate;
+
+            TimeSpan span = end - start;
+            return span.Days/365.0;
+        }
+
+        // Starting date of currently held position.
+        public DateTime commencedCurrentPosition()
+        {
+            return (DateTime)ResearcherDetails.Positions[0].StartDate;
+        }
+
+        /*
+         * Average number of publications authored in the last three whole
+         * calendar years.
+         * 
+         * Staff only.
+         */
+        public double? threeYearAverage()
+        {
+            if (ResearcherDetails.GetType() == typeof(Model.Student))
+                return null;
+
+            double? numRecentPublications = Database.ReportAdapter.
+                fetchNumRecentPublications(ResearcherDetails);
+
+            if (!numRecentPublications.HasValue)
+                return null;
+
+            return numRecentPublications.Value / 3.0;
+        }
+
+        /* Three-year average divided by the expected number of publications
+         * for employment level.
+         * 
+         * Staff only.
+         */
+        public double? getPerformance()
+        {
+            // Expected number of publications for each employment level.
+            Dictionary<EmploymentLevel, double> expectedPublicationsByLevel =
+                new Dictionary<EmploymentLevel, double>() {
+                    { EmploymentLevel.A, 0.5},
+                    { EmploymentLevel.B, 1},
+                    { EmploymentLevel.C, 2},
+                    { EmploymentLevel.D, 3.2},
+                    { EmploymentLevel.E, 4},
+                };
+
+            // Check Positions exists
+            List<Model.Position> positions = ResearcherDetails.Positions;
+            if (positions == null)
+                return null;
+
+            // Check current position exists
+            Model.Position position = positions[0];
+            if (position == null)
+                return null;
+
+            // Check level is a Staff employment level
+            EmploymentLevel level = position.Level;
+            if (level == EmploymentLevel.NULL || level == EmploymentLevel.Student)
+                return null;
+            
+            double expectedPublications = expectedPublicationsByLevel[level];
+
+            // Check average exists
+            double? average = threeYearAverage();
+            if (average == null)
+                return null;
+
+            return average.Value / expectedPublications;
+        }
+
+        // Name of primary supervisor.
+        public string getSupervisorName()
+        {
+            // Students only
+            if (ResearcherDetails.GetType() == typeof(Model.Staff))
+                return null;
+
+            int? supervisorId = ((Model.Student)ResearcherDetails).SupervisorId;
+
+            if (supervisorId == null)
+                return null;
+
+            Model.Staff supervisor =
+                Database.ResearcherAdapter.fetchSupervisor(
+                    new Model.Staff { Id = supervisorId }
+                );
+
+            return $"{supervisor.FirstName} {supervisor.LastName}";
+        }
+
+
     }
 }

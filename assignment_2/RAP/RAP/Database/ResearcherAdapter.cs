@@ -116,6 +116,7 @@ namespace RAP.Database
                 r.Email = GetString("email");
                 r.Photo = GetUri("photo");
                 r.StartInstitution = GetDateTime("utas_start");
+                r.Unit = GetString("unit");
             }
             catch (MySqlException e)
             {
@@ -131,6 +132,9 @@ namespace RAP.Database
                     Rdr = null;
                 }
             }
+
+            // Fetch any positions from the positions table
+            fetchPositions(r);
 
             return r;
         }
@@ -291,7 +295,8 @@ namespace RAP.Database
                 Rdr = cmd.ExecuteReader();
                 // Skip current position, as that was created when the
                 // researcher's details were loaded
-                Rdr.Read();
+                if (Rdr.Read() && GetDateTime("start") == r.Positions[0].StartDate)
+                    r.Positions[0].EndDate = GetDateTime("end");
 
                 while (Rdr.Read())
                 {

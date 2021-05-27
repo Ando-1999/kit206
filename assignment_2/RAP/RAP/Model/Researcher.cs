@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace RAP.Model
 {
-
-    abstract class Researcher
+    public abstract class Researcher
     {
         private int? id;
         public int? Id
@@ -61,34 +60,12 @@ namespace RAP.Model
         private Campus campus;
         public Campus Campus { get; set; }
 
+        private string unit;
+        public string Unit { get; set; }
 
         public Researcher()
         {
             Positions = new List<Model.Position>();
-        }
-
-        // Title of currently held position.
-        public string currentJobTitle()
-        {
-            return Positions[0].jobTitle();
-        }
-
-        // Starting date of currently held position.
-        public DateTime commencedCurrentPosition()
-        {
-            return (DateTime)Positions[0].StartDate;
-        }
-
-        // Total time with institution in fractional years.
-        public double tenure()
-        {
-            DateTime end = (DateTime)Positions[0].EndDate;
-            DateTime start = (DateTime)Positions[0].StartDate;
-            if (end < start)
-                end = DateTime.Now;
-            TimeSpan span = end - start;
-            double tenure = span.Days/365.0;
-            return tenure;
         }
 
         // Total number of publications authored.

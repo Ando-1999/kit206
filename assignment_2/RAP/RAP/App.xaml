@@ -8,13 +8,23 @@
     <Application.Resources>
         <controller:ResearcherController x:Key="researcher"/>
         <ObjectDataProvider x:Key="researcherList"
-                            ObjectInstance="{StaticResource researcherList}"
+                            ObjectInstance="{StaticResource researcher}"
                             MethodName="GetResearcherList">
         </ObjectDataProvider>
+        <!--
         <ObjectDataProvider x:Key="researcherDetails"
-                            ObjectInstance="{StaticResource researcherDetails}"
+                            ObjectInstance="{StaticResource researcher}"
                             MethodName="GetResearcherDetails">
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="currentJobTitle"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="currentJobTitle">
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="tenure"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="getTenure">
+        </ObjectDataProvider>
+        -->
         <ObjectDataProvider x:Key="levelVals"
                             ObjectType="{x:Type sys:Enum}"
                             MethodName="GetValues">

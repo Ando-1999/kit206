@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RAP.Model
 {
 
-    class Publication
+    public class Publication
     {
 
         private string doi;

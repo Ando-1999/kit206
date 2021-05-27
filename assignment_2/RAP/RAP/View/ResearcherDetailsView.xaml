@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP"
+        xmlns:controller="clr-namespace:RAP.Controller"
         mc:Ignorable="d"
         Title="Researcher Assessment Program" Height="500" Width="800"
 >
+    <Window.Resources>
+        <!--
+        All these object data providers throw an error saying the
+        researcher object can't be found, but the code compiles and 
+        runs as expected anyway.
+        For reference, researcher is defined in App.xaml.
+        -->
+        <ObjectDataProvider x:Key="tenure"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="getTenure"/>
+        <ObjectDataProvider x:Key="currentJobTitle"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="currentJobTitle"/>
+        <ObjectDataProvider x:Key="startPosition"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="commencedCurrentPosition"/>
+        <ObjectDataProvider x:Key="threeYearAverage"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="threeYearAverage"/>
+        <ObjectDataProvider x:Key="performance"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="getPerformance"/>
+        <ObjectDataProvider x:Key="supervisor"
+                            ObjectInstance="{StaticResource researcher}"
+                            MethodName="getSupervisorName"/>
+    </Window.Resources>
+
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
         <Grid Margin="0">
             <Grid.RowDefinitions>
@@ -25,60 +53,61 @@
             <WrapPanel Margin="10"  VerticalAlignment="Top" Grid.Row="1">
                 <Image Height="110" Width="120"></Image>
                 <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Family Name" ></Label>
-                    <Label Name="label_familyName"></Label>
+                    <Label Content="Family Name"></Label>
+                    <Label Content="{Binding Path=LastName}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Given Name" ></Label>
-                    <Label Name="label_givenName"></Label>
+                    <Label Content="{Binding Path=FirstName}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Title" ></Label>
-                    <Label Name="label_title"></Label>
+                    <Label Content="{Binding Path=Title}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="E-mail" ></Label>
-                    <Label Name="label_email"></Label>
+                    <Label Content="{Binding Path=Email}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Current Job Title" ></Label>
-                    <Label Name="label_currentJobTitle"></Label>
+                    <Label Content="{Binding Source={StaticResource currentJobTitle}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Campus" ></Label>
-                    <Label Name="label_campus"></Label>
+                    <Label Content="{Binding Path=Campus}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="School/Unit" ></Label>
-                    <Label Name="label_schoolOrUnit"></Label>
+                    <Label Content="{Binding Path=Unit}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Tenure" ></Label>
-                    <Label Name="label_tenure"></Label>
+                    <Label Content="{Binding Source={StaticResource tenure}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Commenced with Institution" ></Label>
-                    <Label Name="label_commencedInstitution"></Label>
+                    <Label Content="{Binding Path=StartInstitution}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Commenced Current Position" ></Label>
-                    <Label Name="label_commencedCurrentPosition"></Label>
+                    <Label Content="{Binding Source={StaticResource startPosition}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="3-Year Average" ></Label>
-                    <Label Name="label_threeYearAverage"></Label>
+                    <Label Content="{Binding Source={StaticResource threeYearAverage}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Degree" ></Label>
-                    <Label Name="label_degree"></Label>
+                    <!-- TODO: This method causes binding failures for Staff -->
+                    <Label Content="{Binding Path=Degree}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Performance" ></Label>
-                    <Label Name="label_performance"></Label>
+                    <Label Content="{Binding Source={StaticResource performance}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Supervisor" ></Label>
-                    <Label Name="label_supervisor"></Label>
+                    <Label Content="{Binding Source={StaticResource supervisor}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Supervisons" ></Label>

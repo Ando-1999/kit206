@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace RAP.View
 {
@@ -19,40 +20,11 @@ namespace RAP.View
     /// </summary>
     public partial class ResearcherDetailsView : Window
     {
-        // researcherList controller
-        Controller.ResearcherController researcherController =
-            new Controller.ResearcherController();
-
-        Model.Researcher researcher;
-
-
-
-        public ResearcherDetailsView(string id)
+        public ResearcherDetailsView(Controller.ResearcherController researcherController)
         {
+            this.DataContext = researcherController.ResearcherDetails;
+
             InitializeComponent();
-
-
-            /*
-
-            researcher = researcherController.loadResearcher(id);
-
-            label_familyName.Content = researcher.FirstName;
-            label_givenName.Content = researcher.LastName;
-            label_title.Content = researcher.Title;
-            label_email.Content = researcher.Email;
-            label_currentJobTitle.Content = researcher.currentJobTitle();
-            label_campus.Content = researcher.Campus;
-            //label_schoolOrUnit.Content = researcher;
-            label_tenure.Content = researcher.tenure();
-            label_commencedInstitution.Content = researcher.commencedCurrentPosition();
-            label_commencedCurrentPosition.Content = researcher.commencedCurrentPosition();
-            //label_threeYearAverage.Content = researcher;
-            label_degree.Content = researcher.Degree;
-            //label_performance.Content = researcher;
-            label_supervisor.Content = researcher.SupervisorId; // TODO: supervisor
-            //label_supervisons.Content = researcher.;
-            */
-
         }
 
 

@@ -21,8 +21,8 @@ namespace RAP.View
     public partial class MainView : Window
     {
         // researcherList controller
-        Controller.ResearcherController researcherController =
-            new Controller.ResearcherController();
+        Controller.ResearcherController researcherController;// =
+//            new Controller.ResearcherController();
 
         private const string RESEARCHER_LIST_KEY = "researcherList";
 
@@ -39,13 +39,13 @@ namespace RAP.View
             InitializeComponent();
 
             // Object bound to reasearcher ListBox
-            //researcherListController = (Controller.ResearcherListController)Application.Current.FindResource("researcher");
+            researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcher");
 
             //researchers = ()
             cb_GenerateReport_Items.Add("Poor");
             cb_GenerateReport_Items.Add("Below Expectations");
-            cb_GenerateReport_Items.Add("Metting Minimum");
-            cb_GenerateReport_Items.Add("Star Performers");
+            cb_GenerateReport_Items.Add("Minimum Standard");
+            cb_GenerateReport_Items.Add("Star Performer");
             cb_GenerateReport.ItemsSource = cb_GenerateReport_Items;
 
 
@@ -60,7 +60,7 @@ namespace RAP.View
 
             researcherList = researcherController.ResearcherList;
                 
-            dg_Researchers.ItemsSource = researcherList;
+            //dg_Researchers.ItemsSource = researcherList;
 
             //ShowCommand = new DelegateCommand(Show, (obj) => true);
         }
@@ -78,8 +78,8 @@ namespace RAP.View
             Button btn = (Button)sender;
             //MessageBox.Show("The text entered is: " + btn.Tag);
 
-            Window window = new ResearcherDetailsView(btn.Tag.ToString());
-            window.Show();
+            //Window window = new ResearcherDetailsView(btn.Tag.ToString());
+            //window.Show();
         }
 
 
@@ -88,7 +88,16 @@ namespace RAP.View
             var query = from r in researcherList
                         where (r.FirstName.Contains(tb_Search.Text) || r.LastName.Contains(tb_Search.Text))
                         select r;
-            dg_Researchers.ItemsSource = query.ToList();
+            //dg_Researchers.ItemsSource = query.ToList();
+        }
+
+        private void viewResearcherDetails(object sender, SelectionChangedEventArgs e)
+        {
+            // Update ResearcherDetails with selected researcher
+            researcherController.GetResearcherDetails((Model.Researcher)researcherListBox.SelectedItem);
+
+            Window researcherDetailsView = new ResearcherDetailsView(researcherController);
+            researcherDetailsView.Show();
         }
     }
 }
