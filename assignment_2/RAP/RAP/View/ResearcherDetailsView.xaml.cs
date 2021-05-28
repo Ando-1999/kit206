@@ -27,6 +27,18 @@ namespace RAP.View
             InitializeComponent();
         }
 
+        private void button_viewPublications_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new CulmativeCountView();
+            window.Show();
+        }
+
+        private void button_viewSupervisons_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new SupervisionsView();
+            window.Show();
+        }
+
 
         //public BasicDetailsTable details;
         //public PreviousPositionsTable positions;

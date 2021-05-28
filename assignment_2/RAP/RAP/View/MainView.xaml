@@ -46,7 +46,7 @@
             </DataGrid.Columns>
         </DataGrid>
         -->
-        <ListBox x:Name="researcherListBox" ItemsSource="{Binding Source={StaticResource researcherList}}" SelectionChanged="viewResearcherDetails" Grid.Row="1"/>
+        <ListBox x:Name="researcherListBox" SelectionChanged="viewResearcherDetails" Grid.Row="1"/>
 
     </Grid>
 </Window>

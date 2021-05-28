@@ -112,12 +112,12 @@
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Supervisons" ></Label>
                     <Label Name="label_supervisons"></Label>
-                    <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" ></Button>
+                    <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Publications" ></Label>
                     <Label Name="label_publications"></Label>
-                    <Button x:Name="button_viewPublications" Content="Culmative Count" FontSize="10" MaxWidth="90" HorizontalAlignment="Left"></Button>
+                    <Button x:Name="button_viewPublications" Content="Culmative Count" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewPublications_Click"></Button>
                 </StackPanel>
 
             </WrapPanel>
