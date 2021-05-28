@@ -59,8 +59,9 @@ namespace RAP.View
 
 
             researcherList = researcherController.ResearcherList;
-                
+
             //dg_Researchers.ItemsSource = researcherList;
+            researcherListBox.ItemsSource = researcherList;
 
             //ShowCommand = new DelegateCommand(Show, (obj) => true);
         }
@@ -89,6 +90,7 @@ namespace RAP.View
                         where (r.FirstName.Contains(tb_Search.Text) || r.LastName.Contains(tb_Search.Text))
                         select r;
             //dg_Researchers.ItemsSource = query.ToList();
+            researcherListBox.ItemsSource = query.ToList();
         }
 
         private void viewResearcherDetails(object sender, SelectionChangedEventArgs e)
