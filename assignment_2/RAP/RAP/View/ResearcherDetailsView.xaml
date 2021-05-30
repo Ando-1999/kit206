@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RAP"
         xmlns:controller="clr-namespace:RAP.Controller"
         mc:Ignorable="d"
-        Title="Researcher Assessment Program" Height="500" Width="800"
+        Title="Researcher Assessment Program" Height="517" Width="800"
 >
     <Window.Resources>
         <!--
@@ -50,54 +50,54 @@
                 <Label Content="Researcher Details" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <WrapPanel Margin="10,9.667,9.667,0"  VerticalAlignment="Top" Grid.Row="1" Height="423">
-                <Grid Name="Grid_Details" Height="423" Width="480">
-                    <Image Source="{Binding Path=Photo}" MinHeight="110" MinWidth="120" Margin="2,1,357,310"/>
-                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="123,0,237,310">
+            <WrapPanel Margin="10,9.667,9.667,0"  VerticalAlignment="Top" Grid.Row="1" Height="324" Grid.ColumnSpan="2">
+                <Grid Name="Grid_Details" Height="325" Width="759">
+                    <Image Source="{Binding Path=Photo}" MinHeight="110" MinWidth="120" Margin="0,1,639,219"/>
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="120,1,519,217">
                         <Label Content="Family Name" FontWeight="Bold"/>
                         <Label Content="{Binding LastName}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="243,1,117,309">
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="240,1,396,217">
                         <Label Content="Given Name" FontWeight="Bold"/>
                         <Label Content="{Binding Path=FirstName}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="100" Margin="363,0,0,310">
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="369,1,267,214">
                         <Label Content="Title" FontWeight="Bold"/>
                         <Label Content="{Binding Path=Title}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,118,234,235">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,0,0,214">
                         <Label Content="E-mail" FontWeight="Bold"/>
                         <Label Content="{Binding Path=Email}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,188,357,165">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,111,519,143">
                         <Label Content="Current Job Title" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource currentJobTitle}}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="243,113,111,240">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="240,110,396,143">
                         <Label Content="Campus" FontWeight="Bold"/>
                         <Label Content="{Binding Path=Campus, Converter={StaticResource enumConverter}}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="100" Margin="369,113,0,240">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="100" Margin="369,110,267,145">
                         <Label Content="School/Unit" FontWeight="Bold"/>
                         <Label Content="{Binding Path=Unit}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="160" Margin="123,188,169,165">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="160" Margin="0,180,519,72">
                         <Label Content="Commenced with Institution" FontWeight="Bold"/>
                         <Label Content="{Binding Path=StartInstitution}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="170" Margin="311,189,0,164">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="170" Margin="240,180,267,72">
                         <Label Content="Commenced Current Position" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource startPosition}}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,258,357,95">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,110,0,144">
                         <Label Content="Tenure" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource tenure}}" ContentStringFormat="{}{0:0.00} years"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="123,258,234,95">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,180,0,75">
                         <Label Content="3-Year Average" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource threeYearAverage}}" ContentStringFormat="{}{0:0.00}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="246,258,111,95">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,252,639,3">
                         <Label Content="Degree" FontWeight="Bold"/>
                         <Label>
                             <Label.Style>
@@ -112,53 +112,40 @@
                             </Label.Style>
                         </Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="110" Margin="369,258,11,95">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="110" Margin="120,252,519,2">
                         <Label Content="Performance" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.00}"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,328,237,25">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="284,252,317,3">
                         <Label Content="Supervisons" FontWeight="Bold"/>
                         <Label Name="label_supervisons" FontWeight="Bold"/>
                         <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="243,328,1,25">
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,250,104,3">
                         <Label Content="Publications" FontWeight="Bold"/>
                         <Label Name="label_publications"></Label>
                         <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="120" HorizontalAlignment="Left" Click="button_viewPublications_Click" Width="120"></Button>
                     </StackPanel>
                 </Grid>
             </WrapPanel>
-
-            <StackPanel Orientation="Vertical" Grid.Column="4" Margin="0.333,25,-0.333,0" Grid.RowSpan="2">
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"></Label>
-                <DataGrid ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
+            <StackPanel Orientation="Vertical" Margin="0,333.667,9.667,0" Grid.Row="1">
+                <Label Margin="10,0" BorderBrush="Gray" BorderThickness="1" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"/>
+                <DataGrid ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10,0,9.667,10" FontSize="10" BorderThickness="1" BorderBrush="Gray" IsReadOnly="true" Height="97">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"></DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"></DataGridTextColumn>
-                        <DataGridTextColumn></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"/>
+                        <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"/>
+                        <DataGridTextColumn/>
                     </DataGrid.Columns>
                 </DataGrid>
-
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" FontWeight="Bold" Content="Previous Positions"></Label>
-                <!-- TODO: Excess row at bottom of table-->
-                <DataGrid ItemsSource="{Binding Path=Positions}" AutoGenerateColumns="False" BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,10" FontSize="10">
+            </StackPanel>
+            <StackPanel Margin="0.333,333.667,9.667,0" Grid.Row="1" Grid.Column="1">
+                <Label Margin="0,0,10,0" BorderBrush="Gray" BorderThickness="1" x:Name="label_previousPositionTableName" FontWeight="Bold" Content="Previous Positions"/>
+                <DataGrid ItemsSource="{Binding Positions}" AutoGenerateColumns="False" BorderBrush="Gray" BorderThickness="1" Margin="0,0,10,10" FontSize="10" IsReadOnly="true" Height="98">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Level, Converter={StaticResource enumConverter}}" Header="Pervious Position" Width="110">
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding StartDate, StringFormat=d}" Header="Start Date" Width="70"></DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding EndDate, StringFormat=d}" Header="End Date" Width="70">
-                            <!-- TODO: Trigger fires, but content is not set-->
-                            <DataGridTextColumn.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value="">
-                                            <Setter Property="Content" Value="Present"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Level, Converter={StaticResource enumConverter}}" Header="Pervious Position" Width="110"/>
+                        <DataGridTextColumn Binding="{Binding StartDate, StringFormat=d}" Header="Start Date" Width="70"/>
+                        <DataGridTextColumn Binding="{Binding EndDate, StringFormat=d, TargetNullValue=Present}" Header="End Date" Width="70"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
 
