@@ -98,8 +98,18 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Degree" ></Label>
-                    <!-- TODO: This method causes binding failures for Staff -->
-                    <Label Content="{Binding Path=Degree}"></Label>
+                    <Label>
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Content" Value=""/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Source={StaticResource researcher}, Path=RType}" Value="RAP.Model.Student">
+                                        <Setter Property="Content" Value="{Binding Path=Degree}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Performance" ></Label>

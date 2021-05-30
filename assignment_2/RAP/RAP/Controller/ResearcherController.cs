@@ -31,6 +31,9 @@ namespace RAP.Controller
         private Model.Researcher researcherDetails;
         public Model.Researcher ResearcherDetails { get; set; }
 
+        private string rType;
+        public string RType { get; set;}
+
         // Expected number of publications for each employment level.
         readonly Dictionary<EmploymentLevel, double> expectedPublicationsByLevel =
             new Dictionary<EmploymentLevel, double>() {
@@ -57,6 +60,7 @@ namespace RAP.Controller
             // Researcher is abstract and static resources are bound
             // to an object, rather than a reference
             ResearcherDetails = null;
+            RType = null;
 
             //How to handle the publications for a researcher?
 
@@ -73,10 +77,15 @@ namespace RAP.Controller
             return ResearcherList;
         }
 
+        // TODO: Is return necessary?
         public Model.Researcher GetResearcherDetails(Model.Researcher researcher)
         {
-            return ResearcherDetails = Database.ResearcherAdapter
-                                               .fetchResearcherDetails(researcher);
+            ResearcherDetails = Database.ResearcherAdapter
+                                         .fetchResearcherDetails(researcher);
+
+            RType = ResearcherDetails.GetType().ToString();
+
+            return ResearcherDetails;
         }
 
         // Title of currently occupied position
