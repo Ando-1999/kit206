@@ -277,12 +277,12 @@ namespace RAP.Controller
             }
             catch (NullReferenceException e)
             {
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
                 return null;
             }
             catch (ArgumentOutOfRangeException e)
             {
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
                 return null;
             }
         }

@@ -131,7 +131,7 @@
             </WrapPanel>
 
             <StackPanel Orientation="Vertical" Grid.Column="4" Margin="0.333,25,-0.333,0" Grid.RowSpan="2">
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="John Does's Previous Positions"></Label>
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"></Label>
                 <DataGrid Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Publication Year"></DataGridTextColumn>
@@ -140,13 +140,26 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" FontWeight="Bold" Content="John Does's Previous Positions"></Label>
-                <DataGrid BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,10" FontSize="10">
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" FontWeight="Bold" Content="Previous Positions"></Label>
+                <!-- TODO: Excess row at bottom of table-->
+                <DataGrid ItemsSource="{Binding Path=Positions}" AutoGenerateColumns="False" BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,10" FontSize="10">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Pervious Position" Width="110"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Start Date" Width="70"></DataGridTextColumn>
-                        <DataGridTextColumn Header="End Date" Width="70"></DataGridTextColumn>
-                    </DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Level, Converter={StaticResource enumConverter}}" Header="Pervious Position" Width="110">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding StartDate, StringFormat=d}" Header="Start Date" Width="70"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding EndDate, StringFormat=d}" Header="End Date" Width="70">
+                            <!-- TODO: Trigger fires, but content is not set-->
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value="">
+                                            <Setter Property="Content" Value="Present"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
 
