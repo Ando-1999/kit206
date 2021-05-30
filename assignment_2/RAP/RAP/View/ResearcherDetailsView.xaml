@@ -133,7 +133,7 @@
             </WrapPanel>
             <StackPanel Orientation="Vertical" Margin="0,333.667,9.667,0" Grid.Row="1">
                 <Label Margin="10,0" BorderBrush="Gray" BorderThickness="1" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"/>
-                <DataGrid SelectionChange="ViewPublicationDetails" Name="dg_PublicationList" ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10,0,9.667,10" FontSize="10" BorderThickness="1" BorderBrush="Gray" IsReadOnly="true" Height="97">
+                <DataGrid SelectionChanged="ViewPublicationDetails" Name="dg_PublicationList" ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10,0,9.667,10" FontSize="10" BorderThickness="1" BorderBrush="Gray" IsReadOnly="true" Height="97">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"/>
                         <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"/>
