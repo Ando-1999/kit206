@@ -47,38 +47,15 @@ namespace RAP.View
             window.Show();
         }
 
+        private void ViewPublicationDetails(object sender, SelectionChangedEventArgs e)
+        {
+            // Update PublicationDetails with selected researcher
+            publicationController.GetPublicationDetails(
+                (Model.Publication)dg_PublicationList.SelectedItem
+                );
 
-        //public BasicDetailsTable details;
-        //public PreviousPositionsTable positions;
-        //public PublicationList publications;
-
-        //public ResearcherDetailsView()
-        //{
-        //}
-
-        //// Get researcher.
-        //public Model.Researcher getResearcher()
-        //{
-        //    return null;
-        //}
-
-        //// Get all of researcher's positions.
-        //public List<Model.Position> getPositions()
-        //{
-        //    return null;
-        //}
-
-        //// Get all of researcher's publications.
-        //public List<Model.Publication> getPublications()
-        //{
-        //    return null;
-        //}
-
-        //// Display table of researcher's cumulative publications by year.
-        //public CumulativePublicationsTable displayCumulativePublicationsTable()
-        //{
-        //    return null;
-        //}
-
+            Window window = new PublicationDetailsView(publicationController);
+            window.Show();
+        }
     }
 }

@@ -48,7 +48,8 @@ namespace RAP.Controller
         {
             FilterName = "";
             FilterLevel = EmploymentLevel.NULL;
-            // Load all researchers from database when controller is created.
+            // Load all basic details of all researchers from database when controller
+            // is created.
             // Not sure if this is the best idea.
             Researchers = Database.ResearcherAdapter.fetchResearcherList();
             ResearcherList = new ObservableCollection<Model.Researcher>();
@@ -61,12 +62,7 @@ namespace RAP.Controller
             // to an object, rather than a reference
             ResearcherDetails = null;
             RType = null;
-
-            //How to handle the publications for a researcher?
-
-
         }
-
 
         /// <summary>
         /// GetResearcherList
@@ -102,8 +98,6 @@ namespace RAP.Controller
             return null;
         }
 
-        /// Blake's Comment: Probably not necessary, as we use the adapter to fetch the research list
-        /// Not removing for your opinion
         // Load basic details for all researchers.
         public void loadResearcherList()
         {
@@ -121,20 +115,6 @@ namespace RAP.Controller
                 foreach (Model.Researcher r in Researchers)
                     ResearcherList.Add(r);
             }
-        }
-
-        /// Blake's Comment: You've done this in the Researcher model
-        // Format list of researchers to be of the form "firstName, lastName
-        // (title)".
-        public List<string> formatList()
-        {
-            return null;
-        }
-
-        // Update filters (employment status, first name partial match,
-        // last name partial match) based on user input.
-        public void updateFilters()
-        {
         }
 
         // Update researcher list to contain only those researchers with
@@ -195,13 +175,6 @@ namespace RAP.Controller
             return null;
         }
 
-        /// Blake's Comment: Same as loadResearcher
-        // Load name of researcher.
-        public string loadResearcherName()
-        {
-            return null;
-        }
-
         // Total time with institution in fractional years.
         public double? getTenure()
         {
@@ -220,7 +193,6 @@ namespace RAP.Controller
             {
                 return null;
             }
-            end = DateTime.Now;
 
             if (!start.HasValue)
                 return null;
@@ -234,9 +206,20 @@ namespace RAP.Controller
         }
 
         // Starting date of currently held position.
-        public DateTime commencedCurrentPosition()
+        public DateTime? commencedCurrentPosition()
         {
-            return (DateTime)ResearcherDetails.Positions[0].StartDate;
+            try
+            {
+                return (DateTime)ResearcherDetails.Positions[0].StartDate;
+            }
+            catch (NullReferenceException e)
+            {
+                return null;
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                return null;
+            }
         }
 
         /*
@@ -306,6 +289,14 @@ namespace RAP.Controller
             return $"{supervisor.FirstName} {supervisor.LastName}";
         }
 
+        public int? GetNumSupervisions()
+        {
+            if (ResearcherDetails.GetType() == typeof(Model.Student))
+                return null;
 
+            Model.Staff supervisor = (Model.Staff)ResearcherDetails;
+
+            return Database.ResearcherAdapter.fetchNumSupervisions(supervisor);
+        }
     }
 }

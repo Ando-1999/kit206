@@ -33,6 +33,9 @@
         <ObjectDataProvider x:Key="supervisor"
                             ObjectInstance="{StaticResource researcherController}"
                             MethodName="getSupervisorName"/>
+        <ObjectDataProvider x:Key="numSupervisions"
+                            ObjectInstance="{StaticResource researcherController}"
+                            MethodName="GetNumSupervisions"/>
     </Window.Resources>
 
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
@@ -118,7 +121,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,328,237,25">
                         <Label Content="Supervisons" FontWeight="Bold"/>
-                        <Label Name="label_supervisons" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource numSupervisions}}" FontWeight="Bold"/>
                         <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="243,328,1,25">
@@ -131,7 +134,7 @@
 
             <StackPanel Orientation="Vertical" Grid.Column="4" Margin="0.333,25,-0.333,0" Grid.RowSpan="2">
                 <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"></Label>
-                <DataGrid ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
+                <DataGrid Name="dg_PublicationList" ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray" SelectionChanged="ViewPublicationDetails">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"></DataGridTextColumn>

@@ -50,7 +50,9 @@ namespace RAP.View
         private void viewResearcherDetails(object sender, SelectionChangedEventArgs e)
         {
             // Update ResearcherDetails with selected researcher
-            researcherController.GetResearcherDetails((Model.Researcher)researcherListBox.SelectedItem);
+            researcherController.GetResearcherDetails(
+                (Model.Researcher)researcherListBox.SelectedItem
+                );
 
             Window researcherDetailsView = new ResearcherDetailsView(researcherController);
             researcherDetailsView.Show();
