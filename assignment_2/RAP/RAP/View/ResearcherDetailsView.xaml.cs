@@ -20,11 +20,19 @@ namespace RAP.View
     /// </summary>
     public partial class ResearcherDetailsView : Window
     {
+        private Controller.PublicationController publicationController;
+
         public ResearcherDetailsView(Controller.ResearcherController researcherController)
         {
             this.DataContext = researcherController.ResearcherDetails;
 
+            publicationController = (Controller.PublicationController)
+                Application.Current
+                           .FindResource("publicationController");
+
+            publicationController.loadPublicationList(researcherController.ResearcherDetails);
             InitializeComponent();
+
         }
 
         private void button_viewPublications_Click(object sender, RoutedEventArgs e)

@@ -31,21 +31,8 @@ namespace RAP.Model
             set { authors = value; }
         }
 
-        private DateTime publicationYear;
-        public DateTime? PublicationYear
-        {
-            get {
-                if (PublicationYear.HasValue)
-                    return publicationYear;
-                else
-                    return null;
-            }
-            set
-            {
-                if (value.HasValue)
-                    publicationYear = value.Value;
-            }
-        }
+        private DateTime? publicationYear;
+        public DateTime? PublicationYear { get; set; }
 
         private PublicationType type;
         public PublicationType Type

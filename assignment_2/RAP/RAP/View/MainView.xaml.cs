@@ -28,15 +28,7 @@ namespace RAP.View
             InitializeComponent();
 
             // Object bound to reasearcher ListBox
-            researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcher");
-        }
-
-        public ICommand ShowCommand
-        { get; set; }
-
-        private void Show(object obj)
-        {
-            MessageBox.Show(obj.ToString());
+            researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcherController");
         }
 
         private void Filter(object sender, RoutedEventArgs e)

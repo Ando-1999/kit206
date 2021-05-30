@@ -126,7 +126,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controller\PublicationsListController.cs" />
+    <Compile Include="Controller\PublicationController.cs" />
     <Compile Include="Controller\ReportController.cs" />
     <Compile Include="Controller\ResearcherController.cs" />
     <Compile Include="Database\ERDAdapter.cs" />

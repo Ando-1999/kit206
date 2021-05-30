@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel; // Required for making the 'viewable' variables for manipulation
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,7 +77,6 @@ namespace RAP.Controller
             return ResearcherList;
         }
 
-        // TODO: Is return necessary?
         public Model.Researcher GetResearcherDetails(Model.Researcher researcher)
         {
             ResearcherDetails = Database.ResearcherAdapter

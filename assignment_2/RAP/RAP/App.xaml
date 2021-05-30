@@ -7,10 +7,10 @@
              StartupUri="View/MainView.xaml">
     <Application.Resources>
         <local:EnumConverter x:Key="enumConverter"/>
-        <controller:ResearcherController x:Key="researcher"/>
+        <controller:ResearcherController x:Key="researcherController"/>
         <!-- Researcher List -->
         <ObjectDataProvider x:Key="researcherList"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="GetResearcherList">
         </ObjectDataProvider>
         <!-- Employment Level -->
@@ -28,6 +28,13 @@
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="local:ReportType"/>
             </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <!-- Publicaiton Controller-->
+        <controller:PublicationController x:Key="publicationController"/>
+        <!--  Publication List -->
+        <ObjectDataProvider x:Key="publicationList"
+                            ObjectInstance="{StaticResource publicationController}"
+                            MethodName="GetPublicationList">
         </ObjectDataProvider>
 
         <!--

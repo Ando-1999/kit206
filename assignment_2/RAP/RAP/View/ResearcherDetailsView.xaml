@@ -16,22 +16,22 @@
         For reference, researcher is defined in App.xaml.
         -->
         <ObjectDataProvider x:Key="tenure"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="getTenure"/>
         <ObjectDataProvider x:Key="currentJobTitle"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="currentJobTitle"/>
         <ObjectDataProvider x:Key="startPosition"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="commencedCurrentPosition"/>
         <ObjectDataProvider x:Key="threeYearAverage"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="threeYearAverage"/>
         <ObjectDataProvider x:Key="performance"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="getPerformance"/>
         <ObjectDataProvider x:Key="supervisor"
-                            ObjectInstance="{StaticResource researcher}"
+                            ObjectInstance="{StaticResource researcherController}"
                             MethodName="getSupervisorName"/>
     </Window.Resources>
 
@@ -99,13 +99,12 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="246,258,111,95">
                         <Label Content="Degree" FontWeight="Bold"/>
-                        <!-- TODO: This method causes binding failures for Staff -->
                         <Label>
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Setter Property="Content" Value=""/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={StaticResource researcher}, Path=RType}" Value="RAP.Model.Student">
+                                        <DataTrigger Binding="{Binding Source={StaticResource researcherController}, Path=RType}" Value="RAP.Model.Student">
                                             <Setter Property="Content" Value="{Binding Path=Degree}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -132,10 +131,10 @@
 
             <StackPanel Orientation="Vertical" Grid.Column="4" Margin="0.333,25,-0.333,0" Grid.RowSpan="2">
                 <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"></Label>
-                <DataGrid Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
+                <DataGrid ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Publication Year"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Publication Title"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"></DataGridTextColumn>
                         <DataGridTextColumn></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
