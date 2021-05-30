@@ -11,8 +11,11 @@ namespace RAP.Controller
     public class ResearcherController
     {
 
-        /// ???
-        public List<string> filters;
+        private string filterName;
+        public string FilterName { get; set; }
+
+        private EmploymentLevel filterLevel;
+        public EmploymentLevel FilterLevel { get; set; }
 
         // Constant researcher list
         private List<Model.Researcher> researchers;
@@ -28,11 +31,13 @@ namespace RAP.Controller
         private Model.Researcher researcherDetails;
         public Model.Researcher ResearcherDetails { get; set; }
 
+        /*
         private Model.Staff staffDetails;
         public Model.Staff StaffDetails { get; set; }
 
         private Model.Student studentDetails;
         public Model.Student StudentDetails { get; set; }
+        */
 
         /*
         private double? tenure;
@@ -51,12 +56,27 @@ namespace RAP.Controller
             }
         }
         */
+
+        // Expected number of publications for each employment level.
+        readonly Dictionary<EmploymentLevel, double> expectedPublicationsByLevel =
+            new Dictionary<EmploymentLevel, double>() {
+                    { EmploymentLevel.A, 0.5},
+                    { EmploymentLevel.B, 1},
+                    { EmploymentLevel.C, 2},
+                    { EmploymentLevel.D, 3.2},
+                    { EmploymentLevel.E, 4},
+            };
+
         public ResearcherController()
         {
+            FilterName = "";
+            FilterLevel = EmploymentLevel.NULL;
             // Load all researchers from database when controller is created.
             // Not sure if this is the best idea.
             Researchers = Database.ResearcherAdapter.fetchResearcherList();
-            loadResearcherList();
+            ResearcherList = new ObservableCollection<Model.Researcher>();
+            filterList();
+            //loadResearcherList();
 
             // No details initially loaded
             // TODO: Not sure of the best way to handle this, since
@@ -65,6 +85,8 @@ namespace RAP.Controller
             ResearcherDetails = null;
 
             //How to handle the publications for a researcher?
+
+
         }
 
 
@@ -79,8 +101,8 @@ namespace RAP.Controller
 
         public Model.Researcher GetResearcherDetails(Model.Researcher researcher)
         {
-            return ResearcherDetails = Database.ResearcherAdapter.
-                fetchResearcherDetails(researcher);
+            return ResearcherDetails = Database.ResearcherAdapter
+                                               .fetchResearcherDetails(researcher);
         }
 
         // Title of currently occupied position
@@ -91,16 +113,6 @@ namespace RAP.Controller
             else
                 return ResearcherDetails.Positions[0].jobTitle();
         }
-        /*
-        public string currentJobTitle(Model.Researcher r)
-        {
-            if (r.GetType() == typeof(Model.Student))
-                return "Student";
-            else
-                return r.Positions[0].jobTitle();
-        }
-        */
-
 
         // Load cumulative publications for reasearcher.
         public List<Model.Publication> loadCumulativePublications()
@@ -113,6 +125,7 @@ namespace RAP.Controller
         // Load basic details for all researchers.
         public void loadResearcherList()
         {
+
             // Instantiate ResearcherList
             if (ResearcherList == null)
             {
@@ -124,9 +137,7 @@ namespace RAP.Controller
             {
                 ResearcherList.Clear();
                 foreach (Model.Researcher r in Researchers)
-                {
                     ResearcherList.Add(r);
-                }
             }
         }
 
@@ -144,17 +155,44 @@ namespace RAP.Controller
         {
         }
 
-        /// Blake's Comment: Wouldn't we need two filters for the level and type?
         // Update researcher list to contain only those researchers with
         // details satisfying the current filters.
-        public List<string> filterList()
+        // TODO: currently case sensitive
+        public void filterList()
         {
-            return null;
+            // Filter initially includes all researchers
+            var filter = from r in Researchers
+                         select r;
+
+            // Filter by name
+            if (!string.IsNullOrEmpty(FilterName))
+                filter = from r in filter
+                         where (r.FirstName.Contains(FilterName) || r.LastName.Contains(FilterName))
+                         select r;
+
+            // Filter by level
+            if (FilterLevel != EmploymentLevel.NULL)
+            {
+                if (FilterLevel == EmploymentLevel.Student)
+                    filter = from r in filter
+                             where r.GetType() == typeof(Model.Student)
+                             select r;
+                else
+                    filter = from r in filter
+                             where (r.GetType() == typeof(Model.Staff)
+                                 && ((Model.Staff)r).Level == FilterLevel)
+                             select r;
+            }
+
+            ResearcherList.Clear();
+
+            foreach (Model.Researcher r in filter)
+                ResearcherList.Add(r);
         }
 
         /// Blake's Comment: Same as loadResearcher
         /// <returns></returns>
-        // Load list of students a staff members is or has ever supervised.
+        // Load list of students a staff member is or has ever supervised.
         public List<string> loadSupervisions()
         {
             return null;
@@ -215,10 +253,7 @@ namespace RAP.Controller
             double? numRecentPublications = Database.ReportAdapter.
                 fetchNumRecentPublications(ResearcherDetails);
 
-            if (!numRecentPublications.HasValue)
-                return null;
-
-            return numRecentPublications.Value / 3.0;
+            return numRecentPublications / 3.0;
         }
 
         /* Three-year average divided by the expected number of publications
@@ -228,39 +263,27 @@ namespace RAP.Controller
          */
         public double? getPerformance()
         {
-            // Expected number of publications for each employment level.
-            Dictionary<EmploymentLevel, double> expectedPublicationsByLevel =
-                new Dictionary<EmploymentLevel, double>() {
-                    { EmploymentLevel.A, 0.5},
-                    { EmploymentLevel.B, 1},
-                    { EmploymentLevel.C, 2},
-                    { EmploymentLevel.D, 3.2},
-                    { EmploymentLevel.E, 4},
-                };
+            try
+            {
+                // Employment level of current position.
+                EmploymentLevel level = ResearcherDetails.Positions[0].Level;
 
-            // Check Positions exists
-            List<Model.Position> positions = ResearcherDetails.Positions;
-            if (positions == null)
+                // Only calculate perfomance for staff.
+                if (level == EmploymentLevel.NULL || level == EmploymentLevel.Student)
+                    return null;
+
+                return threeYearAverage() / expectedPublicationsByLevel[level];
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show(e.ToString());
                 return null;
-
-            // Check current position exists
-            Model.Position position = positions[0];
-            if (position == null)
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                MessageBox.Show(e.ToString());
                 return null;
-
-            // Check level is a Staff employment level
-            EmploymentLevel level = position.Level;
-            if (level == EmploymentLevel.NULL || level == EmploymentLevel.Student)
-                return null;
-            
-            double expectedPublications = expectedPublicationsByLevel[level];
-
-            // Check average exists
-            double? average = threeYearAverage();
-            if (average == null)
-                return null;
-
-            return average.Value / expectedPublications;
+            }
         }
 
         // Name of primary supervisor.

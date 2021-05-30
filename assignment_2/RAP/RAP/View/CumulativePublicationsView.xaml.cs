@@ -17,9 +17,9 @@ namespace RAP.View
     /// <summary>
     /// CulmativeCountView.xaml 的交互逻辑
     /// </summary>
-    public partial class CulmativeCountView : Window
+    public partial class CumulativePublicationsView : Window
     {
-        public CulmativeCountView()
+        public CumulativePublicationsView()
         {
             InitializeComponent();
         }

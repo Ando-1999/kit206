@@ -117,7 +117,7 @@
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Publications" ></Label>
                     <Label Name="label_publications"></Label>
-                    <Button x:Name="button_viewPublications" Content="Culmative Count" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewPublications_Click"></Button>
+                    <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewPublications_Click"></Button>
                 </StackPanel>
 
             </WrapPanel>

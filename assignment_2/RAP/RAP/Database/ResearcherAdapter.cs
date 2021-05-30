@@ -24,7 +24,7 @@ namespace RAP.Database
                 Conn.Open();
 
                 MySqlCommand cmd = new MySqlCommand(
-                    "SELECT id, family_name, given_name, title, type " +
+                    "SELECT id, family_name, given_name, title, type, level " +
                     "FROM researcher", Conn);
 
                 Rdr = cmd.ExecuteReader();
@@ -38,6 +38,8 @@ namespace RAP.Database
                     {
                         case ResearcherType.Staff:
                             researcher = new Model.Staff();
+                            ((Model.Staff)researcher).Level =
+                                GetEnum<EmploymentLevel>("level");
                             break;
                         case ResearcherType.Student:
                             researcher = new Model.Student();

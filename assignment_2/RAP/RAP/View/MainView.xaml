@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys ="clr-namespace:System;assembly=mscorlib" 
         xmlns:local="clr-namespace:RAP"
         xmlns:controller="clr-namespace:RAP.Controller"
         mc:Ignorable="d"
@@ -24,9 +25,54 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="Researcher List" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Label>
-            <ComboBox Name="cb_GenerateReport" Text="Generate Report..." Grid.Row="0" Grid.Column="2" IsEditable="True" IsReadOnly="True" Margin="5" />
-            <ComboBox Name="cb_FilterByLevel" Text="Filter By Level..." Grid.Row="0" Grid.Column="3" IsEditable="True" IsReadOnly="True" Margin="5" />
-            <TextBox Name="tb_Search" Text="Search..."  Grid.Row="0" Grid.Column="4" Margin="5" />
+            <ComboBox Name="cb_GenerateReport" ItemsSource="{Binding Source={StaticResource reportType}}" Text="Generate Report..." Grid.Row="0" Grid.Column="2" IsEditable="True" IsReadOnly="True" Margin="5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ., Converter={StaticResource enumConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Name="cb_FilterByLevel" ItemsSource="{Binding Source={StaticResource employmentLevel}}" Grid.Row="0" Grid.Column="3" IsEditable="True" IsReadOnly="True" Margin="5">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox" >
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="Text" Value="Filter by level"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=SelectedIndex}" Value="0">
+                                <Setter Property="Text" Value="Filter by level"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ., Converter={StaticResource enumConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox Name="tb_Search" Grid.Row="0" Grid.Column="4" Margin="5">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" >
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <TextBlock Text="Search..."
+                                                           TextAlignment="Left"
+                                                           Width="{Binding ElementName=tb_Search, Path=ActualWidth}"
+                                                           HorizontalAlignment="Stretch"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <Button Name="btn_Filter" Content="Filter" Grid.Row="0" Grid.Column="5" Margin="5" Click="Filter" />
 
         </Grid>
@@ -46,7 +92,7 @@
             </DataGrid.Columns>
         </DataGrid>
         -->
-        <ListBox x:Name="researcherListBox" SelectionChanged="viewResearcherDetails" Grid.Row="1"/>
+        <ListBox x:Name="researcherListBox" ItemsSource="{Binding Source={StaticResource researcherList}}" SelectionChanged="viewResearcherDetails" Grid.Row="1"/>
 
     </Grid>
 </Window>

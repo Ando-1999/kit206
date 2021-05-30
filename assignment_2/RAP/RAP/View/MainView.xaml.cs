@@ -21,10 +21,9 @@ namespace RAP.View
     public partial class MainView : Window
     {
         // researcherList controller
-        Controller.ResearcherController researcherController;// =
-//            new Controller.ResearcherController();
+        Controller.ResearcherController researcherController;
 
-        private const string RESEARCHER_LIST_KEY = "researcherList";
+        //private const string RESEARCHER_LIST_KEY = "researcherList";
 
 
         private ObservableCollection<string> cb_GenerateReport_Items =
@@ -32,7 +31,7 @@ namespace RAP.View
         private ObservableCollection<string> cb_FilterByLevel_Items =
             new ObservableCollection<string>();
 
-        private ObservableCollection<Model.Researcher> researcherList;
+        //private ObservableCollection<Model.Researcher> researcherList;
 
         public MainView()
         {
@@ -40,30 +39,6 @@ namespace RAP.View
 
             // Object bound to reasearcher ListBox
             researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcher");
-
-            //researchers = ()
-            cb_GenerateReport_Items.Add("Poor");
-            cb_GenerateReport_Items.Add("Below Expectations");
-            cb_GenerateReport_Items.Add("Minimum Standard");
-            cb_GenerateReport_Items.Add("Star Performer");
-            cb_GenerateReport.ItemsSource = cb_GenerateReport_Items;
-
-
-            cb_FilterByLevel_Items.Add("Level A");
-            cb_FilterByLevel_Items.Add("Level B");
-            cb_FilterByLevel_Items.Add("Level C");
-            cb_FilterByLevel_Items.Add("Level D");
-            cb_FilterByLevel_Items.Add("Level E");
-            cb_FilterByLevel_Items.Add("Student");
-            cb_FilterByLevel.ItemsSource = cb_FilterByLevel_Items;
-
-
-            researcherList = researcherController.ResearcherList;
-
-            //dg_Researchers.ItemsSource = researcherList;
-            researcherListBox.ItemsSource = researcherList;
-
-            //ShowCommand = new DelegateCommand(Show, (obj) => true);
         }
 
         public ICommand ShowCommand
@@ -74,23 +49,20 @@ namespace RAP.View
             MessageBox.Show(obj.ToString());
         }
 
-        private void ViewDetails(object sender, RoutedEventArgs e)
-        {
-            Button btn = (Button)sender;
-            //MessageBox.Show("The text entered is: " + btn.Tag);
-
-            //Window window = new ResearcherDetailsView(btn.Tag.ToString());
-            //window.Show();
-        }
-
-
         private void Filter(object sender, RoutedEventArgs e)
         {
-            var query = from r in researcherList
-                        where (r.FirstName.Contains(tb_Search.Text) || r.LastName.Contains(tb_Search.Text))
-                        select r;
-            //dg_Researchers.ItemsSource = query.ToList();
-            researcherListBox.ItemsSource = query.ToList();
+            string nameFilter = tb_Search.Text;
+
+            EmploymentLevel? level = (EmploymentLevel?)cb_FilterByLevel.SelectedValue;
+            EmploymentLevel levelFilter = level.HasValue ? level.Value : EmploymentLevel.NULL;
+
+            if (researcherController.FilterName != nameFilter
+                || researcherController.FilterLevel != levelFilter)
+            {
+                researcherController.FilterName = nameFilter;
+                researcherController.FilterLevel = levelFilter;
+                researcherController.filterList();
+            }
         }
 
         private void viewResearcherDetails(object sender, SelectionChangedEventArgs e)

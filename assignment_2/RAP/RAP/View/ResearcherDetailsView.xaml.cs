@@ -29,7 +29,7 @@ namespace RAP.View
 
         private void button_viewPublications_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new CulmativeCountView();
+            Window window = new CumulativePublicationsView();
             window.Show();
         }
 

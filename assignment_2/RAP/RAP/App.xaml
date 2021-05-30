@@ -6,11 +6,30 @@
              xmlns:controller="clr-namespace:RAP.Controller"
              StartupUri="View/MainView.xaml">
     <Application.Resources>
+        <local:EnumConverter x:Key="enumConverter"/>
         <controller:ResearcherController x:Key="researcher"/>
+        <!-- Researcher List -->
         <ObjectDataProvider x:Key="researcherList"
                             ObjectInstance="{StaticResource researcher}"
                             MethodName="GetResearcherList">
         </ObjectDataProvider>
+        <!-- Employment Level -->
+        <ObjectDataProvider x:Key="employmentLevel"
+                            ObjectType="{x:Type sys:Enum}"
+                            MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:EmploymentLevel"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <!-- Report Type -->
+        <ObjectDataProvider x:Key="reportType"
+                            ObjectType="{x:Type sys:Enum}"
+                            MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:ReportType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
         <!--
         <ObjectDataProvider x:Key="researcherDetails"
                             ObjectInstance="{StaticResource researcher}"
@@ -25,12 +44,5 @@
                             MethodName="getTenure">
         </ObjectDataProvider>
         -->
-        <ObjectDataProvider x:Key="levelVals"
-                            ObjectType="{x:Type sys:Enum}"
-                            MethodName="GetValues">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:EmploymentLevel"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
     </Application.Resources>
 </Application>
