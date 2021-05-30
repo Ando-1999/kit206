@@ -25,6 +25,14 @@ namespace RAP.Controller
             PublicationDetails = null;
         }
 
+        // Number of days since publication became available.
+        // May be negative if publication is not yet available.
+        public int Age()
+        {
+            return (DateTime.Now - PublicationDetails.AvailabilityDate).Value.Days;
+        }
+
+
         // Sort publications in order of increasing age, then in alphabetical order by title
         public void sortList()
         {
@@ -51,6 +59,13 @@ namespace RAP.Controller
         public ObservableCollection<Model.Publication> GetPublicationList()
         {
             return PublicationList;
+        }
+
+        public void GetPublicationDetails(Model.Publication publication)
+        {
+            PublicationDetails =
+                Database.PublicationAdapter.fetchPublicationDetails(publication);
+
         }
 
     }

@@ -11,11 +11,7 @@ namespace RAP.Model
     {
 
         private string doi;
-        public string Doi
-        {
-            get { return doi; }
-            set { doi = value; }
-        }
+        public string Doi { get; set; }
 
         private string title;
         public string Title
@@ -55,28 +51,9 @@ namespace RAP.Model
         {
         }
 
-        // Number of days since publication became available.
-        // May be negative if publication is not yet available.
-        // TODO: move to controller
-        public int age()
-        {
-            return (DateTime.Now - AvailabilityDate).Value.Days;
-        }
-
         public override string ToString()
         {
             return $"{PublicationYear.Value.Year} {Title}";
-        }
-        public string ToFullString()
-        {
-            return $"{Doi}\n" + 
-                $"{Title}\n" +
-                $"{Authors}\n" +
-                $"{PublicationYear.Value.Year}\n" +
-                $"{Type}\n" +
-                $"{CiteAs}\n" +
-                $"{AvailabilityDate.Value.ToShortDateString()}\n" +
-                $"{age()}";
         }
     }
 }

@@ -30,9 +30,13 @@ namespace RAP
 
     public enum PublicationType
     {
+        [Display(Name = "None")]
         NULL,
+        [Display(Name = "Conference")]
         CONFERENCE,
+        [Display(Name = "Journal")]
         JOURNAL,
+        [Display(Name = "Other")]
         OTHER
     }
 

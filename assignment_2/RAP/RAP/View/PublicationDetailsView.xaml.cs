@@ -19,8 +19,11 @@ namespace RAP.View
     /// </summary>
     public partial class PublicationDetailsView : Window
     {
-        public PublicationDetailsView()
+        //Controller.PublicationController publicationController;
+        public PublicationDetailsView(Controller.PublicationController publicationController)
         {
+            this.DataContext = publicationController.PublicationDetails;
+
             InitializeComponent();
         }
     }
