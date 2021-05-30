@@ -31,32 +31,6 @@ namespace RAP.Controller
         private Model.Researcher researcherDetails;
         public Model.Researcher ResearcherDetails { get; set; }
 
-        /*
-        private Model.Staff staffDetails;
-        public Model.Staff StaffDetails { get; set; }
-
-        private Model.Student studentDetails;
-        public Model.Student StudentDetails { get; set; }
-        */
-
-        /*
-        private double? tenure;
-        public double? Tenure
-        {
-            get
-            {
-                MessageBox.Show("tenure");
-                tenure = getTenure();
-                return tenure;
-            }
-
-            set
-            {
-                tenure = value;
-            }
-        }
-        */
-
         // Expected number of publications for each employment level.
         readonly Dictionary<EmploymentLevel, double> expectedPublicationsByLevel =
             new Dictionary<EmploymentLevel, double>() {
@@ -173,7 +147,7 @@ namespace RAP.Controller
             // Filter by level
             if (FilterLevel != EmploymentLevel.NULL)
             {
-                if (FilterLevel == EmploymentLevel.Student)
+                if (FilterLevel == EmploymentLevel.STUDENT)
                     filter = from r in filter
                              where r.GetType() == typeof(Model.Student)
                              select r;
@@ -221,16 +195,34 @@ namespace RAP.Controller
         }
 
         // Total time with institution in fractional years.
-        // TODO: remove
-        public double getTenure()
+        public double? getTenure()
         {
-            DateTime start = (DateTime)ResearcherDetails.Positions[0].StartDate;
-            DateTime end = DateTime.Now;
-            if (ResearcherDetails.Positions[0].EndDate.HasValue)
-                end = (DateTime)ResearcherDetails.Positions[0].EndDate;
+            DateTime? start = null;
+            DateTime? end = null;
+            try
+            {
+                start = (DateTime?)ResearcherDetails.Positions[0].StartDate;
+                end = (DateTime?)ResearcherDetails.Positions[0].EndDate;
+            }
+            catch (NullReferenceException e)
+            {
+                return null;
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                return null;
+            }
+            end = DateTime.Now;
 
-            TimeSpan span = end - start;
-            return span.Days/365.0;
+            if (!start.HasValue)
+                return null;
+
+            if (!end.HasValue)
+                end = DateTime.Now;
+
+            TimeSpan tenure = end.Value - start.Value;
+
+            return tenure.Days/365.0;
         }
 
         // Starting date of currently held position.
@@ -269,7 +261,7 @@ namespace RAP.Controller
                 EmploymentLevel level = ResearcherDetails.Positions[0].Level;
 
                 // Only calculate perfomance for staff.
-                if (level == EmploymentLevel.NULL || level == EmploymentLevel.Student)
+                if (level == EmploymentLevel.NULL || level == EmploymentLevel.STUDENT)
                     return null;
 
                 return threeYearAverage() / expectedPublicationsByLevel[level];

@@ -23,16 +23,6 @@ namespace RAP.View
         // researcherList controller
         Controller.ResearcherController researcherController;
 
-        //private const string RESEARCHER_LIST_KEY = "researcherList";
-
-
-        private ObservableCollection<string> cb_GenerateReport_Items =
-            new ObservableCollection<string>();
-        private ObservableCollection<string> cb_FilterByLevel_Items =
-            new ObservableCollection<string>();
-
-        //private ObservableCollection<Model.Researcher> researcherList;
-
         public MainView()
         {
             InitializeComponent();

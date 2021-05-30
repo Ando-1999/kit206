@@ -15,32 +15,36 @@ namespace RAP
     public enum EmploymentLevel {
         [Display(Name = "Any")]
         NULL,
-        [Display(Name = "A")]
+        [Display(Name = "Postdoc")]
         A,
-        [Display(Name = "B")]
+        [Display(Name = "Lecturer")]
         B,
-        [Display(Name = "C")]
+        [Display(Name = "Senior Lecturer")]
         C,
-        [Display(Name = "D")]
+        [Display(Name = "Associate Professor")]
         D,
-        [Display(Name = "E")]
+        [Display(Name = "Professor")]
         E,
         [Display(Name = "Student")]
-        Student }
+        STUDENT }
 
     public enum PublicationType
     {
         NULL,
-        Conference,
-        Journal,
-        Other
+        CONFERENCE,
+        JOURNAL,
+        OTHER
     }
 
     public enum Campus
     {
+        [Display(Name = "None")]
         NULL,
+        [Display(Name = "Hobart")]
         HOBART,
+        [Display(Name = "Launceston")]
         LAUNCESTON,
+        [Display(Name = "Cradle Coast")]
         CRADLE_COAST
     }
     public enum ReportType
@@ -60,8 +64,8 @@ namespace RAP
     public enum ResearcherType
     {
         NULL,
-        Staff,
-        Student
+        STAFF,
+        STUDENT
     }
     public partial class App : Application
     {
@@ -81,13 +85,13 @@ namespace RAP
             try
             {
                 attr = memberInfo[0].GetCustomAttribute<DisplayAttribute>();
+                return attr.Name;
             }
             catch (NullReferenceException e)
             {
                 return "Error";
             }
 
-            return attr.Name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

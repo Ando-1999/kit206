@@ -74,7 +74,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Campus" ></Label>
-                    <Label Content="{Binding Path=Campus}"></Label>
+                    <Label Content="{Binding Path=Campus, Converter={StaticResource enumConverter}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="School/Unit" ></Label>
@@ -82,7 +82,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Tenure" ></Label>
-                    <Label Content="{Binding Source={StaticResource tenure}}"></Label>
+                    <Label Content="{Binding Source={StaticResource tenure}}" ContentStringFormat="{}{0:0.00} years"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Commenced with Institution" ></Label>
@@ -94,7 +94,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="3-Year Average" ></Label>
-                    <Label Content="{Binding Source={StaticResource threeYearAverage}}"></Label>
+                    <Label Content="{Binding Source={StaticResource threeYearAverage}}" ContentStringFormat="{}{0:0.00}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Degree" ></Label>
@@ -103,7 +103,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Performance" ></Label>
-                    <Label Content="{Binding Source={StaticResource performance}}"></Label>
+                    <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.00}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120">
                     <Label Content="Supervisor" ></Label>

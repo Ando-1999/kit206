@@ -34,8 +34,8 @@ namespace RAP.Database
 
         public static readonly Dictionary<Type, ResearcherType> type =
         new Dictionary<Type, ResearcherType> {
-            { typeof(Model.Staff), ResearcherType.Staff },
-            { typeof(Model.Student), ResearcherType.Student }
+            { typeof(Model.Staff), ResearcherType.STAFF },
+            { typeof(Model.Student), ResearcherType.STUDENT }
         };
 
         static ERDAdapter()
@@ -131,7 +131,7 @@ namespace RAP.Database
         protected static T GetEnum<T>(string columnName)
             where T : System.Enum
         {
-            return (T)Enum.Parse(typeof(T), GetString(columnName));
+            return (T)Enum.Parse(typeof(T), GetString(columnName).ToUpper().Replace(" ", "_"));
         }
 
         protected static void Error(string msg, Exception e)

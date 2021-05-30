@@ -41,7 +41,7 @@ namespace RAP.Model
                         { EmploymentLevel.C, "Senior Lecturer"},
                         { EmploymentLevel.D, "Associate Professor"},
                         { EmploymentLevel.E, "Professor"},
-                        { EmploymentLevel.Student, "Student"},
+                        { EmploymentLevel.STUDENT, "Student"},
                     };
         }
 

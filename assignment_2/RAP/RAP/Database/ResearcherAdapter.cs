@@ -36,12 +36,12 @@ namespace RAP.Database
                     Model.Researcher researcher = null;
                     switch (GetEnum<ResearcherType>("type"))
                     {
-                        case ResearcherType.Staff:
+                        case ResearcherType.STAFF:
                             researcher = new Model.Staff();
                             ((Model.Staff)researcher).Level =
                                 GetEnum<EmploymentLevel>("level");
                             break;
-                        case ResearcherType.Student:
+                        case ResearcherType.STUDENT:
                             researcher = new Model.Student();
                             break;
                         default:
@@ -90,21 +90,25 @@ namespace RAP.Database
 
                 switch (GetEnum<ResearcherType>("type"))
                 {
-                    case ResearcherType.Staff:
+                    case ResearcherType.STAFF:
                         r.Positions.Add(new Model.Position {
 
                             Level = GetEnum<EmploymentLevel>("level"),
 
-                            StartDate = GetDateTime("current_start")
-                        }) ;
+                            StartDate = GetDateTime("current_start"),
+
+                            EndDate = null
+                        }); ;
                         break;
-                    case ResearcherType.Student:
-                        r.Positions.Add(new Model.Position { 
+                    case ResearcherType.STUDENT:
+                        r.Positions.Add(new Model.Position {
 
-                            Level = EmploymentLevel.Student,
+                            Level = EmploymentLevel.STUDENT,
 
-                            StartDate = GetDateTime("current_start")
-                        });
+                            StartDate = GetDateTime("current_start"),
+
+                            EndDate = null
+                        }); 
 
                         ((Model.Student)r).Degree = GetString("degree");
 
@@ -119,6 +123,7 @@ namespace RAP.Database
                 r.Photo = GetUri("photo");
                 r.StartInstitution = GetDateTime("utas_start");
                 r.Unit = GetString("unit");
+                r.Campus = GetEnum<Campus>("campus");
             }
             catch (MySqlException e)
             {
