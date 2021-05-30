@@ -46,84 +46,81 @@
                 <ColumnDefinition Width="280*"/>
             </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2">
-                <Label Content="Researcher Details" Grid.Row="0" Grid.ColumnSpan="2"></Label>
+            <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="5" Margin="0,0,-0.333,0.333">
+                <Label Content="Researcher Details" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <WrapPanel Margin="10"  VerticalAlignment="Top" Grid.Row="1">
-                <Image Height="110" Width="120"></Image>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Family Name"></Label>
-                    <Label Content="{Binding Path=LastName}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Given Name" ></Label>
-                    <Label Content="{Binding Path=FirstName}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Title" ></Label>
-                    <Label Content="{Binding Path=Title}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="E-mail" ></Label>
-                    <Label Content="{Binding Path=Email}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Current Job Title" ></Label>
-                    <Label Content="{Binding Source={StaticResource currentJobTitle}}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Campus" ></Label>
-                    <Label Content="{Binding Path=Campus, Converter={StaticResource enumConverter}}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="School/Unit" ></Label>
-                    <Label Content="{Binding Path=Unit}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Tenure" ></Label>
-                    <Label Content="{Binding Source={StaticResource tenure}}" ContentStringFormat="{}{0:0.00} years"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Commenced with Institution" ></Label>
-                    <Label Content="{Binding Path=StartInstitution}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Commenced Current Position" ></Label>
-                    <Label Content="{Binding Source={StaticResource startPosition}}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="3-Year Average" ></Label>
-                    <Label Content="{Binding Source={StaticResource threeYearAverage}}" ContentStringFormat="{}{0:0.00}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Degree" ></Label>
-                    <!-- TODO: This method causes binding failures for Staff -->
-                    <Label Content="{Binding Path=Degree}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Performance" ></Label>
-                    <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.00}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Supervisor" ></Label>
-                    <Label Content="{Binding Source={StaticResource supervisor}}"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Supervisons" ></Label>
-                    <Label Name="label_supervisons"></Label>
-                    <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" MinWidth="120">
-                    <Label Content="Publications" ></Label>
-                    <Label Name="label_publications"></Label>
-                    <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewPublications_Click"></Button>
-                </StackPanel>
-
+            <WrapPanel Margin="10,9.667,9.667,0"  VerticalAlignment="Top" Grid.Row="1" Height="423">
+                <Grid Name="Grid_Details" Height="423" Width="480">
+                    <Image Source="{Binding Path=Photo}" MinHeight="110" MinWidth="120" Margin="2,1,357,310"/>
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="123,0,237,310">
+                        <Label Content="Family Name" FontWeight="Bold"/>
+                        <Label Content="{Binding LastName}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="120" Margin="243,1,117,309">
+                        <Label Content="Given Name" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=FirstName}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="110" MinWidth="100" Margin="363,0,0,310">
+                        <Label Content="Title" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=Title}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,118,234,235">
+                        <Label Content="E-mail" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=Email}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,188,357,165">
+                        <Label Content="Current Job Title" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource currentJobTitle}}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="243,113,111,240">
+                        <Label Content="Campus" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=Campus, Converter={StaticResource enumConverter}}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="100" Margin="369,113,0,240">
+                        <Label Content="School/Unit" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=Unit}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="160" Margin="123,188,169,165">
+                        <Label Content="Commenced with Institution" FontWeight="Bold"/>
+                        <Label Content="{Binding Path=StartInstitution}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="170" Margin="311,189,0,164">
+                        <Label Content="Commenced Current Position" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource startPosition}}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,258,357,95">
+                        <Label Content="Tenure" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource tenure}}" ContentStringFormat="{}{0:0.00} years"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="123,258,234,95">
+                        <Label Content="3-Year Average" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource threeYearAverage}}" ContentStringFormat="{}{0:0.00}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="246,258,111,95">
+                        <Label Content="Degree" FontWeight="Bold"/>
+                        <!-- TODO: This method causes binding failures for Staff -->
+                        <Label Content="{Binding Path=Degree}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="110" Margin="369,258,11,95">
+                        <Label Content="Performance" FontWeight="Bold"/>
+                        <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.00}"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="0,328,237,25">
+                        <Label Content="Supervisons" FontWeight="Bold"/>
+                        <Label Name="label_supervisons" FontWeight="Bold"/>
+                        <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="243,328,1,25">
+                        <Label Content="Publications" FontWeight="Bold"/>
+                        <Label Name="label_publications"></Label>
+                        <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="120" HorizontalAlignment="Left" Click="button_viewPublications_Click" Width="120"></Button>
+                    </StackPanel>
+                </Grid>
             </WrapPanel>
 
-            <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1">
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" Content="John Does's Previous Positions"></Label>
+            <StackPanel Orientation="Vertical" Grid.Column="4" Margin="0.333,25,-0.333,0" Grid.RowSpan="2">
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_publicationsTableName" FontWeight="Bold" Content="John Does's Previous Positions"></Label>
                 <DataGrid Margin="10, 0, 10, 10" FontSize="10" BorderThickness="1" BorderBrush="Gray">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Publication Year"></DataGridTextColumn>
@@ -132,7 +129,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" Content="John Does's Previous Positions"></Label>
+                <Label Margin="10, 0, 10, 0" BorderBrush="Gray" BorderThickness="1" Name="label_previousPositionTableName" FontWeight="Bold" Content="John Does's Previous Positions"></Label>
                 <DataGrid BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,10" FontSize="10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Pervious Position" Width="110"></DataGridTextColumn>
