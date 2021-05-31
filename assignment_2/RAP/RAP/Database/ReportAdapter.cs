@@ -163,7 +163,8 @@ namespace RAP.Database
             fetchResearchersByPerformance(ReportType t)
         {
             Dictionary<EmploymentLevel, double> performance =
-                new Dictionary<EmploymentLevel, double>() {
+                new Dictionary<EmploymentLevel, double>()
+                {
                     { EmploymentLevel.A, 0.5 * 3},
                     { EmploymentLevel.B, 1 * 3},
                     { EmploymentLevel.C, 2 * 3},
@@ -171,19 +172,18 @@ namespace RAP.Database
                     { EmploymentLevel.E, 4 * 3},
                 };
 
-
-
+            Dictionary<ReportType, double> lowerBound =
+                new Dictionary<ReportType, double>
+                {
+                    { ReportType.POOR, 0.0 },
+                    { ReportType.BELOW_EXPECTATIONS, 0.7 },
+                    { ReportType.MINIMUM_STANDARD, 1.1 },
+                    { ReportType.STAR_PERFORMANCE, 2.0 }
+                };
             try
             {
                 Conn.Open();
 
-                Dictionary<ReportType, double> lowerBound =
-                    new Dictionary<ReportType, double> {
-                        { ReportType.POOR, 0.0 },
-                        { ReportType.BELOW_EXPECTATIONS, 0.7 },
-                        { ReportType.MINIMUM_STANDARD, 1.1 },
-                        { ReportType.STAR_PERFORMANCE, 2.0 }
-                    };
                 //double perf = performance[t];
 
 

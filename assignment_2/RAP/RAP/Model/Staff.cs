@@ -17,25 +17,8 @@ namespace RAP.Model
             get { return level; }
             set { level = value; }
         }
-        /*
-        private double performance;
-        public double? Performance {
-            get
-            {
-                // Performance not yet valid, so work it out
-                // Could maybe use Performance.HasValue now
-                if (performance < 0)
-                    performance = getPerformance().Value;
-
-                return performance;
-            }
-            set
-            {
-                if (Performance.HasValue)
-                    performance = value.Value;
-            }
-        }
-        */
+        private double? performance;
+        public double? Performance { get; set; }
 
         public Staff()
         {

@@ -13,6 +13,10 @@
                             MethodName="GetCumulativeCount"/>
     </Window.Resources>
 
+    <!--Window.DataContext>
+        <StaticResource ResourceKey="reportController"/>
+    </Window.DataContext-->
+
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
         <Grid Margin="0">
             <Grid.RowDefinitions>
@@ -24,11 +28,26 @@
                 <Label Content="Supervisions for: {Binding }" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <ListView ItemsSource="{Binding Source={StaticResource getCumulativeCount}}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
+            <ListView ItemsSource="{Binding Path=ReportList}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Year, StringFormat=yyyy}"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Count}"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0}. {1} {2}">
+                                                <Binding Path="Title"/>
+                                                <Binding Path="FirstName"/>
+                                                <Binding Path="LastName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Performance, StringFormat={}{0:0.00 %}}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Email}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

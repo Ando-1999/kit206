@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,12 +42,6 @@ namespace RAP.Controller
         {
             ReportList = new List<Model.Staff>();
 
-            /*
-            var query = from s in researcherController.ResearcherList
-                        where s.GetType() == typeof(Model.Staff)
-                        select s;
-            */
-
             foreach (Model.Researcher r in researcherController.ResearcherList)
             {
                 if (r.GetType() == typeof(Model.Staff))
@@ -65,8 +59,11 @@ namespace RAP.Controller
                     ReportType repType =
                         performanceCategory(performance.Value);
 
+                    //MessageBox.Show(type.ToString() + ": " + repType.ToString());
+
                     if (repType == type)
                     {
+                    MessageBox.Show("add");
                         ReportList.Add(
                             new Model.Staff
                             {
@@ -81,9 +78,11 @@ namespace RAP.Controller
                     }
                 }
             }
+            //MessageBox.Show(ReportList.ToString()); ;
         }
 
         // Copy emails of all researchers in report to clipboard
+        // TODO: can't access clipboard as console application
         public void copyEmails(List<Model.Researcher> rs)
         {
             List<string> emailList = Database.ReportAdapter.fetchResearcherEmails(rs);

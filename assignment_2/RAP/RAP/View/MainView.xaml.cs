@@ -22,18 +22,30 @@ namespace RAP.View
     {
         // researcherList controller
         Controller.ResearcherController researcherController;
+        Controller.ReportController reportController;
 
         public MainView()
         {
             InitializeComponent();
 
             // Object bound to reasearcher ListBox
-            researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcherController");
+            researcherController =
+                Application.Current.FindResource("researcherController")
+                as Controller.ResearcherController;
+            reportController =
+                Application.Current.FindResource("reportController")
+                as Controller.ReportController;
         }
 
         private void GenerateReport(object sender, RoutedEventArgs e)
         {
-            // TO-DO
+            ReportType? type = (ReportType?)cb_GenerateReport.SelectedValue;
+            type = type.HasValue ? type : ReportType.NULL;
+
+            reportController.requestReport(type.Value);
+
+            Window window = new ReportView();
+            window.Show();
         }
 
         private void Filter(object sender, RoutedEventArgs e)
