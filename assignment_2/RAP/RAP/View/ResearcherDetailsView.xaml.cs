@@ -41,7 +41,7 @@ namespace RAP.View
 
         }
 
-        private void viewCumulativePublications(object sender, RoutedEventArgs e)
+        private void ViewCumulativePublications(object sender, RoutedEventArgs e)
         {
             Window window = new CumulativePublicationsView();
             window.Show();
@@ -58,10 +58,24 @@ namespace RAP.View
             // Update PublicationDetails with selected researcher
             publicationController.GetPublicationDetails(
                 (Model.Publication)dg_PublicationList.SelectedItem
-                );
+            );
 
             Window window = new PublicationDetailsView(publicationController);
             window.Show();
+        }
+
+        private void ViewPublicationRange(object sender, RoutedEventArgs e)
+        {
+            DateTime fromFilter = DateTime.Parse(tb_FromSearch.Text);
+            DateTime tillFilter = DateTime.Parse(tb_TillSearch.Text);
+
+            if (publicationController.FilterFrom != fromFilter
+                || publicationController.FilterTill != tillFilter)
+            {
+                publicationController.FilterFrom = fromFilter;
+                publicationController.FilterTill = tillFilter;
+                publicationController.filterByYearRange();
+            }
         }
     }
 }
