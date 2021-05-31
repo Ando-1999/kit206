@@ -5,35 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP.View"
         mc:Ignorable="d"
-        Title="CumulativeCountView" Height="450" Width="800">
-
+        Title="Researcher Assessment Program" Height="450" Width="800">
     <Window.Resources>
+        <Style x:Key="GridViewColumnHeaderStyle1" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Background="Transparent">
+                            <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5,5,5,5" Width="{TemplateBinding Width}" TextAlignment="Center" Foreground="Black" Background="#FFB89696" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="AliceBlue" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+
         <ObjectDataProvider x:Key="getCumulativeCount"
-                            ObjectInstance="{StaticResource publicationController}"
-                            MethodName="GetCumulativeCount"/>
+            ObjectInstance="{StaticResource publicationController}"
+            MethodName="GetCumulativeCount"/>
+
     </Window.Resources>
 
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
-        <Grid Margin="0">
+        <Grid Margin="-0.333,-1.333,0,-1.667">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="386*"/>
+                <ColumnDefinition Width="385*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"></RowDefinition>
-                <RowDefinition Height="475*"></RowDefinition>
+                <RowDefinition Height="375*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2">
-                <Label Content="Supervisions for: {Binding }" Grid.Row="0" Grid.ColumnSpan="2"></Label>
+            <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,-0.333,0.333">
+                <Label Content="{Binding FirstName}" ContentStringFormat="Cumulative Count for: {0}" FontWeight="Bold"/>
             </Border>
 
-            <ListView ItemsSource="{Binding Source={StaticResource getCumulativeCount}}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
+            <ListView HorizontalAlignment="Left" Height="34" Width="770" VerticalAlignment="Top" SelectionChanged="ListView_SelectionChanged" FontSize="16" Background="{x:Null}" Margin="0,25,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Year, StringFormat=yyyy}"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Count}"/>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
+                        <GridViewColumn Header="Year" Width="385"/>
+                        <GridViewColumn Header="Publication Count" Width="385"/>
                     </GridView>
                 </ListView.View>
             </ListView>
 
+            <ListView ItemsSource="{Binding Source={StaticResource getCumulativeCount}}" HorizontalAlignment="Left" Height="360" Width="770" VerticalAlignment="Top" Margin="0,33.667,0,0" Grid.RowSpan="2" Grid.Row="1" Grid.ColumnSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Year, StringFormat=yyyy}" Width="382"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Count}" Width="382"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
+            <!-- Removed total due to unnecessity, as the final entry is the total -->
 
         </Grid>
     </Border>
