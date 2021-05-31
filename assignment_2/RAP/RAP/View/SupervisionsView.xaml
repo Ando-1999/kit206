@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP.View"
         mc:Ignorable="d"
-        Title="Researcher Assessment Program" Height="450" Width="800">
+        Title="Researcher Assessment Program" Height="450" Width="300">
 
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
         <Grid Margin="0">
@@ -31,10 +31,10 @@
 
             </Border>
 
-            <ListView ItemsSource="{Binding Path=SupervisionsList}" HorizontalAlignment="Left" Height="400" Width="770" VerticalAlignment="Top" Margin="0,25,0,-6.333" Grid.RowSpan="2">
+            <ListView ItemsSource="{Binding Path=SupervisionsList}" HorizontalAlignment="Left" Height="400" Width="271" VerticalAlignment="Top" Margin="0,25,-0.333,-7" Grid.RowSpan="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
+                        <GridViewColumn Width="265"/>
                     </GridView>
                 </ListView.View>
             </ListView>
