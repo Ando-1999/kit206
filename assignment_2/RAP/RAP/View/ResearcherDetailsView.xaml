@@ -137,12 +137,60 @@
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,250,104,3">
                         <Label Content="Publications" FontWeight="Bold"/>
                         <Label Name="label_publications"></Label>
-                        <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="120" HorizontalAlignment="Left" Click="viewCumulativePublications" Width="120"></Button>
+                        <Button x:Name="button_viewPublications" Content="Cumulative Publications" FontSize="10" MaxWidth="120" HorizontalAlignment="Left" Click="ViewCumulativePublications" Width="120"></Button>
                     </StackPanel>
                 </Grid>
             </WrapPanel>
-            <StackPanel Orientation="Vertical" Margin="0,333.667,9.667,0" Grid.Row="1">
-                <Label Margin="10,0" BorderBrush="Gray" BorderThickness="1" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications"/>
+
+            <StackPanel Orientation="Vertical" Margin="0,333.667,9.667,0.333" Grid.Row="1">
+                <StackPanel Orientation="Horizontal" Height="32" Margin="0,0,9.667,0">
+                    <Label Margin="10,0,9.667,0" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications" Width="128"/>
+                    <TextBox x:Name="tb_FromSearch" Width="114" Margin="0,5,0,6">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}" >
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="From... (dd/mm/yyyy)"
+                                                               TextAlignment="Left"
+                                                               Width="{Binding ActualWidth, ElementName=tb_FromSearch}"
+                                                               HorizontalAlignment="Stretch"/>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <TextBox x:Name="tb_TillSearch" Width="113" Margin="0,5,0,6">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}" >
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="Till... (dd/mm/yyyy)"
+                                                               TextAlignment="Left"
+                                                               Width="{Binding ActualWidth, ElementName=tb_TillSearch}"
+                                                               HorizontalAlignment="Stretch"/>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Button x:Name="button_FilterRange" Content="Filter Range" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="ViewPublicationRange" Grid.Row="1" Width="86" Margin="0,5,0,6" />
+                </StackPanel>
                 <DataGrid SelectionChanged="ViewPublicationDetails" Name="dg_PublicationList" ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10,0,9.667,10" FontSize="10" BorderThickness="1" BorderBrush="Gray" IsReadOnly="true" Height="97">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"/>
