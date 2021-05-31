@@ -31,6 +31,11 @@ namespace RAP.View
             researcherController = (Controller.ResearcherController)Application.Current.FindResource("researcherController");
         }
 
+        private void GenerateReport(object sender, RoutedEventArgs e)
+        {
+            // TO-DO
+        }
+
         private void Filter(object sender, RoutedEventArgs e)
         {
             string nameFilter = tb_Search.Text;

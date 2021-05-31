@@ -24,14 +24,15 @@
                 <ColumnDefinition Width="67*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Researcher List" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Label>
-            <ComboBox Name="cb_GenerateReport" ItemsSource="{Binding Source={StaticResource reportType}}" Text="Generate Report..." Grid.Row="0" Grid.Column="2" IsEditable="True" IsReadOnly="True" Margin="5">
+            <Label Content="Researcher List" Grid.Row="0" Grid.Column="0"/>
+            <ComboBox Name="cb_GenerateReport" ItemsSource="{Binding Source={StaticResource reportType}}" Text="Report Options..." Grid.Row="0" Grid.Column="1" IsEditable="True" IsReadOnly="True" Margin="10,5,114.333,5" Grid.ColumnSpan="2">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ., Converter={StaticResource enumConverter}}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button Name="btn_GenerateReport" Content="Generate Report" Grid.Row="0" Grid.Column="2" Margin="29,5,5.333,5" Click="GenerateReport" />
             <ComboBox Name="cb_FilterByLevel" ItemsSource="{Binding Source={StaticResource employmentLevel}}" Grid.Row="0" Grid.Column="3" IsEditable="True" IsReadOnly="True" Margin="5">
                 <ComboBox.Style>
                     <Style TargetType="ComboBox" >
