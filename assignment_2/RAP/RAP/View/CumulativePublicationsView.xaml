@@ -42,7 +42,7 @@
             </Grid.RowDefinitions>
 
             <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,-0.333,0.333">
-                <Label Content="{Binding FirstName}" ContentStringFormat="Cumulative Count for: {0}" FontWeight="Bold"/>
+                <Label Content="Cumulative Count" FontWeight="Bold"/>
             </Border>
 
             <ListView HorizontalAlignment="Left" Height="34" Width="770" VerticalAlignment="Top" SelectionChanged="ListView_SelectionChanged" FontSize="16" Background="{x:Null}" Margin="0,25,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
