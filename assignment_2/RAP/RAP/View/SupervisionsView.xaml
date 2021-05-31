@@ -35,7 +35,7 @@
                 <Label Content="Culmative Count for: {Binding John Doe}" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <ListView HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top" SelectionChanged="ListView_SelectionChanged" FontSize="16" Background="{x:Null}">
+            <ListView ItemsSource="{Binding Path=SupervisionsList}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top" SelectionChanged="ListView_SelectionChanged" FontSize="16" Background="{x:Null}">
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}">
                         <GridViewColumn Header="Year" Width="385"/>

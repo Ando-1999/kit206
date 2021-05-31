@@ -20,10 +20,15 @@ namespace RAP.View
     /// </summary>
     public partial class ResearcherDetailsView : Window
     {
+        private Controller.ResearcherController researcherController;
         private Controller.PublicationController publicationController;
 
-        public ResearcherDetailsView(Controller.ResearcherController researcherController)
+        public ResearcherDetailsView()
         {
+            researcherController =
+                (Controller.ResearcherController)
+                Application.Current.FindResource("researcherController");
+
             this.DataContext = researcherController.ResearcherDetails;
 
             publicationController = (Controller.PublicationController)
@@ -31,19 +36,18 @@ namespace RAP.View
                            .FindResource("publicationController");
 
             publicationController.loadPublicationList(researcherController.ResearcherDetails);
+
             InitializeComponent();
 
         }
 
         private void viewCumulativePublications(object sender, RoutedEventArgs e)
         {
-            publicationController.GetCumulativeCount();
-
             Window window = new CumulativePublicationsView();
             window.Show();
         }
 
-        private void button_viewSupervisons_Click(object sender, RoutedEventArgs e)
+        private void ViewSupervisions(object sender, RoutedEventArgs e)
         {
             Window window = new SupervisionsView();
             window.Show();

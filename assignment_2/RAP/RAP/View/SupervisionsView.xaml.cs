@@ -21,6 +21,14 @@ namespace RAP.View
     {
         public SupervisionsView()
         {
+            Controller.ResearcherController researcherController =
+                Application.Current.FindResource("researcherController")
+                as Controller.ResearcherController;
+
+            this.DataContext = researcherController;
+
+            researcherController.loadSupervisions();
+
             InitializeComponent();
         }
 
