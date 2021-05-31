@@ -19,15 +19,21 @@ namespace RAP.View
     /// </summary>
     public partial class ReportView : Window
     {
+        Controller.ReportController reportController;
         public ReportView()
         {
-            Controller.ReportController reportController =
+            reportController =
                 Application.Current.FindResource("reportController")
                 as Controller.ReportController;
 
             this.DataContext = reportController;
 
             InitializeComponent();
+        }
+
+        public void copyEmails(object sender, RoutedEventArgs e)
+        {
+            reportController.copyEmails();
         }
     }
 }
