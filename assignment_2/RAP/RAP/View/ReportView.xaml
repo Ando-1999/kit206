@@ -28,29 +28,27 @@
                 <Label Content="Supervisions for: {Binding }" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <ListView ItemsSource="{Binding Path=ReportList}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{} {0}. {1} {2}">
-                                                <Binding Path="Title"/>
-                                                <Binding Path="FirstName"/>
-                                                <Binding Path="LastName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Performance, StringFormat={}{0:0.00 %}}"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Email}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=ReportList}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{} {0}. {1} {2}">
+                                            <Binding Path="Title"/>
+                                            <Binding Path="FirstName"/>
+                                            <Binding Path="LastName"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Path=Performance, StringFormat={}{0:0.00 %}}"/>
+                    <DataGridTextColumn Binding="{Binding Path=Email}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
 
 

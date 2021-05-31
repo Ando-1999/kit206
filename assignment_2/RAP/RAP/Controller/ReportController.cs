@@ -81,6 +81,33 @@ namespace RAP.Controller
                     }
                 }
             }
+
+            sortReport(type);
+        }
+
+        public void sortReport(ReportType type)
+        {
+            var sort = from r in ReportList
+                       select r;
+            switch (type)
+            {
+                case ReportType.POOR: case ReportType.BELOW_EXPECTATIONS:
+                    // increaseing
+                    sort = from r in ReportList
+                           orderby r.Performance ascending
+                           select r;
+                    break;
+                case ReportType.MINIMUM_STANDARD: case ReportType.STAR_PERFORMANCE:
+                    // decreasing
+                    sort = from r in ReportList
+                           orderby r.Performance descending
+                           select r;
+                    break;
+                default:
+                    break;
+            }
+
+            ReportList = new List<Model.Staff>(sort);
         }
 
         // Copy emails of all researchers in report to clipboard
