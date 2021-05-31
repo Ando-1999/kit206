@@ -264,15 +264,19 @@ namespace RAP.Controller
          * 
          * Staff only.
          */
-        public double? threeYearAverage()
+        public double? threeYearAverage(Model.Researcher r)
         {
-            if (ResearcherDetails.GetType() == typeof(Model.Student))
+            if (r.GetType() == typeof(Model.Student))
                 return null;
 
             double? numRecentPublications = Database.ReportAdapter.
-                fetchNumRecentPublications(ResearcherDetails);
+                fetchNumRecentPublications(r);
 
             return numRecentPublications / 3.0;
+        }
+        public double? ThreeYearAverage()
+        {
+            return threeYearAverage(ResearcherDetails);
         }
 
         /* Three-year average divided by the expected number of publications
@@ -280,18 +284,18 @@ namespace RAP.Controller
          * 
          * Staff only.
          */
-        public double? getPerformance()
+        public double? getPerformance(Model.Researcher r)
         {
             try
             {
                 // Employment level of current position.
-                EmploymentLevel level = ResearcherDetails.Positions[0].Level;
+                EmploymentLevel level = r.Positions[0].Level;
 
                 // Only calculate perfomance for staff.
                 if (level == EmploymentLevel.NULL || level == EmploymentLevel.STUDENT)
                     return null;
 
-                return threeYearAverage() / expectedPublicationsByLevel[level];
+                return threeYearAverage(r) / expectedPublicationsByLevel[level];
             }
             catch (NullReferenceException e)
             {
@@ -303,6 +307,10 @@ namespace RAP.Controller
                 //MessageBox.Show(e.ToString());
                 return null;
             }
+        }
+        public double? GetPerformance()
+        {
+            return getPerformance(ResearcherDetails);
         }
 
         // Name of primary supervisor.

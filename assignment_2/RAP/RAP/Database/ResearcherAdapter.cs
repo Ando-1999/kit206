@@ -74,8 +74,9 @@ namespace RAP.Database
 
         // Assumes Researcher object already contains Id, FirstName,
         // LastName, and title
-        public static Model.Researcher fetchResearcherDetails(Model.Researcher r)
+        public static Model.Researcher fetchResearcherDetails(Model.Researcher researcher)
         {
+            Model.Researcher r = null;
             try
             {
                 Conn.Open();
@@ -83,7 +84,7 @@ namespace RAP.Database
                 MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM researcher WHERE id=?id", Conn);
 
-                cmd.Parameters.AddWithValue("id", r.Id);
+                cmd.Parameters.AddWithValue("id", researcher.Id);
 
                 Rdr = cmd.ExecuteReader();
 
@@ -92,6 +93,7 @@ namespace RAP.Database
                 switch (GetEnum<ResearcherType>("type"))
                 {
                     case ResearcherType.STAFF:
+                        r = new Model.Staff();
                         r.Positions.Add(new Model.Position {
 
                             Level = GetEnum<EmploymentLevel>("level"),
@@ -102,6 +104,7 @@ namespace RAP.Database
                         }); ;
                         break;
                     case ResearcherType.STUDENT:
+                        r = new Model.Student();
                         r.Positions.Add(new Model.Position {
 
                             Level = EmploymentLevel.STUDENT,
@@ -117,9 +120,13 @@ namespace RAP.Database
                             GetInt("supervisor_id");
                         break;
                     default:
-                        break;
+                        return null;
                 }
 
+                r.Id = researcher.Id;
+                r.FirstName = researcher.FirstName;
+                r.LastName = researcher.LastName;
+                r.Title = researcher.Title;
                 r.Email = GetString("email");
                 r.Photo = GetUri("photo");
                 r.StartInstitution = GetDateTime("utas_start");
@@ -129,7 +136,9 @@ namespace RAP.Database
             catch (MySqlException e)
             {
                 Error("loading details for " +
-                    $"{r.Title} {r.FirstName} {r.LastName}", e);
+                    $"{researcher.Title} {researcher.FirstName} {researcher.LastName}", e);
+
+                return null;
             }
             finally 
             {

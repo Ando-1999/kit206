@@ -35,10 +35,10 @@ namespace RAP.View
                 Application.Current
                            .FindResource("publicationController");
 
-            publicationController.loadPublicationList(researcherController.ResearcherDetails);
+            publicationController
+                .loadPublicationList(researcherController.ResearcherDetails);
 
             InitializeComponent();
-
         }
 
         private void viewCumulativePublications(object sender, RoutedEventArgs e)

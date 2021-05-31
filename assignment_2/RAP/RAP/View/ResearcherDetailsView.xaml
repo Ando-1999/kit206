@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP"
+        xmlns:model="clr-namespace:RAP.Model"
         xmlns:controller="clr-namespace:RAP.Controller"
         mc:Ignorable="d"
         Title="Researcher Assessment Program" Height="517" Width="800"
@@ -26,10 +27,10 @@
                             MethodName="commencedCurrentPosition"/>
         <ObjectDataProvider x:Key="threeYearAverage"
                             ObjectInstance="{StaticResource researcherController}"
-                            MethodName="threeYearAverage"/>
+                            MethodName="ThreeYearAverage" />
         <ObjectDataProvider x:Key="performance"
                             ObjectInstance="{StaticResource researcherController}"
-                            MethodName="getPerformance"/>
+                            MethodName="GetPerformance"/>
         <ObjectDataProvider x:Key="supervisor"
                             ObjectInstance="{StaticResource researcherController}"
                             MethodName="getSupervisorName"/>

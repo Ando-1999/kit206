@@ -21,6 +21,12 @@ namespace RAP.View
     {
         public ReportView()
         {
+            Controller.ReportController reportController =
+                Application.Current.FindResource("reportController")
+                as Controller.ReportController;
+
+            this.DataContext = reportController;
+
             InitializeComponent();
         }
     }

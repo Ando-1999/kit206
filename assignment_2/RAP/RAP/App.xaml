@@ -39,19 +39,5 @@
         <!-- Report Controller-->
         <controller:ReportController x:Key="reportController"/>
 
-        <!--
-        <ObjectDataProvider x:Key="researcherDetails"
-                            ObjectInstance="{StaticResource researcher}"
-                            MethodName="GetResearcherDetails">
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="currentJobTitle"
-                            ObjectInstance="{StaticResource researcher}"
-                            MethodName="currentJobTitle">
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="tenure"
-                            ObjectInstance="{StaticResource researcher}"
-                            MethodName="getTenure">
-        </ObjectDataProvider>
-        -->
     </Application.Resources>
 </Application>
