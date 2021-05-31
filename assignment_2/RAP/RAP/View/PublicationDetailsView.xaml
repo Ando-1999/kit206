@@ -25,24 +25,24 @@
             </Grid.ColumnDefinitions>
 
             <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2">
-                <Label Content="Publicatoin Details" Grid.Row="0" Grid.ColumnSpan="2"></Label>
+                <Label Content="Publicatoin Details" Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold"></Label>
             </Border>
 
             <StackPanel Margin="10"  VerticalAlignment="Top" Grid.Row="1">
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="DOI"></Label>
+                    <Label Content="DOI" FontWeight="Bold"></Label>
                     <Label Content="{Binding Path=Doi}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Authors" ></Label>
+                    <Label Content="Authors" FontWeight="Bold"></Label>
                     <Label Content="{Binding Path=Authors}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Type" ></Label>
+                    <Label Content="Type" FontWeight="Bold"></Label>
                     <Label Content="{Binding Path=Type, Converter={StaticResource enumConverter}}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Availablity Date" ></Label>
+                    <Label Content="Availablity Date" FontWeight="Bold"></Label>
                     <Label Content="{Binding Path=AvailabilityDate, StringFormat=d}"></Label>
                 </StackPanel>
 
@@ -50,19 +50,19 @@
 
             <StackPanel Margin="10"  VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Title"></Label>
-                    <Label Content="{Binding Path=Title}"></Label>
+                    <Label Content="Title" FontWeight="Bold"></Label>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=Title}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Publication Year" ></Label>
+                    <Label Content="Publication Year" FontWeight="Bold"></Label>
                     <Label Content="{Binding Path=PublicationYear}" ContentStringFormat="yyyy"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Cite as" ></Label>
-                    <Label Content="{Binding Path=CiteAs}"></Label>
+                    <Label Content="Cite as" FontWeight="Bold"></Label>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=CiteAs}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" MinWidth="120" Margin="0 20">
-                    <Label Content="Age" ></Label>
+                    <Label Content="Age" FontWeight="Bold"></Label>
                     <Label Content="{Binding Source={StaticResource Age}}"></Label>
                 </StackPanel>
 

@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace RAP.View
 {
     /// <summary>
-    /// CulmativeCountView.xaml 的交互逻辑
+    /// SupervisionsView.xaml 的交互逻辑
     /// </summary>
     public partial class CumulativePublicationsView : Window
     {
         public CumulativePublicationsView()
         {
             InitializeComponent();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
