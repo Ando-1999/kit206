@@ -10,6 +10,12 @@ namespace RAP.Controller
 {
     public class PublicationController
     {
+        private DateTime filterFrom;
+        public DateTime FilterFrom { get; set; }
+
+        private DateTime filterTill;
+        public DateTime FilterTill { get; set; }
+
         private List<Model.Publication> publications;
         public List<Model.Publication> Publications { get; set; }
 
@@ -47,9 +53,24 @@ namespace RAP.Controller
         }
 
         // Filter list to include those only within a given year range.
-        public List<string> filterByYearRange()
+        public void filterByYearRange()
         {
-            return null;
+            // Filter initially includes all publications
+            var filter = from p in Publications
+                         select p;
+
+            // Filter by range
+            if (FilterFrom != DateTime.MinValue || FilterTill != DateTime.MinValue)
+            {
+                filter = from p in filter
+                         where (p.PublicationYear >= FilterFrom && p.PublicationYear <= FilterTill)
+                         select p;
+            }
+
+            PublicationList.Clear();
+
+            foreach (Model.Publication p in filter)
+                PublicationList.Add(p);
         }
 
         // Load basic details list of researcher's publications.
