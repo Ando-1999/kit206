@@ -92,7 +92,8 @@ namespace RAP.Database
             }
             catch (MySqlException e)
             {
-                Error("loading emails", e);
+                Error($"loading number of recent publicaitons for {r.FirstName}" +
+                    $"{r.LastName}", e);
             }
             finally
             {

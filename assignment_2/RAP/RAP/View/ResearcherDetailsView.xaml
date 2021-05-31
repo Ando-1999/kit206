@@ -117,7 +117,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="110" Margin="120,252,519,2">
                         <Label Content="Performance" FontWeight="Bold"/>
-                        <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.00}"></Label>
+                        <Label Content="{Binding Source={StaticResource performance}}" ContentStringFormat="{}{0:0.0 %}"></Label>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="284,252,317,3">
                         <Label Content="Supervisons" FontWeight="Bold"/>
