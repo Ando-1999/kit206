@@ -12,9 +12,9 @@
     <Window.Resources>
         <!--
         All these object data providers throw an error saying the
-        researcher object can't be found, but the code compiles and 
-        runs as expected anyway.
-        For reference, researcher is defined in App.xaml.
+        researcherController object can't be found, but the code compiles
+        and runs as expected anyway.
+        For reference, researcherController is defined in App.xaml.
         -->
         <ObjectDataProvider x:Key="tenure"
                             ObjectInstance="{StaticResource researcherController}"
@@ -145,7 +145,7 @@
 
             <StackPanel Orientation="Vertical" Margin="0,333.667,9.667,0.333" Grid.Row="1">
                 <StackPanel Orientation="Horizontal" Height="32" Margin="0,0,9.667,0">
-                    <Label Margin="10,0,9.667,0" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Previous Publications" Width="128"/>
+                    <Label Margin="10,0,9.667,0" x:Name="label_publicationsTableName" FontWeight="Bold" Content="Publications" Width="128"/>
                     <TextBox x:Name="tb_FromSearch" Width="114" Margin="0,5,0,6">
                         <TextBox.Style>
                             <Style TargetType="{x:Type TextBox}" >
@@ -155,10 +155,7 @@
                                             <Setter.Value>
                                                 <VisualBrush Stretch="None">
                                                     <VisualBrush.Visual>
-                                                        <TextBlock Text="From... (dd/mm/yyyy)"
-                                                               TextAlignment="Left"
-                                                               Width="{Binding ActualWidth, ElementName=tb_FromSearch}"
-                                                               HorizontalAlignment="Stretch"/>
+                                                        <TextBlock Text="From... (dd/mm/yyyy)" />
                                                     </VisualBrush.Visual>
                                                 </VisualBrush>
                                             </Setter.Value>
@@ -177,10 +174,7 @@
                                             <Setter.Value>
                                                 <VisualBrush Stretch="None">
                                                     <VisualBrush.Visual>
-                                                        <TextBlock Text="Till... (dd/mm/yyyy)"
-                                                               TextAlignment="Left"
-                                                               Width="{Binding ActualWidth, ElementName=tb_TillSearch}"
-                                                               HorizontalAlignment="Stretch"/>
+                                                        <TextBlock Text="Till... (dd/mm/yyyy)" />
                                                     </VisualBrush.Visual>
                                                 </VisualBrush>
                                             </Setter.Value>
@@ -194,7 +188,7 @@
                 </StackPanel>
                 <DataGrid SelectionChanged="ViewPublicationDetails" Name="dg_PublicationList" ItemsSource="{Binding Source={StaticResource publicationList}}" AutoGenerateColumns="False" Margin="10,0,9.667,10" FontSize="10" BorderThickness="1" BorderBrush="Gray" IsReadOnly="true" Height="97">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=d}" Header="Publication Year"/>
+                        <DataGridTextColumn Binding="{Binding PublicationYear, StringFormat=yyyy}" Header="Publication Year"/>
                         <DataGridTextColumn Binding="{Binding Title}" Header="Publication Title"/>
                         <DataGridTextColumn/>
                     </DataGrid.Columns>

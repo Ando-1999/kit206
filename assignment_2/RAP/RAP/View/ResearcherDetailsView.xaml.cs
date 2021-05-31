@@ -66,8 +66,21 @@ namespace RAP.View
 
         private void ViewPublicationRange(object sender, RoutedEventArgs e)
         {
-            DateTime fromFilter = DateTime.Parse(tb_FromSearch.Text);
-            DateTime tillFilter = DateTime.Parse(tb_TillSearch.Text);
+            string from = tb_FromSearch.Text;
+            string till = tb_TillSearch.Text;
+
+            DateTime fromFilter;
+            DateTime tillFilter;
+
+            if (string.IsNullOrEmpty(from))
+                fromFilter = new DateTime(0);
+            else
+                fromFilter = DateTime.Parse(from);
+
+            if (string.IsNullOrEmpty(till))
+                tillFilter = DateTime.Now;
+            else
+                tillFilter = DateTime.Parse(till);
 
             if (publicationController.FilterFrom != fromFilter
                 || publicationController.FilterTill != tillFilter)
