@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace RAP.Controller
 {
@@ -39,6 +40,8 @@ namespace RAP.Controller
             var sort = Publications.OrderByDescending(p => p.PublicationYear)
                                    .ThenBy(p => p.Title);
 
+            PublicationList.Clear();
+
             foreach (Model.Publication p in sort)
                 PublicationList.Add(p);
         }
@@ -52,7 +55,8 @@ namespace RAP.Controller
         // Load basic details list of researcher's publications.
         public void loadPublicationList(Model.Researcher researcher)
         {
-            Publications = Database.PublicationAdapter.fetchPublicationsList(researcher);
+            Publications = Database.PublicationAdapter
+                                   .fetchPublicationsList(researcher);
             sortList();
         }
 
@@ -66,6 +70,50 @@ namespace RAP.Controller
             PublicationDetails =
                 Database.PublicationAdapter.fetchPublicationDetails(publication);
 
+        }
+
+        public Array GetCumulativeCount()
+        {
+            // Broup by year
+            var group = from p in PublicationList
+                        group p by p.PublicationYear;
+
+            // Count distinct publications per year 
+            var count = from g in @group
+                        select new
+                        {
+                            Year = g.Key,
+                            Count = (from c in g select c.Doi).Distinct().Count()
+                        };
+
+            // Count cumulative publicaitons by year
+            // Can probably do this as a subquery of ocunt, but I think it'd be easier
+            // to read this way
+            var cumulativeCount =
+                from c in count
+                orderby c.Year
+                select new
+                {
+                    Year = c.Year,
+                    Count =
+                    (
+                        from n in count
+                        where n.Year <= c.Year
+                        select n.Count
+                    ).Sum()
+                };
+
+            /*
+            var ps = cumulativeCount.ToArray();
+
+            string msg = "";
+            foreach (var p in ps)
+                msg += $"{p.Year.Value.Year}: {p.Count}\n";
+
+            MessageBox.Show(msg);
+            */
+
+            return cumulativeCount.ToArray();
         }
 
     }

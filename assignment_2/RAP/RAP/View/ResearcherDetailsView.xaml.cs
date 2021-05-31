@@ -35,8 +35,10 @@ namespace RAP.View
 
         }
 
-        private void button_viewPublications_Click(object sender, RoutedEventArgs e)
+        private void viewCumulativePublications(object sender, RoutedEventArgs e)
         {
+            publicationController.GetCumulativeCount();
+
             Window window = new CumulativePublicationsView();
             window.Show();
         }

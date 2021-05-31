@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAP.View"
         mc:Ignorable="d"
-        Title="CulmativeCountView" Height="450" Width="800">
+        Title="CumulativeCountView" Height="450" Width="800">
 
     <Window.Resources>
-        <ObjectDataProvider x:Key="FullName"
-                            ObjectInstance="{StaticResource researcher}"
-                            MethodName="getFullName"/>
+        <ObjectDataProvider x:Key="getCumulativeCount"
+                            ObjectInstance="{StaticResource publicationController}"
+                            MethodName="GetCumulativeCount"/>
     </Window.Resources>
 
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0">
@@ -24,10 +24,11 @@
                 <Label Content="Supervisions for: {Binding }" Grid.Row="0" Grid.ColumnSpan="2"></Label>
             </Border>
 
-            <ListView HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
+            <ListView ItemsSource="{Binding Source={StaticResource getCumulativeCount}}" HorizontalAlignment="Left" Height="400"  Grid.Row="1" Width="770" VerticalAlignment="Top">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Source={StaticResource FullName}}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Year, StringFormat=yyyy}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Count}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
