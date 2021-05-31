@@ -36,6 +36,8 @@
                             ObjectInstance="{StaticResource publicationController}"
                             MethodName="GetPublicationList">
         </ObjectDataProvider>
+        <!-- Report Controller-->
+        <controller:ReportController x:Key="reportController"/>
 
         <!--
         <ObjectDataProvider x:Key="researcherDetails"

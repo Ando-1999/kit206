@@ -15,20 +15,12 @@ using System.Windows.Shapes;
 namespace RAP.View
 {
     /// <summary>
-    /// CulmativeCountView.xaml 的交互逻辑
+    /// Interaction logic for ReportView.xaml
     /// </summary>
-    public partial class SupervisionsView : Window
+    public partial class ReportView : Window
     {
-        public SupervisionsView()
+        public ReportView()
         {
-            Controller.ResearcherController researcherController =
-                Application.Current.FindResource("researcherController")
-                as Controller.ResearcherController;
-
-            this.DataContext = researcherController;
-
-            researcherController.loadSupervisions();
-
             InitializeComponent();
         }
     }

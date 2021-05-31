@@ -108,6 +108,9 @@
     <Compile Include="View\PublicationDetailsView.xaml.cs">
       <DependentUpon>PublicationDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ResearcherDetailsView.xaml.cs">
       <DependentUpon>ResearcherDetailsView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
     <Page Include="View\PublicationDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ResearcherDetailsView.xaml">
       <SubType>Designer</SubType>

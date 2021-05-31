@@ -54,7 +54,7 @@ namespace RAP.View
                 (Model.Researcher)researcherListBox.SelectedItem
                 );
 
-            Window researcherDetailsView = new ResearcherDetailsView(researcherController);
+            Window researcherDetailsView = new ResearcherDetailsView();
             researcherDetailsView.Show();
         }
     }

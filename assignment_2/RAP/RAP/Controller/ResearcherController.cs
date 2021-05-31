@@ -31,6 +31,9 @@ namespace RAP.Controller
         private Model.Researcher researcherDetails;
         public Model.Researcher ResearcherDetails { get; set; }
 
+        private List<Model.Student> supervisionsList;
+        public List<Model.Student> SupervisionsList { get; set; }
+
         private string rType;
         public string RType { get; set;}
 
@@ -46,8 +49,10 @@ namespace RAP.Controller
 
         public ResearcherController()
         {
+            // Initialise filters to be empty
             FilterName = "";
             FilterLevel = EmploymentLevel.NULL;
+
             // Load all basic details of all researchers from database when controller
             // is created.
             // Not sure if this is the best idea.
@@ -57,11 +62,11 @@ namespace RAP.Controller
             //loadResearcherList();
 
             // No details initially loaded
-            // TODO: Not sure of the best way to handle this, since
-            // Researcher is abstract and static resources are bound
-            // to an object, rather than a reference
             ResearcherDetails = null;
             RType = null;
+
+            // No supervisions initially loaded
+            SupervisionsList = null;
         }
 
         /// <summary>
@@ -86,10 +91,26 @@ namespace RAP.Controller
         // Title of currently occupied position
         public string currentJobTitle()
         {
+            if (ResearcherDetails == null)
+                return null;
+
             if (ResearcherDetails.GetType() == typeof(Model.Student))
                 return "Student";
             else
-                return ResearcherDetails.Positions[0].jobTitle();
+            {
+                try
+                {
+                    return ResearcherDetails.Positions[0].jobTitle();
+                }
+                catch (NullReferenceException e)
+                {
+                    return null;
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    return null;
+                }
+            }
         }
 
         // Load cumulative publications for reasearcher.
@@ -155,9 +176,24 @@ namespace RAP.Controller
         /// Blake's Comment: Same as loadResearcher
         /// <returns></returns>
         // Load list of students a staff member is or has ever supervised.
-        public List<string> loadSupervisions()
+        public void loadSupervisions()
         {
-            return null;
+            if (ResearcherDetails == null ||
+                ResearcherDetails.GetType() == typeof(Model.Student))
+            {
+                SupervisionsList = null;
+                return;
+            }
+
+            Model.Staff supervisor = (Model.Staff)ResearcherDetails;
+
+            SupervisionsList =
+                Database.ResearcherAdapter.fetchSupervisions(supervisor);
+        }
+
+        public List<Model.Student> GetSupervisionsList()
+        {
+            return SupervisionsList;
         }
 
         /// Blake's Comment: Now, you call something similar in PublicationAdapter (totalPublications)

@@ -122,7 +122,7 @@
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="284,252,317,3">
                         <Label Content="Supervisons" FontWeight="Bold"/>
                         <Label Content="{Binding Source={StaticResource numSupervisions}}" FontWeight="Bold"/>
-                        <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="button_viewSupervisons_Click" ></Button>
+                        <Button x:Name="button_viewSupervisons" Content="View Supervisons" FontSize="10" MaxWidth="90" HorizontalAlignment="Left" Click="ViewSupervisions" ></Button>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" MinHeight="70" MinWidth="120" Margin="493,250,104,3">
                         <Label Content="Publications" FontWeight="Bold"/>
