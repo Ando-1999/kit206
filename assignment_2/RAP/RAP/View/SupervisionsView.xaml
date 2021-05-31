@@ -15,13 +15,25 @@
             </Grid.RowDefinitions>
 
             <Border BorderBrush="Gray" BorderThickness="1" Grid.ColumnSpan="2">
-                <Label Content="{Binding FirstName}" ContentStringFormat="Supervisions for: {0}" Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold"></Label>
+                <Label Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock DataContext="{Binding Source={StaticResource researcherController}, Path=ResearcherDetails}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}Supervisions for {0}. {1} {2}">
+                                    <Binding Path="Title"/>
+                                    <Binding Path="FirstName"/>
+                                    <Binding Path="LastName"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+
             </Border>
 
             <ListView ItemsSource="{Binding Path=SupervisionsList}" HorizontalAlignment="Left" Height="400" Width="770" VerticalAlignment="Top" Margin="0,25,0,-6.333" Grid.RowSpan="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
                         <GridViewColumn/>
                     </GridView>
                 </ListView.View>
